@@ -363,6 +363,69 @@ namespace ecs {
                 }
             }
 
+            if (particle->attractorModule.enabled && particle->attractorModule.attractionStrength > 0.0f)
+            {
+                glm::vec3 pos = particle->particle_Spawn_Location;
+                glm::vec3 dir = particle->attractorModule.targetPosition - pos;
+                float dist = glm::length(dir);
+
+                if (dist > 0.001f)
+                {
+                    glm::vec3 pullDir = glm::normalize(dir);
+
+                    float strength = particle->attractorModule.attractionStrength;
+                    if (particle->attractorModule.useInverseFalloff)
+                        strength /= (dist * dist + 0.01f);
+
+                    velocities[particleIdx] += pullDir * strength * dt;
+                }
+            }
+
+            if (particle->attractorModule.explosionStrength != 0.0f)
+            {
+                glm::vec3 pos = particle->particle_Spawn_Location;
+                glm::vec3 dir = pos - particle->attractorModule.targetPosition;
+
+                float dist = glm::length(dir);
+                if (dist > 0.001f)
+                {
+                    glm::vec3 pushDir = glm::normalize(dir);
+                    velocities[particleIdx] += pushDir * particle->attractorModule.explosionStrength * dt;
+                }
+            }
+            if (particle->attractorModule.whirlpoolStrength > 0.0f)
+            {
+                glm::vec3 pos = glm::vec3(positions[particleIdx]);
+                glm::vec3 center = particle->attractorModule.targetPosition;
+
+                glm::vec3 dir = center - pos;
+                float dist = glm::length(dir);
+
+                if (dist > 0.001f)
+                {
+                    glm::vec3 radial = glm::normalize(dir);
+
+                    // Guaranteed non-degenerate axis for cross product
+                    glm::vec3 up = (glm::abs(radial.y) > 0.9f)
+                        ? glm::vec3(1, 0, 0)
+                        : glm::vec3(0, 1, 0);
+
+                    glm::vec3 tangential = glm::normalize(glm::cross(radial, up));
+
+                    float strength = particle->attractorModule.whirlpoolStrength;
+
+                    if (particle->attractorModule.useInverseFalloff)
+                        strength /= (dist + 0.1f);
+
+                    // Final vortex force
+                    glm::vec3 force =
+                        radial * (strength * 0.25f) +   // inward pull
+                        tangential * strength;          // circular swirl
+
+                    velocities[particleIdx] += force * dt;
+                }
+            }
+
             //UPDATING SIZE
             if (particle->sizeModule.enabled) {
                 pv.size = glm::mix(particle->sizeModule.start_Size, particle->sizeModule.end_Size, t);
@@ -456,7 +519,7 @@ namespace ecs {
                 // direction is already normalized, multiply by speed
                 glm::vec3 vel = emission.direction * particleComp->start_Velocity;              
                 glm::vec3 pos = transform->WorldTransformation.position + emission.positionOffset;
-                
+                particleComp->particle_Spawn_Location = transform->WorldTransformation.position;
                 //random to the lifetime
                 float particle_Lifetime = particleComp->start_Lifetime;
                 if (particleComp->lifetime_Random_Enable) {

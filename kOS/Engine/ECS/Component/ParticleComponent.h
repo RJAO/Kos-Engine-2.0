@@ -12,7 +12,7 @@ namespace ecs {
 		float rotation = 0.f;
 		
 	};
-	enum PlayState {
+	enum class PlayState {
 		PLAY,
 		PAUSE,
 		STOP
@@ -30,6 +30,25 @@ namespace ecs {
 		SPHERE,    
 		CIRCLE,    
 		EDGE        
+	};
+	
+	struct AttractorModule{
+		bool enabled = false;
+
+		glm::vec3 targetPosition = glm::vec3(0);   // for absorption
+		float attractionStrength = 0.0f;
+
+		float explosionStrength = 0.0f;
+
+		float whirlpoolStrength = 0.0f;
+		float whirlpoolRadius = 1.0f;
+
+		bool useInverseFalloff = true;  // stronger when particles are closer (black-hole style)
+		REFLECTABLE(AttractorModule, enabled,
+			targetPosition, attractionStrength,
+			explosionStrength,
+			whirlpoolStrength, whirlpoolRadius,
+			useInverseFalloff);
 	};
 
 	struct ShapeModule {
@@ -106,14 +125,15 @@ namespace ecs {
 		float duration = 5.0f;
 		bool looping = true;
 		bool play_On_Awake = true;
-		
+		glm::vec3 particle_Spawn_Location = glm::vec3(0.f);
+
 		//Lifetime
 		float start_Lifetime = 3.0f;
 		float end_Lifetime	 = 7.0f;
 		bool  lifetime_Random_Enable = true;
 		float start_Velocity = 5.0f;
 
-		PlayState playback_State = PLAY;
+		PlayState playback_State = PlayState::PLAY;
 
 		//Color over lifetime
 		ColorOverLifetimeModule colorModule;
@@ -132,6 +152,9 @@ namespace ecs {
 
 		// Rotation over lifetime
 		RotationOverLifetimeModule rotationModule;
+
+		//Attraction MOdule
+		AttractorModule attractorModule;
 
 		//Drag Gravity Damping
 		glm::vec3 gravity = glm::vec3(0.0f, -9.8f, 0.0f);
@@ -158,7 +181,7 @@ namespace ecs {
 		REFLECTABLE(ParticleComponent, duration, looping, play_On_Awake, 
 					start_Lifetime, end_Lifetime, lifetime_Random_Enable,
 					start_Velocity, playback_State,
-					velocityModule,forceModule, shapeModule, colorModule, sizeModule, rotationModule,
+					velocityModule,forceModule, shapeModule, colorModule, sizeModule, rotationModule, attractorModule,
 					gravity,
 					emissionInterval);
 	};
