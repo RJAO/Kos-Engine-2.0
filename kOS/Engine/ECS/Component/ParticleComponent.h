@@ -12,6 +12,11 @@ namespace ecs {
 		float rotation = 0.f;
 		
 	};
+	enum PlayState {
+		PLAY,
+		PAUSE,
+		STOP
+	};
 
 	enum Velocity_Mode {
 		Absolute,
@@ -108,6 +113,8 @@ namespace ecs {
 		bool  lifetime_Random_Enable = true;
 		float start_Velocity = 5.0f;
 
+		PlayState playback_State = PLAY;
+
 		//Color over lifetime
 		ColorOverLifetimeModule colorModule;
 
@@ -150,7 +157,7 @@ namespace ecs {
 
 		REFLECTABLE(ParticleComponent, duration, looping, play_On_Awake, 
 					start_Lifetime, end_Lifetime, lifetime_Random_Enable,
-					start_Velocity,
+					start_Velocity, playback_State,
 					velocityModule,forceModule, shapeModule, colorModule, sizeModule, rotationModule,
 					gravity,
 					emissionInterval);

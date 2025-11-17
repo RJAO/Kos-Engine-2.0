@@ -734,5 +734,108 @@ namespace ecs {
 
         return result;
     }
+    // ========================================
+// PLAY - Start/resume particle emission and simulation
+// ========================================
+    void ParticleSystem::Play(ParticleComponent* particle) {
+        if (!particle) return;
 
+        particle->playback_State = PlayState::PLAY;
+
+        LOGGING_INFO("Particle system PLAY\n");
+    }
+
+    // ========================================
+    // PAUSE - Freeze everything (emission stops, simulation stops)
+    // ========================================
+    void ParticleSystem::Pause(ParticleComponent* particle) {
+        if (!particle) return;
+
+        particle->playback_State = PlayState::PAUSE;
+
+        LOGGING_INFO("Particle system PAUSED\n");
+    }
+
+    // ========================================
+    // STOP - Stop emission, let existing particles die naturally
+    // ========================================
+    void ParticleSystem::Stop(ParticleComponent* particle) {
+        if (!particle) return;
+
+        particle->playback_State = PlayState::STOP;
+
+        // Reset timers
+        particle->emitterTime = 0.0f;
+        particle->durationCounter = 0.0f;
+
+        LOGGING_INFO("Particle system STOPPED (particles will die naturally)\n");
+    }
+
+    // ========================================
+    // RESTART - Stop and immediately play again from beginning
+    // ========================================
+    void ParticleSystem::Restart(ParticleComponent* particle) {
+        if (!particle) return;
+
+        // Clear all particles
+        Clear(particle);
+
+        // Reset timers
+        particle->emitterTime = 0.0f;
+        particle->durationCounter = 0.0f;
+
+        // Start playing
+        particle->playback_State = PlayState::PLAY;
+
+        LOGGING_INFO("Particle system RESTARTED\n");
+    }
+
+    // ========================================
+    // CLEAR - Kill all particles immediately
+    // ========================================
+    void ParticleSystem::Clear(ParticleComponent* particle) {
+        if (!particle) return;
+
+        // Map buffers
+        glm::vec4* positions = (glm::vec4*)NvFlexMap((NvFlexBuffer*)particle->pointers[0], eNvFlexMapWait);
+        float* lifetime_list = (float*)NvFlexMap((NvFlexBuffer*)particle->pointers[4], eNvFlexMapWait);
+
+        if (positions && lifetime_list) {
+            // Kill all alive particles
+            for (int idx : particle->alive_Particles) {
+                positions[idx].w = 0.0f;  // Mark as inactive
+                lifetime_list[idx] = 0.0f;
+            }
+
+            // Move all particles back to free list
+            for (int idx : particle->alive_Particles) {
+                particle->freeIndices.push_back(idx);
+            }
+            particle->alive_Particles.clear();
+
+            NvFlexUnmap((NvFlexBuffer*)particle->pointers[0]);
+            NvFlexUnmap((NvFlexBuffer*)particle->pointers[4]);
+
+            // Update Flex
+            NvFlexSetParticles((NvFlexSolver*)particle->solver, (NvFlexBuffer*)particle->pointers[0], nullptr);
+            NvFlexSetActiveCount((NvFlexSolver*)particle->solver, 0);
+        }
+
+        LOGGING_INFO("All particles cleared (%zu particles killed)\n", particle->alive_Particles.size());
+    }
+
+    // ========================================
+    // STATE QUERIES
+    // ========================================
+    bool ParticleSystem::IsPlaying(ParticleComponent* particle) {
+        return particle && particle->playback_State == PlayState::PLAY;
+    }
+
+    bool ParticleSystem::IsPaused(ParticleComponent* particle) {
+        return particle && particle->playback_State == PlayState::PAUSE;
+    }
+
+    bool ParticleSystem::IsStopped(ParticleComponent* particle) {
+        return particle && particle->playback_State == PlayState::STOP;
+    }
 }

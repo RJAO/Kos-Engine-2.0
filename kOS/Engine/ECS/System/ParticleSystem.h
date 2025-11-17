@@ -37,18 +37,29 @@ namespace ecs {
 
         // Spawn a new particle
         void EmitParticle(EntityID entityId, const glm::vec3& particle_position,
-            const glm::vec3& velocity, float lifetime, ParticleComponent*& particle, glm::vec4* position, glm::vec3* velocities, float* lifetime_list, float* lifetime_Counter_list);
-        
+        const glm::vec3& velocity, float lifetime, ParticleComponent*& particle, glm::vec4* position,
+        glm::vec3* velocities, float* lifetime_list, float* lifetime_Counter_list);
         // Update particle lifetimes and kill dead particles
-        void UpdateParticleLifetimes(float dt, ParticleComponent*& particle, glm::vec4* positions, glm::vec3* velocities, float* lifetime_list, float* lifetime_Counter_list);
-        
+        void UpdateParticleLifetimes(float dt, ParticleComponent*& particle, glm::vec4* positions, glm::vec3* velocities,
+        float* lifetime_list, float* lifetime_Counter_list);    
         // Handle particle emission from emitter components
-        void UpdateEmitters(float dt, EntityID id, ParticleComponent*& particleComp,  TransformComponent* transform, glm::vec4* position, glm::vec3* velocities, float* lifetime_list, float* lifetime_Counter_list);
-
+        void UpdateEmitters(float dt, EntityID id, ParticleComponent*& particleComp,  TransformComponent* transform,
+        glm::vec4* position, glm::vec3* velocities, float* lifetime_list, float* lifetime_Counter_list);
         void SyncActiveBuffer(ParticleComponent* particle);
-
         void ExtractParticleDataOptimized(ParticleComponent* particle, ParticleInstance& data, glm::vec4* positions);
 
+
+        //===========================================
+        // Play state FUNCTION
+        //===========================================
+        void Play(ParticleComponent* particle);
+        void Pause(ParticleComponent* particle);
+        void Stop(ParticleComponent* particle);
+        void Restart(ParticleComponent* particle);
+        void Clear(ParticleComponent* particle);  // Kill all particles immediately
+        bool IsPlaying(ParticleComponent* particle);
+        bool IsPaused(ParticleComponent* particle);
+        bool IsStopped(ParticleComponent* particle);
 
         //===========================================
         // SHAPES FUNCTION
@@ -58,10 +69,6 @@ namespace ecs {
         EmissionData GenerateSphereEmission(ParticleComponent* particle);
         EmissionData GenerateCircleEmission(ParticleComponent* particle);
         EmissionData GenerateEdgeEmission(ParticleComponent* particle);
-
-        // Apply random chaos to direction
-        glm::vec3 ApplyRandomDirection(const glm::vec3& direction, float randomAmount);
-
 
         //===========================================
         // HELPER FUNCTIONS
@@ -89,6 +96,8 @@ namespace ecs {
             ret.a = 1.f;
             return ret;
         }
+        // Apply random chaos to direction
+        glm::vec3 ApplyRandomDirection(const glm::vec3& direction, float randomAmount);
 
         REFLECTABLE(ParticleSystem);
     };
