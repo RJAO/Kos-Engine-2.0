@@ -5,24 +5,16 @@
 
 
 namespace ecs {
-	//USING SOA
-	struct ParticleVisual_List {
-		std::vector<glm::vec4> colors;
-		std::vector<glm::vec2> sizes;
-		std::vector<float> rotation;
-	};
-
 
 	struct ParticleData {
 		glm::vec4 color;
 		glm::vec3 position;
-		float size;
+		glm::vec2 size;
 		glm::vec3 velocity;
 		float lifespan;
 		float lifetime;
 		float rotation;
-		glm::vec2 padding;
-
+		int textureID;
 	};
 
 	enum class PlayState {
@@ -106,6 +98,12 @@ namespace ecs {
 		REFLECTABLE(ForceOverLifetimeModule, enabled, force);
 	};
 
+	struct GravityModule {
+		bool enabled = false;
+		glm::vec3 gravity = glm::vec3(0.f, -9.8f, 0.f);
+		REFLECTABLE(GravityModule, enabled, gravity);
+	};
+
 	struct SizeOverLifetimeModule {
 		bool enabled = false;
 		float start_Size = 1.0f;
@@ -131,6 +129,45 @@ namespace ecs {
 		REFLECTABLE(RotationOverLifetimeModule, enabled, start_Rotation, end_Rotation, rotation_Modifier);
 	};
 
+	struct TrailingModule {
+		bool enabled = false;
+
+		glm::vec3 startPoint = glm::vec3(0);     // Fixed start point
+		glm::vec3 endPoint = glm::vec3(20.f);    // Dynamic end point (will rotate)
+
+		// End point rotation settings
+		bool rotateEndPoint = true;              // Enable/disable end point rotation
+		float rotationSpeed = 2.0f;              // Radians per second for end point orbit
+		float rotationRadius = 5.0f;            // Radius of the circular orbit
+		glm::vec3 rotationCenter = glm::vec3(20.f, 0.f, 0.f); // Center of rotation
+		glm::vec3 rotationAxis = glm::vec3(0.f, 1.f, 0.f);    // Axis to rotate around (Y-axis by default)
+
+		float spawnDuration = 5.f;               // How long to emit particles
+		float spawnRate = 40.0f;                // Particles per second
+
+		// Spiral/twister settings
+		float spiralRadius = 5.f;                // Radius of the spiral/helix around the path
+		float spiralFrequency = 3.0f;            // Number of complete rotations along the path
+		float spiralIntensityCurve = 0.5f;       // 0 = constant spiral, 1 = peak at middle
+
+		// Movement settings
+		float pathSpeed = 2.0f;                  // How fast particles move along the path (0-1 per second)
+		float arrivalThreshold = 0.5f;           // Distance at which particle "arrives" at end
+
+		float timeAccum = 0.0f;                  // Time accumulated since start
+		float spawnAccum = 0.0f;                 // Fractional particle spawn accumulator
+
+
+		REFLECTABLE(TrailingModule, enabled, startPoint, endPoint,
+			rotateEndPoint, rotationSpeed, rotationRadius, rotationCenter, rotationAxis,
+			spawnDuration, spawnRate,
+			spiralRadius, spiralFrequency, spiralIntensityCurve,
+			pathSpeed, arrivalThreshold,
+			timeAccum, spawnAccum);
+	};
+
+
+
 	class ParticleComponent : public Component {
 	public:
 		//NO CHANGES
@@ -146,6 +183,8 @@ namespace ecs {
 		bool  lifetime_Random_Enable = true;
 		float start_Velocity = 5.0f;
 
+		utility::GUID textureGUID;
+
 		PlayState playback_State = PlayState::PLAY;
 
 		//Color over lifetime
@@ -157,6 +196,9 @@ namespace ecs {
 		//Force over Lifetime
 		ForceOverLifetimeModule forceModule;
 		
+		//Gravity
+		GravityModule gravityModule;
+
 		//Shape module
 		ShapeModule shapeModule;
 
@@ -167,17 +209,12 @@ namespace ecs {
 		RotationOverLifetimeModule rotationModule;
 
 		//Attraction MOdule
-		AttractorModule attractorModule;
+		AttractorModule attractorModule; 
 
-		//Drag Gravity Damping
-		glm::vec3 gravity = glm::vec3(0.0f, -9.8f, 0.0f);
-		glm::vec3 gravity_Prev = gravity;
- 
+		//Trailing Module
+		TrailingModule trailingModule;
 
 		//FOR THE ALIVE PARTICLES
-		std::vector<short> freeIndices;                       
-		std::vector<short> alive_Particles;
-		int alive_no_Of_Particles = 0;
 		std::vector<ParticleData> particle_List;
 
 
@@ -187,15 +224,11 @@ namespace ecs {
 		float durationCounter = 0.f;
 		float emissionInterval = 0.1f;
 
-
-		//Per particle visual data
-		ParticleVisual_List visualData_List;
-
 		REFLECTABLE(ParticleComponent, duration, looping, play_On_Awake, 
 					start_Lifetime, end_Lifetime, lifetime_Random_Enable,
+					textureGUID,
 					start_Velocity, playback_State,
-					velocityModule,forceModule, shapeModule, colorModule, sizeModule, rotationModule, attractorModule,
-					gravity,
+					velocityModule,forceModule, shapeModule, colorModule, sizeModule, rotationModule, attractorModule, gravityModule, trailingModule,
 					emissionInterval);
 	};
 }

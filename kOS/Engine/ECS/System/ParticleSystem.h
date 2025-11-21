@@ -71,7 +71,8 @@ namespace ecs {
        
         void ExtractParticleDataOptimized(ParticleComponent* particle, ParticleInstance& data);
 
-
+        void EmitTrailParticles(float dt, ParticleComponent* particle,const glm::vec3& start, const glm::vec3& end,EntityID id);
+        
         //===========================================
         // Play state FUNCTION
         //===========================================
