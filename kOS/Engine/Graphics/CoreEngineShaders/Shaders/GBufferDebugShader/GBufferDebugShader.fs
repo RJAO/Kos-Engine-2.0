@@ -31,18 +31,7 @@ uniform int entityID=-1;
 in vec4 vColor;
 void main()
 {    
-        if (vTexture < 200)
-          {
-            vec4 texColor = texture(textures[vTexture], TexCoords) * vColor;
-
-
-            gAlbedoSpec = vec4(0.5f);
-            gMaterial.b=shaderType;
-          }
-          else
-          {
-            gAlbedoSpec.rgb =vColor.rgb;
-            gMaterial.b=shaderType;
-          }
+    gAlbedoSpec.rgb =vColor.rgb;
+    gMaterial.b=shaderType;
 }
 )"
