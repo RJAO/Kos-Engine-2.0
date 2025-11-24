@@ -86,6 +86,23 @@ namespace ecs {
 					ch->set3DAttributes(&fpos, &fvel);
 				}
 
+				//update audio volume
+				if (af.channel) {
+					FMOD::Channel* ch = static_cast<FMOD::Channel*>(af.channel);
+
+					bool isPlaying = false;
+					if (ch->isPlaying(&isPlaying) == FMOD_OK && isPlaying) {
+						if (af.volume != af.lastVolume) {
+							ch->setVolume(std::clamp(af.volume, 0.0f, 1.0f));
+							af.lastVolume = af.volume;
+						}
+					}
+
+					else {
+						af.channel = nullptr;
+					}
+				}
+
 				if (!af.requestPlay) continue;
 				if (af.audioGUID.Empty()) continue;
 

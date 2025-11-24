@@ -41,7 +41,7 @@
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
-                    "x": 5.0,
+                    "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
@@ -58,7 +58,7 @@
             },
             "LocalTransformation": {
                 "position": {
-                    "x": 5.0,
+                    "x": 0.0,
                     "y": 0.0,
                     "z": 0.0
                 },
@@ -109,9 +109,9 @@
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
-                    "x": -11.001245498657227,
+                    "x": 0.0,
                     "y": 0.0,
-                    "z": 33.099998474121094
+                    "z": 0.0
                 },
                 "rotation": {
                     "x": 0.0,
@@ -126,9 +126,9 @@
             },
             "LocalTransformation": {
                 "position": {
-                    "x": -11.001245498657227,
+                    "x": 0.0,
                     "y": 0.0,
-                    "z": 33.099998474121094
+                    "z": 0.0
                 },
                 "rotation": {
                     "x": 0.0,
