@@ -154,7 +154,7 @@ namespace gui {
 
 		m_tags = filewindow::readEditorConfig(editorTagsFile);
 
-		m_animControllerContext = ax::NodeEditor::CreateEditor();
+		//m_animControllerContext = ax::NodeEditor::CreateEditor();
 	}
 
 	void ImGuiHandler::NewFrame()

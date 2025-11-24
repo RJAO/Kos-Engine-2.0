@@ -5,13 +5,12 @@ namespace ed = ax::NodeEditor;
 
 
 struct DisplayController {
-    std::string name;
     AnimControllerData controller;
 
-    REFLECTABLE(DisplayController, name);
+    REFLECTABLE(DisplayController, controller);
 };
 
-DisplayController controllerData;
+DisplayController defaultControllerData;
 
 AnimState* FindStateFromPin(std::vector<AnimState>& states, int pinId)
 {
@@ -46,7 +45,7 @@ AnimPin* FindPin(std::vector<AnimState>& states, int pinId)
 void gui::ImGuiHandler::DrawAnimatorControllerWindow()
 {
     ImGui::Begin("Animator Controller");
-    ed::SetCurrentEditor(m_animControllerContext);
+    
 
     std::string test = selectedAsset.Type;
     if (test != "R_AnimController")
@@ -89,11 +88,11 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
             if (ImGui::Button("Create", ImVec2(120, 0)))
             {
                  ///Create controller here
-                controllerData.name = controllerNameBuffer;
-                std::string fileName = controllerData.name + ".controller";
+                defaultControllerData.controller.name = controllerNameBuffer;
+                std::string fileName = defaultControllerData.controller.name + ".controller";
                 std::string filepath = m_assetManager.GetAssetManagerDirectory() + "/Controllers/" + fileName;
-                serialization::WriteJsonFile(filepath, &controllerData.controller);
-                std::cout << "TEST CREATION\n";
+
+                serialization::WriteJsonFile(filepath, &defaultControllerData.controller);
                 LOGGING_POPUP("Animator Controller Successfully Added");
                 ImGui::CloseCurrentPopup();
             }
@@ -118,8 +117,29 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
 
     if (cachedControllerGUID != selectedAsset.GUID)
     {
+        //Save the old controller before switching to the new one
+        if (m_activeController)
+        {
+            std::string fileName = m_activeController->m_AnimControllerData.name + ".controller";
+            std::string filepath = m_assetManager.GetAssetManagerDirectory() + "/Controllers/" + fileName;
+            serialization::WriteJsonFile(filepath, &m_activeController->m_AnimControllerData, true);
+        }
         cachedControllerGUID = selectedAsset.GUID;
         m_activeController = m_resourceManager.GetResource<R_AnimController>(selectedAsset.GUID).get();
+
+        if (m_animControllerContext)
+            ax::NodeEditor::DestroyEditor(m_animControllerContext);
+
+        // Build persistent path
+        m_layoutFilePath =
+            m_assetManager.GetAssetManagerDirectory() + "/Controllers/" +
+            m_activeController->m_AnimControllerData.name + ".layout";
+
+        // Configure editor
+        ax::NodeEditor::Config config;
+        config.SettingsFile = m_layoutFilePath.c_str(); // safe now
+
+        m_animControllerContext = ax::NodeEditor::CreateEditor(&config);
     }
 
     if (!m_activeController)
@@ -128,10 +148,11 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
     }
 
     std::vector<AnimState>& states = m_activeController->m_AnimControllerData.states;
-    int& nextStateId = m_activeController->m_AnimControllerData.currentStateID;
-    int& nextPinId = m_activeController->m_AnimControllerData.currentPinID;
-    int& nextLinkId = m_activeController->m_AnimControllerData.currentLinkID;
+    int& nextStateId = m_activeController->m_AnimControllerData.nextStateID;
+    int& nextPinId = m_activeController->m_AnimControllerData.nextPinID;
+    int& nextLinkId = m_activeController->m_AnimControllerData.nextLinkID;
 
+    ed::SetCurrentEditor(m_animControllerContext);
     ed::Begin("AnimationGraph");
     ImGui::Text("Controller: %s", m_activeController->m_AnimControllerData.name.c_str());
     ImGui::Separator();
@@ -165,6 +186,11 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
         exit.isDefault = true;
         states.push_back(exit);
         ed::SetNodePosition(exit.id, ImVec2(50, 100));
+
+
+        m_nodeEditorModified = true;
+        
+
     }
 
     // --- Node creation button ---
@@ -178,6 +204,7 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
         s.outputs.push_back({ nextPinId++, AnimPin::PinKind::Output, "Exit" });
         states.push_back(s);
         ed::SetNodePosition(s.id, ImVec2(100 + 50.0f * states.size(), 100));
+        m_nodeEditorModified = true;
     }
     ImGui::SameLine();
     ImGui::EndGroup();
@@ -192,6 +219,9 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
 
         for (auto& pin : node.inputs)
         {
+            if (pin.id == 0)
+                pin.id = nextPinId++;
+
             ed::BeginPin(pin.id, ed::PinKind::Input);
             ImGui::Text("%s", pin.name.c_str());
             ed::EndPin();
@@ -199,6 +229,9 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
 
         for (auto& pin : node.outputs)
         {
+            if (pin.id == 0)
+                pin.id = nextPinId++;
+
             ed::BeginPin(pin.id, ed::PinKind::Output);
             ImGui::Text("%s", pin.name.c_str());
             ed::EndPin();
@@ -219,7 +252,7 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
                 t.id = nextLinkId++;
                 t.fromPinId = startPin.Get();
                 t.toPinId = endPin.Get();
-                t.condition = ""; // allow editing in inspector
+                t.condition = {"", false};
                 AnimState* fromState = FindStateFromPin(states, t.fromPinId);
                 //AnimState* toState = FindStateFromPin(states, t.toPinId);
                 fromState->outgoingTransitions.push_back(t);
@@ -288,9 +321,11 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
                     ImGui::Text("Transition Properties");
 
                     char buf[256];
-                    strcpy(buf, t.condition.c_str());
+                    strcpy(buf, t.condition.name.c_str());
                     if (ImGui::InputText("Condition", buf, sizeof(buf)))
-                        t.condition = buf;
+                        t.condition.name = buf;
+
+                    ///Add checkbox for boolean state
 
                     AnimState* fromState = FindStateFromPin(states, t.fromPinId);
                     AnimState* toState = FindStateFromPin(states, t.toPinId);
@@ -323,7 +358,7 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
                 }
             }
         }
-        
+        m_nodeEditorModified = true;
     }
 
     // --- STATE INSPECTOR ---
@@ -331,10 +366,23 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
     {
         AnimState& state = states[selectedNode.Get() - 1];
         state.ApplyFunction(DrawComponents{ state.Names() });
+        //Unfortunately, this is going to update every frame
+        m_nodeEditorModified = true;
     }
     else
     {
         ImGui::TextDisabled("No node or link selected.");
+    }
+
+    if (m_nodeEditorModified && m_activeController)
+    {
+        std::string filepath =
+            m_assetManager.GetAssetManagerDirectory() + "/Controllers/" +
+            m_activeController->m_AnimControllerData.name + ".controller";
+
+        serialization::WriteJsonFile(filepath, &m_activeController->m_AnimControllerData, true);
+
+        m_nodeEditorModified = false; // reset
     }
 
     ImGui::End();

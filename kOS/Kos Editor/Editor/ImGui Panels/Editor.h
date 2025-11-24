@@ -61,10 +61,7 @@ namespace gui {
 		Peformance& m_performance;
         audio::AudioManager& m_audioManager;
 
-        //Node editor plugin
-        ax::NodeEditor::EditorContext* m_animControllerContext = nullptr;
-        R_AnimController* m_activeController = nullptr;
-        utility::GUID cachedControllerGUID;
+       
 
     public:
         /******************************************************************/
@@ -249,6 +246,14 @@ namespace gui {
         Delegate<const std::string&> onSaveAll;
         void RegisterCallBack();
         /************************************/
+
+        /****************Node Editor****************/
+        ax::NodeEditor::EditorContext* m_animControllerContext = nullptr;
+        R_AnimController* m_activeController = nullptr;
+        utility::GUID cachedControllerGUID;
+        std::string m_layoutFilePath{};
+        bool m_nodeEditorModified = false;
+        /*******************************************/
 
 
         std::string m_imgui_layout;

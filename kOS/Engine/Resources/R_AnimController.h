@@ -21,13 +21,19 @@ struct AnimPin {
 	REFLECTABLE(AnimPin, id, kind, name, fromParentId, toParentId);
 };
 
+struct AnimCondition {
+	std::string name{};
+	bool triggered{ false };
+	REFLECTABLE(AnimCondition, name, triggered);
+};
+
 //The lines
 struct AnimTransition {
 	
 	int id;
 	int fromPinId;
 	int toPinId;
-	std::string condition;
+	AnimCondition condition;
 	REFLECTABLE(AnimTransition, id, fromPinId, toPinId, condition);
 };
 
@@ -52,10 +58,10 @@ struct AnimControllerData
 { 
 	std::string name{};
 	std::vector<AnimState> states{};
-	int currentStateID{ 1 };
-	int currentPinID{ 100 };
-	int currentLinkID{ 200 };
-	REFLECTABLE(AnimControllerData, name, states, currentStateID, currentPinID, currentLinkID);
+	int nextStateID{ 1 };
+	int nextPinID{ 100 };
+	int nextLinkID{ 200 };
+	REFLECTABLE(AnimControllerData, name, states, nextStateID, nextPinID, nextLinkID);
 };
 
 class R_AnimController :public Resource
