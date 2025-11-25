@@ -130,7 +130,7 @@ namespace ecs {
 	};
 
 	struct TrailingModule {
-		bool enabled = false;
+		bool enabled = true;
 
 		glm::vec3 startPoint = glm::vec3(0);     // Fixed start point
 		glm::vec3 endPoint = glm::vec3(20.f);    // Dynamic end point (will rotate)
@@ -170,6 +170,13 @@ namespace ecs {
 
 	class ParticleComponent : public Component {
 	public:
+
+		enum ParticleType
+		{
+			TWO_DIMENSION_BILLBOARD,
+			THREE_DIMENSION_BILLBOARD
+		} particleType;
+
 		//NO CHANGES
 		int max_Particles = 255; //max particle size
 		float duration = 5.0f;
@@ -224,7 +231,7 @@ namespace ecs {
 		float durationCounter = 0.f;
 		float emissionInterval = 0.1f;
 
-		REFLECTABLE(ParticleComponent, duration, looping, play_On_Awake, 
+		REFLECTABLE(ParticleComponent, particleType, duration, looping, play_On_Awake, 
 					start_Lifetime, end_Lifetime, lifetime_Random_Enable,
 					textureGUID,
 					start_Velocity, playback_State,

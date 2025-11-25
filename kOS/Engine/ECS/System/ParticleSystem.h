@@ -10,7 +10,7 @@ namespace ecs {
         std::vector<glm::vec3> positions_Particle;
         std::vector<glm::vec4> colors;
         std::vector<glm::vec2> sizes;
-        std::vector<float>     rotates;
+        std::vector<glm::vec3> rotates;
     };
     struct EmissionData {
         glm::vec3 positionOffset;  // Offset from emitter position
