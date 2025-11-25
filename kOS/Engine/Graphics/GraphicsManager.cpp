@@ -234,8 +234,6 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	skinnedMeshRenderer.Render(camera, *gBufferPBRShader);
 	cubeRenderer.Render(camera, *gBufferPBRShader, &this->cube);
 	sphereRenderer.Render(camera, *gBufferPBRShader, &this->sphere);
-	debugRenderer.RenderPointLightDebug(camera, *gBufferPBRShader, lightRenderer.pointLightsToDraw);
-	debugRenderer.RenderDebugFrustums(camera, *gBufferPBRShader, gameCameras);
 	
 	gBufferPBRShader->Disuse();
 
@@ -251,6 +249,9 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	debugRenderer.RenderDebugCubes(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugSpheres(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugCapsules(camera, *gBufferDebugShader);
+	debugRenderer.RenderPointLightDebug(camera, *gBufferDebugShader, lightRenderer.pointLightsToDraw);
+	debugRenderer.RenderDebugFrustums(camera, *gBufferDebugShader, gameCameras);
+
 	gBufferDebugShader->Disuse();
 
 
