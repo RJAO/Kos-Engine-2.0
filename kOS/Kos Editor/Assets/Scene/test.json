@@ -23,8 +23,7 @@
         },
         "SkinnedMeshRendererComponent": {
             "skinnedMeshGUID": "9f89e949-6405-e326-8380-1c8f761df4a1",
-            "materialGUID": "61cfd855-ca21-6e2a-3bf8-8fc94756f547",
-            "skeletonGUID": "53602e67-2a8d-e367-fe48-ffecc504d71a"
+            "materialGUID": "61cfd855-ca21-6e2a-3bf8-8fc94756f547"
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -159,8 +158,7 @@
         },
         "SkinnedMeshRendererComponent": {
             "skinnedMeshGUID": "9f89e949-6405-e326-8380-1c8f761df4a1",
-            "materialGUID": "61cfd855-ca21-6e2a-3bf8-8fc94756f547",
-            "skeletonGUID": "53602e67-2a8d-e367-fe48-ffecc504d71a"
+            "materialGUID": "61cfd855-ca21-6e2a-3bf8-8fc94756f547"
         },
         "TransformComponent": {
             "WorldTransformation": {
