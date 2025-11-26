@@ -142,15 +142,9 @@ namespace Application {
                 double currentFrameTime = glfwGetTime();
                 float deltaTime = static_cast<float>(currentFrameTime - lastFrameTime);
                 lastFrameTime = currentFrameTime;
-                accumulatedTime += (deltaTime);
 
                 peformance.SetDeltaTime(deltaTime);
 
-                int currentNumberOfSteps = 0;
-                while( accumulatedTime >= fixedDeltaTime) {
-                    accumulatedTime -= static_cast<float>(fixedDeltaTime);
-                    ++currentNumberOfSteps;
-                }
                 
                 /*--------------------------------------------------------------
                     UPDATE INPUT
@@ -166,7 +160,7 @@ namespace Application {
                 /*--------------------------------------------------------------
                     UPDATE ECS
                 --------------------------------------------------------------*/
-                ecs.Update(static_cast<float>(fixedDeltaTime));
+                ecs.Update(deltaTime);
 
                 /*--------------------------------------------------------------
                     Update IMGUI FRAME
