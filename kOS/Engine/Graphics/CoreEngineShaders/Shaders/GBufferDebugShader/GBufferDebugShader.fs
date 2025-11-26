@@ -12,7 +12,7 @@ in vec3 Normal;
 in vec3 ReflectDir;
 in mat3 tangentToWorld;
 in float shaderType;
-in flat int vTexture;
+
 
 
 uniform sampler2D texture_diffuse1;
@@ -20,7 +20,7 @@ uniform sampler2D texture_specular1;
 uniform sampler2D texture_normal1;
 uniform sampler2D texture_ao1;
 uniform sampler2D texture_roughness1;
-uniform sampler2D textures[192];
+
 
 struct Material 
 {

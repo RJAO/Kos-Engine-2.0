@@ -478,6 +478,7 @@ void DebugRenderer::RenderDebugFrustums(const CameraData& camera, Shader& shader
 			corners[i] = glm::vec3(w);
 		}
 		shader.SetTrans("model", glm::mat4{ 1.f });
+		shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 		shader.SetMat4("vp", camera.GetViewMtx());
 		shader.SetFloat("uShaderType", 2.1f);
 
