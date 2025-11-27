@@ -21,6 +21,7 @@ namespace ecs{
 		RegisterComponent<SpriteComponent>();
 		RegisterComponent<CameraComponent>();
 		RegisterComponent<AudioComponent>();
+		RegisterComponent<AudioListenerComponent>();
 		RegisterComponent<TextComponent>();
 		RegisterComponent<MeshFilterComponent>();
 		RegisterComponent<CanvasRendererComponent>();
@@ -65,6 +66,7 @@ namespace ecs{
 		RegisterSystem<DebugBoxColliderRenderSystem, TransformComponent, BoxColliderComponent>();
 		RegisterSystem<DebugCapsuleColliderRenderSystem, TransformComponent, CapsuleColliderComponent>();
 		RegisterSystem<DebugSphereColliderRenderSystem, TransformComponent, SphereColliderComponent>();
+		RegisterSystem<AudioListenerSystem, TransformComponent, AudioListenerComponent>();
 		RegisterSystem<AudioSystem, TransformComponent, AudioComponent>();
 		RegisterSystem<PathfindingSystem, TransformComponent>();
 		RegisterSystem<ParticleSystem, TransformComponent, ParticleComponent>();
