@@ -68,7 +68,10 @@ namespace ecs {
             // ==========================================
 
             std::shared_ptr<R_Texture> textureResource = m_resourceManager.GetResource<R_Texture>(particle->textureGUID);
-            m_graphicsManager.gm_PushBasicParticleData(BasicParticleData{ sending.positions_Particle, sending.colors, sending.sizes, sending.rotates , textureResource.get()});
+            float type = 0.f;
+            if (particle->particleType == ParticleComponent::ParticleType::THREE_DIMENSIONAL_ROTATION_BILLBOARD)
+                type = 1.f;
+            m_graphicsManager.gm_PushBasicParticleData(BasicParticleData{ sending.positions_Particle, sending.colors, sending.sizes, sending.rotates , textureResource.get(), type });
         }
     }
 
@@ -124,7 +127,7 @@ namespace ecs {
         const glm::vec4 colorDelta = updateColor ? (particle->colorModule.end_Color - particle->colorModule.start_Color) : glm::vec4(0);
         const glm::vec4 colorStart = particle->colorModule.start_Color;
 
-        const float rotModRad = glm::radians(particle->rotationModule.rotation_Modifier) * dt;
+        const glm::vec3 rotModRad = glm::radians(particle->rotationModule.rotation_Modifier) * dt;
 
         // Update trailing module's rotating end point
         //if (updateTrailing && particle->trailingModule.rotateEndPoint) {
@@ -297,6 +300,7 @@ namespace ecs {
 
             //=== LIFETIME UPDATE ===
             pd.lifespan -= dt;
+            pd.color.a = pd.lifespan / pd.lifetime;
             if(!updateTrailing) pd.position += pd.velocity * dt;
 
             if (pd.lifespan <= 0.0f) {

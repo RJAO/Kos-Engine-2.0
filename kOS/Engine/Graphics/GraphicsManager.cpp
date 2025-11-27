@@ -234,16 +234,9 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	skinnedMeshRenderer.Render(camera, *gBufferPBRShader);
 	cubeRenderer.Render(camera, *gBufferPBRShader, &this->cube);
 	sphereRenderer.Render(camera, *gBufferPBRShader, &this->sphere);
-	debugRenderer.RenderPointLightDebug(camera, *gBufferPBRShader, lightRenderer.pointLightsToDraw);
-	debugRenderer.RenderDebugFrustums(camera, *gBufferPBRShader, gameCameras);
 	
 	gBufferPBRShader->Disuse();
 
-	//Render particles
-	gm_RenderParticles(editorCamera);
-
-	//Fill world space UI
-	spriteRenderer.RenderWorldSprites(camera, *worldSpriteShader);
 	gBufferDebugShader->Use();
 	gBufferDebugShader->SetTrans("view", camera.GetViewMtx());
 	gBufferDebugShader->SetTrans("projection", camera.GetPerspMtx()); // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
@@ -251,8 +244,15 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	debugRenderer.RenderDebugCubes(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugSpheres(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugCapsules(camera, *gBufferDebugShader);
-	gBufferDebugShader->Disuse();
+	debugRenderer.RenderPointLightDebug(camera, *gBufferDebugShader, lightRenderer.pointLightsToDraw);
+	debugRenderer.RenderDebugFrustums(camera, *gBufferDebugShader, gameCameras);
 
+	gBufferDebugShader->Disuse();
+	//Render particles
+	gm_RenderParticles(editorCamera);
+
+	//Fill world space UI
+	spriteRenderer.RenderWorldSprites(camera, *worldSpriteShader);
 
 }
 void GraphicsManager::gm_FillGBufferGame(const CameraData& camera) {
@@ -262,6 +262,7 @@ void GraphicsManager::gm_FillGBufferGame(const CameraData& camera) {
 	framebufferManager.gBuffer.BindGBuffer();
 	Shader* gBufferPBRShader{ &shaderManager.engineShaders.find("GBufferPBRShader")->second };
 	Shader* gBufferDebugShader{ &shaderManager.engineShaders.find("GBufferDebugShader")->second };
+	Shader* worldSpriteShader{ &shaderManager.engineShaders.find("GBufferWorldShader")->second };
 
 	gBufferPBRShader->Use();
 	gBufferPBRShader->SetTrans("projection", camera.GetPerspMtx()); // note: currently we set the projection matrix each frame, but since the projection matrix rarely changes it's often best practice to set it outside the main loop only once.
@@ -275,6 +276,11 @@ void GraphicsManager::gm_FillGBufferGame(const CameraData& camera) {
 	cubeRenderer.Render(camera, *gBufferPBRShader, &this->cube);
 	sphereRenderer.Render(camera, *gBufferPBRShader, &this->sphere);
 	gBufferPBRShader->Disuse();
+	//Render particles
+	gm_RenderParticles(editorCamera);
+
+	//Fill world space UI
+	spriteRenderer.RenderWorldSprites(camera, *worldSpriteShader);
 
 }
 void GraphicsManager::gm_FillGBufferGame(const CameraData& camera, layer::LAYERS layer) {
@@ -437,6 +443,37 @@ void GraphicsManager::gm_FillDepthCube(const CameraData& camera, int index,glm::
 	pointShadowShader->Disuse();
 	glCullFace(GL_BACK);
 }
+
+void GraphicsManager::gm_FillDepthCube(const CameraData& camera, int index, glm::vec3 lighPos, std::vector<MeshData>const& meshList) {
+	Shader* pointShadowShader{ &shaderManager.engineShaders.find("PointShadowShader")->second };
+	glCullFace(GL_FRONT);
+
+	glViewport(0, 0, static_cast<GLsizei>(1024.f), static_cast<GLsizei>(1024.f));
+	glBindFramebuffer(GL_FRAMEBUFFER, lightRenderer.dcm[index].GetFBO());
+	glClear(GL_DEPTH_BUFFER_BIT);
+	pointShadowShader->Use();
+	lightRenderer.dcm[index].FillMap(lighPos);
+	for (unsigned int j = 0; j < 6; ++j) {
+		pointShadowShader->SetMat4("shadowMatrices[" + std::to_string(j) + "]", lightRenderer.dcm[index].shadowTransforms[j]);
+	}
+	pointShadowShader->SetFloat("far_plane", lightRenderer.dcm[index].far_plane);
+	pointShadowShader->SetVec3("lightPos", lighPos);
+
+	//Draw meshes based on meshList
+	for (MeshData const& md : meshList)
+	{
+		pointShadowShader->SetTrans("model", md.transformation);
+		md.meshToUse->PBRDraw(*pointShadowShader, md.meshMaterial);
+	}
+	cubeRenderer.Render(camera, *pointShadowShader, &this->cube);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	pointShadowShader->Disuse();
+	glCullFace(GL_BACK);
+}
+
 void GraphicsManager::gm_DrawMaterial(const PBRMaterial& md,FrameBuffer& fb) {
 
 	//Fill g buffer first
