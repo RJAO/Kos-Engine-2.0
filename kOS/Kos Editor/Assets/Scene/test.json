@@ -29,7 +29,7 @@
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
-                    "x": 17.78831672668457,
+                    "x": -11.847871780395508,
                     "y": -10.008426666259766,
                     "z": -14.13250732421875
                 },
@@ -46,7 +46,7 @@
             },
             "LocalTransformation": {
                 "position": {
-                    "x": 17.78831672668457,
+                    "x": -11.847871780395508,
                     "y": -10.008426666259766,
                     "z": -14.13250732421875
                 },
@@ -143,10 +143,11 @@
     },
     {
         "entityGUID": "b11b8045-ba5d-3c4e-cd7d-b73208475971",
+        "AnimationTestScript": {},
         "AnimatorComponent": {
-            "controllerGUID": "00000000-0000-0000-0000-000000000000",
+            "controllerGUID": "dda8cf21-7aa1-bbb7-c64c-286b89fd95d5",
             "m_PlaybackSpeed": 1.0,
-            "m_CurrentTime": 4.798798561096191,
+            "m_CurrentTime": 0.0,
             "m_IsPlaying": true
         },
         "NameComponent": {
@@ -158,15 +159,15 @@
             "hide": false
         },
         "SkinnedMeshRendererComponent": {
-            "skinnedMeshGUID": "9f89e949-6405-e326-8380-1c8f761df4a1",
+            "skinnedMeshGUID": "cd7f4dd1-1ac1-2284-6413-970b758ab38d",
             "materialGUID": "61cfd855-ca21-6e2a-3bf8-8fc94756f547"
         },
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
-                    "x": 18.017255783081055,
-                    "y": -10.30642318725586,
-                    "z": -12.693450927734375
+                    "x": 18.586774826049805,
+                    "y": -2.3293702602386475,
+                    "z": -12.6597900390625
                 },
                 "rotation": {
                     "x": 179.9990997314453,
@@ -181,13 +182,13 @@
             },
             "LocalTransformation": {
                 "position": {
-                    "x": 18.017255783081055,
-                    "y": -10.30642318725586,
-                    "z": -12.693450927734375
+                    "x": 18.586774826049805,
+                    "y": -2.3293702602386475,
+                    "z": -12.6597900390625
                 },
                 "rotation": {
                     "x": 179.9990997314453,
-                    "y": 0.318505197763443,
+                    "y": 0.3185051679611206,
                     "z": 179.99989318847656
                 },
                 "scale": {

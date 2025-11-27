@@ -144,6 +144,7 @@ void gui::ImGuiHandler::DrawAnimatorControllerWindow()
 
     if (!m_activeController)
     {
+        ImGui::End();
         return;
     }
 

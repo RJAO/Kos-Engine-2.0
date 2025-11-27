@@ -72,7 +72,7 @@ namespace ecs
 
                 if (controller)
                 {
-                    anim->m_currentState = controller->m_EnterState;
+                    //anim->m_currentState = controller->m_EnterState;
                     if (anim->m_currentState)
                         animation = m_resourceManager.GetResource<R_Animation>(static_cast<AnimState*>(anim->m_currentState)->animationGUID).get();
                 }
