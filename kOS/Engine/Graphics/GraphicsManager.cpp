@@ -133,6 +133,7 @@ void GraphicsManager::gm_InitializeMeshes()
 	spriteRenderer.InitializeSpriteRendererMeshes();
 	debugRenderer.InitializeDebugRendererMeshes();
 	particleRenderer.InitializeParticleRendererMeshes();
+	//if (navmesh) navmesh->SetRenderNavMesh(nullptr, nullptr, 0, 0, 0.f);
 }
 
 
@@ -251,10 +252,23 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	debugRenderer.RenderDebugCubes(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugSpheres(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugCapsules(camera, *gBufferDebugShader);
+	gBufferDebugShader->SetVec3("color", glm::vec3{ 0.f,0.f,1.f });
+	//{ 0.4f, .63f, 1.f }
+	if (renderNavMesh) {
+		glm::mat4 transform(1.0f);
+		gBufferDebugShader->SetTrans("model", transform);
+		gBufferDebugShader->SetFloat("uShaderType", 2.1f);
+		gBufferDebugShader->SetVec3("color", renderNavMesh->triColor);
+		renderNavMesh->DrawTri();
+		gBufferDebugShader->SetVec3("color", renderNavMesh->lineColor);
+		renderNavMesh->DrawLine();
+		//renderNavMesh->DrawVertex();
+		//gBufferDebugShader->SetVec3("color", renderNavMesh->vertColor);
+	}
+
 	gBufferDebugShader->Disuse();
-
-
 }
+
 void GraphicsManager::gm_FillGBufferGame(const CameraData& camera) {
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);

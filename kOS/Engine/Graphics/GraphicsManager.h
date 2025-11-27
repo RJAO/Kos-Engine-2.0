@@ -92,7 +92,7 @@ public:
 	void gm_RenderGameBuffer();
 	//I want my DCMs
 	LightRenderer lightRenderer;
-
+	DebugNavMesh* renderNavMesh;
 private:
 
 	//Initialize functions

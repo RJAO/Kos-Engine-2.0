@@ -183,6 +183,7 @@ namespace Application {
                     UPDATE Render Pipeline
                 --------------------------------------------------------------*/
                 graphicsManager.gm_Update();
+                navMeshManager.Update();
 
                 /*--------------------------------------------------------------
                     Execute Render Pipeline

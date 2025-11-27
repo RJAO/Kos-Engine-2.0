@@ -142,7 +142,7 @@ namespace gui {
 		openAndLoadSceneDialog();
 
 		//set style
-		SetStyle();
+		//SetStyle();
 
 		//set first active scene
 		for (auto& scene : m_ecs.sceneMap) {
@@ -227,6 +227,7 @@ namespace gui {
 				DrawAssetInspector();
 				DrawMaterialWindow();
 				DrawBakedWindow();
+				DrawNavMeshWindow();
 			}
 
 		}
