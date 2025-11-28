@@ -2,8 +2,8 @@
 #include "ScriptAdapter/TemplateSC.h"
 
 class EnemyManagerScript : public TemplateSC {
-	int agentid;
 public:
+	int agentid;
 	int enemyHealth;
 	float enemyMovementSpeed;
 
@@ -36,6 +36,7 @@ public:
 		auto* enemyHurtboxPositionTransform = ecsPtr->GetComponent<TransformComponent>(enemyHurtboxPositionID);
 
 		if (!playerTransform || !enemyTransform || !enemyHurtboxPositionTransform) {
+			LOGGING_WARN("Components not found");
 			return;
 		}
 
@@ -87,7 +88,7 @@ public:
 			//		}
 			//	}
 			//}
-
+			std::cout << "Attack" << std::endl;
 			enemyIsAttacking = true;
 		}
 

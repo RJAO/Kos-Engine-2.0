@@ -166,7 +166,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": false
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -226,7 +227,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": false
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -2324,7 +2326,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -2465,7 +2468,7 @@
                                     "z": 0.0
                                 },
                                 "scale": {
-                                    "x": 15.0,
+                                    "x": 12.0,
                                     "y": 25.0,
                                     "z": 13.0
                                 }
@@ -2512,7 +2515,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -2574,7 +2578,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -2636,7 +2641,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -2704,7 +2710,7 @@
                         "TransformComponent": {
                             "WorldTransformation": {
                                 "position": {
-                                    "x": -108.5,
+                                    "x": -109.5,
                                     "y": -21.0,
                                     "z": -51.5
                                 },
@@ -2761,7 +2767,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -2823,14 +2830,15 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
                                 "position": {
-                                    "x": -86.5,
-                                    "y": -21.0,
-                                    "z": -51.5
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
                                 },
                                 "rotation": {
                                     "x": 0.0,
@@ -2838,8 +2846,25 @@
                                     "z": 0.0
                                 },
                                 "scale": {
-                                    "x": 12.0,
-                                    "y": 15.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            },
+                            "LocalTransformation": {
+                                "position": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "rotation": {
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "z": 0.0
+                                },
+                                "scale": {
+                                    "x": 1.0,
+                                    "y": 1.0,
                                     "z": 1.0
                                 }
                             }
@@ -2868,7 +2893,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5639,7 +5665,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5701,7 +5728,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5763,7 +5791,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5825,7 +5854,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5887,7 +5917,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -5949,7 +5980,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -6011,7 +6043,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -6073,7 +6106,8 @@
                             "entityTag": "Default",
                             "isPrefab": false,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -9682,7 +9716,8 @@
             "entityTag": "Default",
             "isPrefab": true,
             "prefabName": "Game Package.prefab",
-            "hide": false
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -9748,7 +9783,8 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
@@ -9795,7 +9831,8 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
@@ -9852,7 +9889,8 @@
                             "entityTag": "Default",
                             "isPrefab": true,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -9901,7 +9939,8 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
@@ -9944,7 +9983,8 @@
                 "entityGUID": "6e5fba01-5840-6878-28b2-c1ca60a7a7a4",
                 "GameManager": {
                     "enemyObjectPrefab": "a3a69a24-9a78-f0fd-f0a9-744fc055ecb2",
-                    "enemySpawnpoint": "5e385a2b-11e6-5250-a413-342a15395ff1"
+                    "enemySpawnpoint": "5e385a2b-11e6-5250-a413-342a15395ff1",
+                    "gameBGM": "00000000-0000-0000-0000-000000000000"
                 },
                 "NameComponent": {
                     "entityName": "Game Manager",
@@ -9952,7 +9992,8 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
@@ -10048,7 +10089,8 @@
                     "entityTag": "Player",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "PlayerManagerScript": {
                     "playerCameraObject": "401c12be-d52c-d521-768f-a871850b8151",
@@ -10065,7 +10107,11 @@
                     "fireLightningPrefab": "0e0349c9-02d8-f6b8-df3c-f7f6943e81bf",
                     "acidLightningPrefab": "4c9702d6-127d-fc41-6704-bc63dc2b0998",
                     "gunSfxGUID_1": "d98d60d5-127f-8dc2-b051-dc6d6b883682",
-                    "gunSfxGUID_2": "f73fbd2e-15e7-5d4b-1662-91a2f4132644"
+                    "gunSfxGUID_2": "f73fbd2e-15e7-5d4b-1662-91a2f4132644",
+                    "pauseMenuManagerObject": "00000000-0000-0000-0000-000000000000",
+                    "healthUIObject": "00000000-0000-0000-0000-000000000000",
+                    "loseScreenCanvasObject": "00000000-0000-0000-0000-000000000000",
+                    "winScreenCanvasObject": "00000000-0000-0000-0000-000000000000"
                 },
                 "RigidbodyComponent": {
                     "mass": 1.0,
@@ -10155,7 +10201,8 @@
                             "entityTag": "Default",
                             "isPrefab": true,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -10203,7 +10250,8 @@
                             "entityTag": "Default",
                             "isPrefab": true,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "RigidbodyComponent": {
                             "mass": 1.0,
@@ -10282,7 +10330,8 @@
                             "entityTag": "Default",
                             "isPrefab": true,
                             "prefabName": "",
-                            "hide": false
+                            "hide": false,
+                            "isStatic": false
                         },
                         "TransformComponent": {
                             "WorldTransformation": {
@@ -10332,7 +10381,7 @@
             "capsule": {
                 "center": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": 2.0,
                     "z": 0.0
                 },
                 "radius": 1.0,
@@ -10345,7 +10394,7 @@
             "enemyMovementSpeed": 5.0,
             "playerToChase": "dc3cc8b0-f51e-12d5-0ab2-8c8d690d90e8",
             "enemyHurtboxPrefab": "bfbe5968-8f63-b074-ac3f-5597fcc00dd1",
-            "enemyHurtboxPosition": "dd847e46-a321-38fb-d037-47a47b6b1a0f"
+            "enemyHurtboxPosition": "03cf171a-6ed4-6fbf-24d7-0ca773883fa7"
         },
         "NameComponent": {
             "entityName": "EnemyPrefab",
@@ -10353,28 +10402,8 @@
             "entityTag": "Enemy",
             "isPrefab": true,
             "prefabName": "EnemyPrefab_2.prefab",
-            "hide": false
-        },
-        "RigidbodyComponent": {
-            "mass": 1.0,
-            "drag": 0.0,
-            "angularDrag": 0.05000000074505806,
-            "useGravity": true,
-            "isKinematic": false,
-            "interpolation": 0,
-            "collisionDetection": 0,
-            "constraints": 11,
-            "speed": 0.0,
-            "velocity": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "angularVelocity": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            }
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -10421,13 +10450,14 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
                             "x": 24.028947830200195,
-                            "y": 3.3237433433532715,
+                            "y": 4.8237433433532715,
                             "z": -35.2269172668457
                         },
                         "rotation": {
@@ -10444,7 +10474,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": 1.5,
                             "z": 0.0
                         },
                         "rotation": {
@@ -10478,13 +10508,14 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
                             "x": 24.028947830200195,
-                            "y": 1.7777256965637207,
+                            "y": 3.3237433433532715,
                             "z": -35.2269172668457
                         },
                         "rotation": {
@@ -10501,7 +10532,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": -1.5460176467895508,
+                            "y": 0.0,
                             "z": 0.0
                         },
                         "rotation": {
@@ -10526,7 +10557,7 @@
             "capsule": {
                 "center": {
                     "x": 0.0,
-                    "y": 0.0,
+                    "y": 2.0,
                     "z": 0.0
                 },
                 "radius": 1.0,
@@ -10539,7 +10570,7 @@
             "enemyMovementSpeed": 5.0,
             "playerToChase": "dc3cc8b0-f51e-12d5-0ab2-8c8d690d90e8",
             "enemyHurtboxPrefab": "bfbe5968-8f63-b074-ac3f-5597fcc00dd1",
-            "enemyHurtboxPosition": "dd847e46-a321-38fb-d037-47a47b6b1a0f"
+            "enemyHurtboxPosition": "a8ed480f-dc06-d48d-cfe7-a5be96e2fcd8"
         },
         "NameComponent": {
             "entityName": "EnemyPrefab",
@@ -10547,28 +10578,8 @@
             "entityTag": "Enemy",
             "isPrefab": true,
             "prefabName": "EnemyPrefab.prefab",
-            "hide": false
-        },
-        "RigidbodyComponent": {
-            "mass": 1.0,
-            "drag": 0.0,
-            "angularDrag": 0.05000000074505806,
-            "useGravity": true,
-            "isKinematic": false,
-            "interpolation": 0,
-            "collisionDetection": 0,
-            "constraints": 11,
-            "speed": 0.0,
-            "velocity": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "angularVelocity": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            }
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -10615,13 +10626,14 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
                             "x": 23.768556594848633,
-                            "y": 3.9802656173706055,
+                            "y": 5.4802656173706055,
                             "z": -15.537531852722168
                         },
                         "rotation": {
@@ -10638,7 +10650,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": 1.5,
                             "z": 0.0
                         },
                         "rotation": {
@@ -10672,13 +10684,14 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
                             "x": 23.768556594848633,
-                            "y": 2.4302656650543213,
+                            "y": 3.9802656173706055,
                             "z": -15.537531852722168
                         },
                         "rotation": {
@@ -10695,7 +10708,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": -1.5499999523162842,
+                            "y": 0.0,
                             "z": 0.0
                         },
                         "rotation": {
@@ -10724,7 +10737,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": true
+            "hide": true,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -10771,7 +10785,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -10828,7 +10843,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -10885,7 +10901,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -10942,7 +10959,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -10999,7 +11017,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11056,7 +11075,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11113,7 +11133,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "a6918fdc-bfcb-feab-5f96-86e8d9485e45",
@@ -11174,7 +11195,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": true
+            "hide": true,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -11221,7 +11243,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11278,7 +11301,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11335,7 +11359,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11392,7 +11417,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11449,7 +11475,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11506,7 +11533,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11563,7 +11591,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "a6918fdc-bfcb-feab-5f96-86e8d9485e45",
@@ -11624,7 +11653,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": true
+            "hide": true,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -11671,7 +11701,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11728,7 +11759,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11785,7 +11817,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11842,7 +11875,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "TextComponent": {
                     "fontGUID": "7c849437-f520-f246-6742-d47c3e0d9657",
@@ -11899,7 +11933,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": true
+                    "hide": true,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "a6918fdc-bfcb-feab-5f96-86e8d9485e45",
@@ -11960,7 +11995,8 @@
             "entityTag": "Default",
             "isPrefab": false,
             "prefabName": "",
-            "hide": false
+            "hide": false,
+            "isStatic": false
         },
         "TransformComponent": {
             "WorldTransformation": {
@@ -12007,7 +12043,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "ba4ef2ab-a9c7-80ce-2258-80e748dcd762",
@@ -12076,7 +12113,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "e18eb1e7-c4e7-872d-ace6-9f254fe984aa",
@@ -12145,7 +12183,8 @@
                     "entityTag": "Default",
                     "isPrefab": false,
                     "prefabName": "",
-                    "hide": false
+                    "hide": false,
+                    "isStatic": false
                 },
                 "SpriteComponent": {
                     "spriteGUID": "ad7ff204-05e9-2a9a-4a4b-50a7838ac9bd",
