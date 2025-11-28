@@ -15,7 +15,9 @@ public:
 	ScoreManagerScript* scoreManager = nullptr;
 	int scoreValue = 100;
 
-	utility::GUID enemyDeathSfxGUID; //gonna remove this when stuff are fixed
+	utility::GUID enemyDeathSfxGUID_1;
+	utility::GUID enemyDeathSfxGUID_2;
+	utility::GUID enemyDeathSfxGUID_3;
 
 	void Start() override {
 
@@ -28,13 +30,21 @@ public:
 
 		physicsPtr->GetEventCallback()->OnTriggerEnter(entity, [this](const physics::Collision& col) {
 			if (ecsPtr->GetComponent<NameComponent>(col.otherEntityID)->entityTag == "Enemy") {
-				// ADD SFX OF ENEMY DEATH HERE
+				// ADD SFX OF ENEMY DEATH HERE - DONE
 				if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
+					std::vector<ecs::AudioFile*> candidates;
+
 					for (auto& af : ac->audioFiles) {
-						if (af.audioGUID == enemyDeathSfxGUID && af.isSFX) {
-							af.requestPlay = true;
-							break;
+						if (af.isSFX) {               
+							candidates.push_back(&af);
 						}
+					}
+
+					if (!candidates.empty()) {
+						int idx = rand() % static_cast<int>(candidates.size());
+						std::cout << "[BulletLogic] Random SFX index chosen = " << idx << std::endl;
+
+						candidates[idx]->requestPlay = true;
 					}
 				}
 
@@ -70,5 +80,5 @@ public:
 		}
 	}
 
-	REFLECTABLE(BulletLogic, bulletDamage, bulletSpeed, enemyDeathSfxGUID)
+	REFLECTABLE(BulletLogic, bulletDamage, bulletSpeed, enemyDeathSfxGUID_1, enemyDeathSfxGUID_2, enemyDeathSfxGUID_3)
 };
