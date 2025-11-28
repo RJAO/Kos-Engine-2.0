@@ -70,7 +70,8 @@
                     },
                     "active": false,
                     "culling": true,
-                    "layer": 1
+                    "layer": 1,
+                    "renderOrder": 0
                 },
                 "NameComponent": {
                     "entityName": "Player Arm Model Camera",
@@ -420,6 +421,9 @@
                 "children": [
                     {
                         "entityGUID": "401c12be-d52c-d521-768f-a871850b8151",
+                        "AudioListenerComponent": {
+                            "active": true
+                        },
                         "CameraComponent": {
                             "cameraType": 0,
                             "fov": 85.0,
@@ -436,7 +440,8 @@
                             },
                             "active": false,
                             "culling": false,
-                            "layer": 0
+                            "layer": 0,
+                            "renderOrder": 0
                         },
                         "NameComponent": {
                             "entityName": "Player Camera",

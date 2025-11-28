@@ -9429,6 +9429,9 @@
                 "children": [
                     {
                         "entityGUID": "401c12be-d52c-d521-768f-a871850b8151",
+                        "AudioListenerComponent": {
+                            "active": true
+                        },
                         "CameraComponent": {
                             "cameraType": 0,
                             "fov": 85.0,

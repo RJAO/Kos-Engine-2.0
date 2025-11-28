@@ -9,6 +9,11 @@ public:
 
 	float currentTimer;
 
+	utility::GUID enemyDeathSfxGUID_1;
+	utility::GUID enemyDeathSfxGUID_2;
+	utility::GUID enemyDeathSfxGUID_3;
+	std::vector<utility::GUID> enemyDeathSfxGUIDs;
+
 	void Start() override {
 		// ADD SFX OF GROUNDSPIKES HERE
 
@@ -18,7 +23,8 @@ public:
 					enemyScript->enemyHealth -= groundSpikesDamage;
 
 					if (enemyScript->enemyHealth <= 0) {
-						// ADD SFX OF ENEMY DEATH HERE
+						// ADD SFX OF ENEMY DEATH HERE - Done
+						PlayRandomEnemyDeathSFX();
 
 						ecsPtr->DeleteEntity(col.otherEntityID);
 					}
@@ -45,6 +51,34 @@ public:
 		}
 	}
 
+	void PlayRandomEnemyDeathSFX()
+	{
+		auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity);
+		if (!ac) return;
 
-	REFLECTABLE(FireLightningPowerupManagerScript, groundSpikesDamage, lingerTime)
+		std::vector<ecs::AudioFile*> enemyDeathSfxPool;
+
+		for (auto& af : ac->audioFiles) {
+			if (!af.isSFX) continue;
+
+			for (auto& g : enemyDeathSfxGUIDs) {
+				if (!g.Empty() && af.audioGUID == g) {
+					enemyDeathSfxPool.push_back(&af);
+					break;
+				}
+			}
+		}
+
+		if (enemyDeathSfxPool.empty()) {
+			std::cout << "[BulletLogic] No enemy death SFX found.\n";
+			return;
+		}
+
+		int idx = rand() % static_cast<int>(enemyDeathSfxPool.size());
+		enemyDeathSfxPool[idx]->requestPlay = true;
+
+		std::cout << "[BulletLogic] Playing enemy death SFX index " << idx << "\n";
+	}
+
+	REFLECTABLE(FireLightningPowerupManagerScript, groundSpikesDamage, lingerTime, enemyDeathSfxGUID_1, enemyDeathSfxGUID_2, enemyDeathSfxGUID_3)
 };
