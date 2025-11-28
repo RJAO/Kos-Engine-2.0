@@ -174,7 +174,7 @@ namespace prefab
             ecs::NameComponent* nc = m_ecs.GetComponent<ecs::NameComponent>(id);
             ecs::TransformComponent* tc = m_ecs.GetComponent<ecs::TransformComponent>(id);
             if (!(tc->m_haveParent) && nc->isPrefab && (nc->prefabName == prefabSceneName)) {
-                DeepUpdatePrefab(prefabID, id);
+                DeepUpdatePrefab(id, prefabID);
             }
         }
     }
