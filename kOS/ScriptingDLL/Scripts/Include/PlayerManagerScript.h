@@ -131,7 +131,8 @@ public:
 		loseScreenCanvasID = ecsPtr->GetEntityIDFromGUID(loseScreenCanvasObject);
 		winScreenCanvasID = ecsPtr->GetEntityIDFromGUID(winScreenCanvasObject);
 
-		if (anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(entity))
+		std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
+		if (anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]))
 		{
 			playerController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
 			if (playerController)
@@ -359,10 +360,12 @@ public:
 		{
 			if (anim->m_currentState)
 			{
+				
 				R_Animation* currAnim = resource->GetResource<R_Animation>(static_cast<AnimState*>(anim->m_currentState)->animationGUID).get();
 				if (anim->m_CurrentTime >= currAnim->GetDuration())
 				{
 					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("animationFinished");
+					anim->m_CurrentTime = 0.f;
 				}
 				
 			}
@@ -547,13 +550,8 @@ public:
 		// INTERACT
 		if (Input->IsKeyTriggered(keys::RMB)) {
 
-			if (anim)
-			{
-				if (anim->m_currentState)
-				{
-					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasAbsorbed");
-				}
-			}
+			bool hasAbsorbed = false;
+			
 
 			RaycastHit hit;
 			hit.entityID = 9999999;
@@ -561,6 +559,7 @@ public:
 
 			if (hit.entityID != 9999999 && ecsPtr->GetComponent<NameComponent>(hit.entityID)->entityTag == "Powerup") {
 				if (auto* powerupComp = ecsPtr->GetComponent<PowerupManagerScript>(hit.entityID)) {
+					hasAbsorbed = true;
 					if (playerPowerupHeld == Powerup::NONE) {
 						if (powerupComp->powerupType == "FIRE") {
 							playerPowerupHeld = Powerup::FIRE;
@@ -631,6 +630,13 @@ public:
 					}
 
 					// ADD SFX OF POWERUP PICKUP HERE
+				}
+			}
+			if (anim && hasAbsorbed)
+			{
+				if (anim->m_currentState)
+				{
+					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasAbsorbed");
 				}
 			}
 		}
