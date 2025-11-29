@@ -10597,6 +10597,28 @@
             },
             {
                 "entityGUID": "78ddc7b6-68ba-6224-43e3-316594a75e00",
+                "ButtonComponent": {
+                    "normalColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    },
+                    "hoveredColor": {
+                        "x": 0.800000011920929,
+                        "y": 0.800000011920929,
+                        "z": 0.800000011920929,
+                        "w": 1.0
+                    },
+                    "pressedColor": {
+                        "x": 0.6000000238418579,
+                        "y": 0.6000000238418579,
+                        "z": 0.6000000238418579,
+                        "w": 1.0
+                    },
+                    "isHovered": false,
+                    "isPressed": false
+                },
                 "NameComponent": {
                     "entityName": "Quit Button Image",
                     "Layer": 0,
@@ -11070,6 +11092,28 @@
             },
             {
                 "entityGUID": "3d1440b4-012e-8f0d-eddd-264e1b3effae",
+                "ButtonComponent": {
+                    "normalColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    },
+                    "hoveredColor": {
+                        "x": 0.800000011920929,
+                        "y": 0.800000011920929,
+                        "z": 0.800000011920929,
+                        "w": 1.0
+                    },
+                    "pressedColor": {
+                        "x": 0.6000000238418579,
+                        "y": 0.6000000238418579,
+                        "z": 0.6000000238418579,
+                        "w": 1.0
+                    },
+                    "isHovered": false,
+                    "isPressed": false
+                },
                 "NameComponent": {
                     "entityName": "Quit Button Image",
                     "Layer": 0,
@@ -11426,6 +11470,28 @@
             },
             {
                 "entityGUID": "9e8e7bdf-a9ca-087d-8914-abeea9ae0793",
+                "ButtonComponent": {
+                    "normalColor": {
+                        "x": 1.0,
+                        "y": 1.0,
+                        "z": 1.0,
+                        "w": 1.0
+                    },
+                    "hoveredColor": {
+                        "x": 0.800000011920929,
+                        "y": 0.800000011920929,
+                        "z": 0.800000011920929,
+                        "w": 1.0
+                    },
+                    "pressedColor": {
+                        "x": 0.6000000238418579,
+                        "y": 0.6000000238418579,
+                        "z": 0.6000000238418579,
+                        "w": 1.0
+                    },
+                    "isHovered": false,
+                    "isPressed": false
+                },
                 "NameComponent": {
                     "entityName": "Quit Button Image",
                     "Layer": 0,
