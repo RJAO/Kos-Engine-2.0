@@ -63,10 +63,6 @@ namespace Application
         --------------------------------------------------------------*/
         graphicsManager.gm_Initialize(static_cast<float>(windowData.windowWidth), static_cast<float>(windowData.windowHeight));
         LOGGING_INFO("Load Graphic Pipeline Successful");
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 
         /*--------------------------------------------------------------
            INITIALIZE Resource Manager
@@ -97,21 +93,8 @@ namespace Application
             sceneManager.ImmediateLoadScene(path);
         LOGGING_INFO("Load Asset Successful");
 
-<<<<<<< HEAD
         LOGGING_INFO("Application Init Successful");
 
-        // Sean use this to test animationn serialization
-        // ResourceManager::GetInstance()->GetResource<R_Animation>("bf8a061d-e1b2-8f34-ec30-a655db0af661");
-=======
-
-
-        LOGGING_INFO("Application Init Successful");
-
-        
-
-        //Sean use this to test animationn serialization
-        //ResourceManager::GetInstance()->GetResource<R_Animation>("bf8a061d-e1b2-8f34-ec30-a655db0af661");
->>>>>>> origin/main
         return 0;
     }
 
