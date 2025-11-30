@@ -57,8 +57,13 @@ namespace Application {
         --------------------------------------------------------------*/
         ecs.Load();
         ecs.Init();
-		ecs.SetState(ecs::START);
         LOGGING_INFO("Load ECS Successful");
+
+        /*--------------------------------------------------------------
+           INITIALIZE GRAPHICS PIPE
+        --------------------------------------------------------------*/
+        graphicsManager.gm_Initialize(static_cast<float>(windowData.windowWidth), static_cast<float>(windowData.windowHeight));
+        LOGGING_INFO("Load Graphic Pipeline Successful");
 
 
         /*--------------------------------------------------------------
@@ -89,15 +94,11 @@ namespace Application {
 		if(!path.empty()) sceneManager.ImmediateLoadScene(path);
         LOGGING_INFO("Load Asset Successful");
 
-        /*--------------------------------------------------------------
-           INITIALIZE GRAPHICS PIPE
-        --------------------------------------------------------------*/
-        graphicsManager.gm_Initialize(static_cast<float>(windowData.windowWidth), static_cast<float>(windowData.windowHeight));
-        LOGGING_INFO("Load Graphic Pipeline Successful");
+
 
         LOGGING_INFO("Application Init Successful");
 
-
+        
 
         //Sean use this to test animationn serialization
         //ResourceManager::GetInstance()->GetResource<R_Animation>("bf8a061d-e1b2-8f34-ec30-a655db0af661");
@@ -112,13 +113,20 @@ namespace Application {
         //float FPSCapTime = 1.f / help->m_fpsCap;
         double lastFrameTime = glfwGetTime();
         const double fixedDeltaTime = 1.0 / 60.0;
-
+        
         // ScriptManager::m_GetInstance()->RunDLL();
          /*--------------------------------------------------------------
              GAME LOOP
          --------------------------------------------------------------*/
         while (!glfwWindowShouldClose(lvWindow.window))
         {
+            static int count = 0;
+
+            if (count++ == 1) {
+                ecs.SetState(ecs::START);
+            }
+
+
             try {
                 /* Poll for and process events */
                 glfwPollEvents();
@@ -142,16 +150,13 @@ namespace Application {
                  Update Window
                 --------------------------------------------------------------*/
                 lvWindow.Update();
-
+                
                 /*--------------------------------------------------------------
                     UPDATE ECS
                 --------------------------------------------------------------*/
                 ecs.Update(deltaTime);
                 
-                /*--------------------------------------------------------------
-                    UPDATE INPUT FRAME EXIT
-                --------------------------------------------------------------*/
-                input.InputExitFrame(deltaTime);
+
 
                 /*--------------------------------------------------------------
                     UPDATE NAVIGATION
@@ -179,6 +184,10 @@ namespace Application {
                 --------------------------------------------------------------*/
                 graphicsManager.gm_ResetFrameBuffer();
 
+                /*--------------------------------------------------------------
+                    UPDATE INPUT FRAME EXIT
+                --------------------------------------------------------------*/
+                input.InputExitFrame(deltaTime);
                 /*--------------------------------------------------------------
                     SceneManager EndFrame
                 --------------------------------------------------------------*/
