@@ -182,7 +182,7 @@ namespace Input {
 	}
 	void InputSystem::InputExitWindow() {
 		glfwSetWindowShouldClose(inputWindow, GLFW_TRUE);
-		glfwTerminate();
-		exit(0);
+		//exit(0);
+		isRunning = false;
 	}
 }
