@@ -9,6 +9,7 @@ public:
 
 	R_AnimController* playerController = nullptr;
 	AnimatorComponent* anim = nullptr;
+	AnimState currAnimationState;
 
 	enum Powerup {
 		NONE = 0,
@@ -137,7 +138,8 @@ public:
 			playerController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
 			if (playerController)
 			{
-				anim->m_currentState = playerController->m_EnterState;
+				currAnimationState = *playerController->m_EnterState;
+				anim->m_currentState = &currAnimationState;
 				static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");
 			}
 		}
@@ -149,6 +151,13 @@ public:
 		if (Input->IsKeyReleased(keys::L)) {
 			std::cout << "L RELEASED\n";
 			Scenes->ReloadScene();
+
+			if (auto* pauseManager = ecsPtr->GetComponent<PauseMenuScript>(pauseMenuManagerID)) {
+				if (pauseManager->isPaused) {
+					pauseManager->TogglePause();		
+				}
+			}
+			
 		}
 
 		if (Input->IsKeyTriggered(keys::ESC)) {
@@ -211,7 +220,7 @@ public:
 		if (Input->IsKeyPressed(keys::LeftControl) && !playerIsSliding && GroundCheck()) {
 			playerIsCrouching = true;
 
-			float velocityMagnitude = glm::sqrt(glm::pow(playerRigidbody->velocity.x, 2) + glm::pow(playerRigidbody->velocity.y, 2) + glm::pow(playerRigidbody->velocity.z, 2));
+			float velocityMagnitude = (float)(glm::sqrt(glm::pow(playerRigidbody->velocity.x, 2) + glm::pow(playerRigidbody->velocity.y, 2) + glm::pow(playerRigidbody->velocity.z, 2)));
 
 			if (velocityMagnitude >= playerVelocityBeforeSlide && !playerIsSliding) {
 				playerIsSliding = true;
