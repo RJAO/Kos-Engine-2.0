@@ -33,7 +33,6 @@ public:
     void Update() override {
         // Get the ButtonComponent to check if it's being clicked
         auto* buttonComp = ecsPtr->GetComponent<ecs::ButtonComponent>(entity);
-
         // Check if button was just pressed (transition from not pressed to pressed)
         if (buttonComp->isPressed && !wasPressed) {
             ExecuteButtonAction();
@@ -47,7 +46,7 @@ private:
 
     void ExecuteButtonAction() {
         ButtonAction action = static_cast<ButtonAction>(actionType);
-
+        
         switch (action) {
         case ButtonAction::None:
             //std::cout << "Button has no action assigned" << std::endl;
@@ -66,7 +65,7 @@ private:
         case ButtonAction::QuitGame:
             std::cout << "Quitting game..." << std::endl;
 			// IDK HOW TO QUIT THE GAME FROM HERE
-            //glfwSetWindowShouldClose(glfwGetCurrentContext(), GLFW_TRUE);
+            Input->InputExitWindow();
             break;
 
         case ButtonAction::CustomCallback:

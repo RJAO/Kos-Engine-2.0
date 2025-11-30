@@ -180,4 +180,9 @@ namespace Input {
 
 		return 0.f;
 	}
+	void InputSystem::InputExitWindow() {
+		glfwSetWindowShouldClose(inputWindow, GLFW_TRUE);
+		glfwTerminate();
+		exit(0);
+	}
 }

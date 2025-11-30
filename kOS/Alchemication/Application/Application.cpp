@@ -147,7 +147,8 @@ namespace Application {
                     UPDATE ECS
                 --------------------------------------------------------------*/
                 ecs.Update(deltaTime);
-                
+                graphicsManager.gm_updatemouse(lvWindow.window);
+
                 /*--------------------------------------------------------------
                     UPDATE INPUT FRAME EXIT
                 --------------------------------------------------------------*/
@@ -163,9 +164,7 @@ namespace Application {
                 --------------------------------------------------------------*/
                 graphicsManager.gm_UpdateBuffers(static_cast<int>(lvWindow.windowWidth), static_cast<int>(lvWindow.windowHeight));
                 graphicsManager.gm_Update();
-                graphicsManager.gm_updatemouse(lvWindow.window);
                 //if(graphicsManager.isButtonPressed)std::cout << graphicsManager.isButtonPressed << '\n';
-
 
                 /*--------------------------------------------------------------
                     Execute Render Pipeline
