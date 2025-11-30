@@ -61,6 +61,7 @@ namespace Input {
 		void InputInit(GLFWwindow* window);
 		void InputUpdate(float deltaTime);
 		void InputExitFrame(float deltaTime);
+		void InputExitWindow();
 	private:
 		std::unordered_map<int, Key> keysRegistered;
 	};
