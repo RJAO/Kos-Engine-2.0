@@ -5,6 +5,7 @@ class EnemyManagerScript : public TemplateSC {
 public:
 	R_AnimController* enemyController = nullptr;
 	AnimatorComponent* anim = nullptr;
+	AnimState currAnimationState{};
 
 	int agentid;
 	int enemyHealth;
@@ -29,7 +30,7 @@ public:
 
 	void Start() override {
 		playerToChaseID = ecsPtr->GetEntityIDFromGUID(playerToChase);
-		enemyHurtboxPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtboxPosition);
+		//enemyHurtboxPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtboxPosition);
 		
 		auto* trans = ecsPtr->GetComponent<TransformComponent>(entity);
 		auto* capsule = ecsPtr->GetComponent<CapsuleColliderComponent>(entity);
@@ -37,14 +38,19 @@ public:
 
 		std::vector<EntityID> children = ecsPtr->GetChild(entity).value();
 		if (children.size() > 1)
+		{
 			enemyModelID = children[1];
+			enemyHurtboxPositionID = children[0];
+		}
+			
 		//enemyModelID = ecsPtr->GetEntityIDFromGUID(enemyModel);
 		if (anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID))
 		{
 			enemyController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
 			if (enemyController)
 			{
-				anim->m_currentState = enemyController->m_EnterState;
+				currAnimationState = *enemyController->m_EnterState;
+				anim->m_currentState = &currAnimationState;
 				static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");
 			}
 		}
