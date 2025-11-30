@@ -29,7 +29,7 @@ public:
 
 	void Start() override {
 		playerToChaseID = ecsPtr->GetEntityIDFromGUID(playerToChase);
-		enemyHurtboxPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtboxPosition);
+		//enemyHurtboxPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtboxPosition);
 		
 		auto* trans = ecsPtr->GetComponent<TransformComponent>(entity);
 		auto* capsule = ecsPtr->GetComponent<CapsuleColliderComponent>(entity);
@@ -37,7 +37,11 @@ public:
 
 		std::vector<EntityID> children = ecsPtr->GetChild(entity).value();
 		if (children.size() > 1)
+		{
 			enemyModelID = children[1];
+			enemyHurtboxPositionID = children[0];
+		}
+			
 		//enemyModelID = ecsPtr->GetEntityIDFromGUID(enemyModel);
 		if (anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID))
 		{
