@@ -21,15 +21,9 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 
 #include "Config/pch.h"
 #include "Resources/Resource.h"
-#include "Resources/R_Model.h"
-#include "Resources/R_Font.h"
-#include "Resources/R_Scene.h"
-#include "Resources/R_Animation.h"
-#include "Resources/R_Audio.h"
-#include "Resources/R_AudioStudio.h"
-#include "Resources/R_Material.h"
-#include "Resources/R_DepthMapCube.h"
-#include "Resources/R_AnimController.h"
+#include "Resources/ResourceHeader.h"
+
+
 class ResourceManager {
 
 public:
