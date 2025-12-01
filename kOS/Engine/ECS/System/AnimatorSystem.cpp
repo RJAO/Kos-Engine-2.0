@@ -9,6 +9,23 @@ namespace ecs {
     void AnimatorSystem::Init()
     {
         // Initialize animation playback resources if needed
+        onRegister.Add([&](EntityID id) {
+            AnimatorComponent* anim = m_ecs.GetComponent<AnimatorComponent>(id);
+            if (!anim) return;
+            anim->m_currentState = new AnimState{};
+           
+
+            });
+
+        onDeregister.Add([&](EntityID id) {
+            AnimatorComponent* anim = m_ecs.GetComponent<AnimatorComponent>(id);
+            if (!anim) return;
+
+            if (anim->m_currentState)
+            delete anim->m_currentState;
+
+            });
+
     }
 
     void AnimatorSystem::Update()
@@ -37,7 +54,7 @@ namespace ecs {
                     {
                         if (static_cast<AnimState*>(animator->m_currentState)->CanTransition(transition))
                         {
-                            animator->m_currentState = controller->FindStateFromPin(transition.toPinId);
+                            *static_cast<AnimState*>(animator->m_currentState) = *controller->FindStateFromPin(transition.toPinId);
                             animator->m_CurrentTime = 0.f;
                             if (animator->m_currentState == nullptr) return;
                             break;

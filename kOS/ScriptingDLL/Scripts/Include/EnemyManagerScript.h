@@ -5,7 +5,7 @@ class EnemyManagerScript : public TemplateSC {
 public:
 	R_AnimController* enemyController = nullptr;
 	AnimatorComponent* anim = nullptr;
-	AnimState currAnimationState{};
+	//AnimState currAnimationState{};
 
 	int agentid;
 	int enemyHealth;
@@ -51,8 +51,7 @@ public:
 			enemyController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
 			if (enemyController)
 			{
-				currAnimationState = *enemyController->m_EnterState;
-				anim->m_currentState = &currAnimationState;
+				*static_cast<AnimState*>(anim->m_currentState) = *enemyController->m_EnterState;
 				static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");
 			}
 		}
