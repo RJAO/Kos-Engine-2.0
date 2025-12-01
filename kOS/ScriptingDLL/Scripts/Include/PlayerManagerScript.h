@@ -357,6 +357,22 @@ public:
 	void PlayerCombatControls() {
 		auto* cameraTransform = ecsPtr->GetComponent<TransformComponent>(playerCameraObjectID);
 
+		//Animation Handling
+		if (anim)
+		{
+			if (anim->m_currentState)
+			{
+
+				R_Animation* currAnim = resource->GetResource<R_Animation>(static_cast<AnimState*>(anim->m_currentState)->animationGUID).get();
+				if (anim->m_CurrentTime >= currAnim->GetDuration())
+				{
+					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("animationFinished");
+					anim->m_CurrentTime = 0.f;
+				}
+
+			}
+		}
+
 		if (!cameraTransform) {
 			return;
 		}
@@ -371,21 +387,7 @@ public:
 
 		projectilePointTransform->LocalTransformation.position = cameraTransform->LocalTransformation.position + GetPlayerCameraFrontDirection() * 1.5f;
 
-		//Animation Handling
-		if (anim)
-		{
-			if (anim->m_currentState)
-			{
-				
-				R_Animation* currAnim = resource->GetResource<R_Animation>(static_cast<AnimState*>(anim->m_currentState)->animationGUID).get();
-				if (anim->m_CurrentTime >= currAnim->GetDuration())
-				{
-					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("animationFinished");
-					anim->m_CurrentTime = 0.f;
-				}
-				
-			}
-		}
+		
 
 		// SHOOT
 		if (Input->IsKeyTriggered(keys::LMB)) {
