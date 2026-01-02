@@ -65,7 +65,12 @@ namespace ecs {
 			m_inputSystem(is),
 			m_physicsManager(pm),
 			m_scriptManager(sm),
-			m_audioManager(audiom)
+			m_audioManager(audiom),
+			m_systemList(&componentPool), // INITIALIZE PMR
+			m_entityMap(&componentPool),
+			m_availableEntityID(&componentPool),
+			m_GUIDtoEntityID(&componentPool),
+			m_deletedEntities(&componentPool)
 		{}
 
 		void Load();
@@ -144,7 +149,7 @@ namespace ecs {
 		ComponentSignature GetEntitySignature(EntityID ID) {
 			return m_entityMap.at(ID);
 		}
-		const std::unordered_map<EntityID, ComponentSignature>& GetEntitySignatureData() {
+		const std::pmr::unordered_map<EntityID, ComponentSignature>& GetEntitySignatureData() {
 			return m_entityMap;
 		}
 
@@ -217,14 +222,14 @@ namespace ecs {
 			std::shared_ptr<ISystem> ptr;
 			std::string systemName;
 		};
-		std::vector<SystemData> m_systemList;
+		std::pmr::vector<SystemData> m_systemList;
 
 		//ENTITY DATA
-		std::unordered_map<EntityID, ComponentSignature> m_entityMap;
 		EntityID m_entityCount{};
-		std::deque<EntityID> m_availableEntityID;
-		std::unordered_map<utility::GUID, ecs::EntityID> m_GUIDtoEntityID;
-		std::vector<EntityID> m_deletedEntities;
+		std::pmr::unordered_map<EntityID, ComponentSignature> m_entityMap;
+		std::pmr::deque<EntityID> m_availableEntityID;
+		std::pmr::unordered_map<utility::GUID, ecs::EntityID> m_GUIDtoEntityID;
+		std::pmr::vector<EntityID> m_deletedEntities;
 
 	};
 
