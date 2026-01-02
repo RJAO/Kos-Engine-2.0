@@ -90,6 +90,8 @@ namespace ecs {
 		template<typename T>
 		T* GetComponent(EntityID ID);
 		template<typename T>
+		const T* GetComponent(EntityID ID) const;
+		template<typename T>
 		bool HasComponent(EntityID ID);
 		template<typename T>
 		T* DuplicateComponent(EntityID duplicateID, EntityID newID);
@@ -368,6 +370,18 @@ namespace ecs {
 
 	template<typename T>
 	T* ECS::GetComponent(EntityID ID) {
+		T* component = std::static_pointer_cast<SparseSet<T>>(m_combinedComponentPool.at(T::classname()))->Get(ID);
+
+		if (component) {
+			//to set component dirty flag to true
+			component->dirty = true;
+		}
+
+		return component;
+	}
+
+	template<typename T>
+	const T* ECS::GetComponent(EntityID ID) const {
 		return std::static_pointer_cast<SparseSet<T>>(m_combinedComponentPool.at(T::classname()))->Get(ID);
 	}
 

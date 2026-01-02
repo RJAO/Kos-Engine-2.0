@@ -116,6 +116,11 @@ namespace ecs {
 			return (index != tombstone) ? &m_dense[index] : nullptr;
 		}
 
+		const T* Get(EntityID id) const{
+			size_t index = GetDenseIndex(id);
+			return (index != tombstone) ? &m_dense[index] : nullptr;
+		}
+
 		void* GetBase(EntityID id) override{
 			size_t index = GetDenseIndex(id);
 			return (index != tombstone) ? &m_dense[index] : nullptr;
