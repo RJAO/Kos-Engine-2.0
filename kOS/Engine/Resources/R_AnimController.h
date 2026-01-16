@@ -93,27 +93,72 @@ struct AnimState {
     //void SetFloat(const std::string& name, float v) { CheckExistence(name); parameterMap[name].floatValue = v; }
     //void SetInt(const std::string& name, int v) { CheckExistence(name); parameterMap[name].intValue = v; }
     //void SetOperator(const std::string& name, AnimCondition::CompareOp op) { CheckExistence(name); parameterMap[name].op = op; };
+    template <typename T, typename U>
+    void Trigger(const std::string& name ,T entity, U controller)
+    { 
+        AnimCondition* condition = nullptr;
 
-    bool Trigger(const std::string& name) { if (CheckExistence(name)) return true; }
-    bool CompareFloatCondition(const std::string& name, float value)
+        for (int i = 0; i < outgoingTransitions.size(); i++)
+        {
+            for (int j = 0; j < outgoingTransitions[i].conditions.size(); j++)
+            {
+                if (name == outgoingTransitions[i].conditions[j].name)
+                {
+                    //Use to check type of condition but just ignore for now
+                    condition = &outgoingTransitions[i].conditions[j];
+                    entity->m_transitioningStateID = controller->FindStateFromPin(outgoingTransitions[i].toPinId)->id;
+                }
+            }
+        }
+    }
+    /*bool CompareFloatCondition(const std::string& name, float value , bool& outcome)
     {
         AnimCondition* condition = nullptr;
+
+        for (int i = 0; i < outgoingTransitions.size(); i++)
+        {
+            for (int j = 0; j < outgoingTransitions[i].conditions.size(); j++)
+            {
+                if (name == outgoingTransitions[i].conditions[j].name) condition = &outgoingTransitions[i].conditions[j];
+            }
+        }
+
         if (condition = CheckExistence(name)) return false; 
         return Compare(value, condition->floatValue, condition->op);
     }
     bool CompareBoolCondition(const std::string& name, bool value)
     {
         AnimCondition* condition = nullptr;
-        if (condition = CheckExistence(name)) return false;
-        return Compare(value, condition->boolValue, condition->op);
+
+        for (int i = 0; i < outgoingTransitions.size(); i++)
+        {
+            for (int j = 0; j < outgoingTransitions[i].conditions.size(); j++)
+            {
+                if (name == outgoingTransitions[i].conditions[j].name) condition = &outgoingTransitions[i].conditions[j];
+            }
+        }
+
+        if (condition == nullptr) return false;
+
+        if (Compare(value, condition->boolValue, condition->op))
+        {
+            transiti
+        }
     }
     bool CompareIntCondition(const std::string& name, int value)
     {
+        for (int i = 0; i < outgoingTransitions.size(); i++)
+        {
+            for (int j = 0; j < outgoingTransitions[i].conditions.size(); j++)
+            {
+                if (name == outgoingTransitions[i].conditions[j].name) return &outgoingTransitions[i].conditions[j];
+            }
+        }
         AnimCondition* condition = nullptr;
         if (condition = CheckExistence(name)) return false;
         return Compare(value, condition->intValue, condition->op);
 
-    }
+    }*/
 
     AnimCondition* CheckExistence(const std::string& name)
     {
@@ -214,6 +259,7 @@ public:
     AnimState* m_ExitState;
 
     AnimState* RetrieveEntryState();
+    AnimState* RetrieveStateByID(int stateID);
     AnimState* FindStateFromPin(int pinId);
     AnimPin* FindPin(int pinId);
 

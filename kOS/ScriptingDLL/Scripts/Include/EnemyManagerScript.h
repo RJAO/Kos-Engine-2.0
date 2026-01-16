@@ -50,9 +50,9 @@ public:
 			enemyController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
 			if (enemyController)
 			{
-				/*anim->m_currentStateID = enemyController->m_EnterState->id;
+				anim->m_currentStateID = enemyController->m_EnterState->id;
 				AnimState* currentState = enemyController->FindStateFromPin(anim->m_currentStateID);
-				currentState->SetTrigger("ForcedEntry");*/
+				//currentState->Trigger("ForcedEntry",anim);
 			}
 		}
 	}

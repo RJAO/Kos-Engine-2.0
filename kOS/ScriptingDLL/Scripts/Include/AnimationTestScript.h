@@ -7,14 +7,21 @@
 class AnimationTestScript : public TemplateSC {
 public:
     R_AnimController* controller = nullptr;
+    AnimatorComponent* animComp = nullptr;
+    AnimState* currAnimState = nullptr;
 
     void Start() 
     {
-        if (auto* anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(entity))
+        if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(entity))
         {
-            controller = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
+            controller = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
             if (controller)
             {
+                //Initialize animation state id with entry state id
+                animComp->m_currentStateID = controller->m_EnterState->id;
+                currAnimState = controller->RetrieveStateByID(animComp->m_currentStateID);
+                if (currAnimState)
+                    currAnimState->Trigger("ForcedEntry", animComp, controller);
                /* anim->m_currentState = controller->m_EnterState;
                 static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");*/
             }
