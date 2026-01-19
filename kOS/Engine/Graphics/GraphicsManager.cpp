@@ -216,10 +216,11 @@ void GraphicsManager::gm_RenderToGameFrameBuffer()
 	Vigniette vig;
 	vig.extent = 0.19;
 	vig.intensity = 9.68;
-	//vig.currentShader = &shaderManager.engineShaders["VignietteShader"];
+	vig.resolution = glm::vec2{ framebufferManager.sceneBuffer.width,framebufferManager.sceneBuffer.height };
+	vig.currentShader = &shaderManager.engineShaders.find("VignietteShader")->second;
 	postProcessProfile.postProcessingEffects.clear();
 	postProcessProfile.postProcessingEffects.push_back(std::make_unique<Vigniette>(vig));
-	//Bind new texture after performing post processing
+	////Bind new texture after performing post processing
 	unsigned int* currTex = gm_PostProcess();
 	framebufferManager.sceneBuffer.texID = *currTex;
 	//Render UI
@@ -739,38 +740,48 @@ void GraphicsManager::gm_RenderGameBuffer(){
 }
 
 unsigned int* GraphicsManager::gm_PostProcess() {
-	//Clear and bind tmp buffer
-	glBindFramebuffer(GL_FRAMEBUFFER, framebufferManager.postProcessBuffer1.fbo);
-	glViewport(0, 0, static_cast<GLsizei>(framebufferManager.postProcessBuffer1.width), static_cast<GLsizei>(framebufferManager.postProcessBuffer1.height));
-	glClearColor(0.f, 0.f, 0.f, 0.f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	// 1. Setup Pointers
+	FrameBuffer* sceneFB = &framebufferManager.sceneBuffer;
+	FrameBuffer* scratchFB = &framebufferManager.postProcessBuffer1;
 
-	//Alternate and swap
-	FrameBuffer* pp1{ &framebufferManager.sceneBuffer},
-			   * pp2{ &framebufferManager.postProcessBuffer1 };
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST); // Crucial for post-processing
 
 	for (auto& ppe : postProcessProfile.postProcessingEffects) {
-		//Bind second shader
-		glBindFramebuffer(GL_FRAMEBUFFER, pp2->fbo);
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
-		glViewport(0, 0, pp2->width, pp2->height);
-	
-		//Use data from PP1 to draw to pp2	
-		ppe->currentShader->Use();
-		glBindVertexArray(pp1->vaoId);
-		ppe->UpdateShader();
-		ppe->currentShader->Disuse();
-		glBindTexture(GL_TEXTURE_2D, pp1->texID);
-		glDrawElements(GL_TRIANGLE_STRIP, pp1->drawCount, GL_UNSIGNED_SHORT, NULL);
-		glBindVertexArray(0);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		
-		//Swap buffer
-		FrameBuffer* tmp = pp2;
-		pp2 = pp1;
-		pp1 = tmp;
+		// --- STEP A: Render Scene -> Scratch (Apply Effect) ---
+		glBindFramebuffer(GL_FRAMEBUFFER, scratchFB->fbo);
+		glViewport(0, 0, scratchFB->width, scratchFB->height);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
+		ppe->currentShader->Use();
+
+		
+		ppe->UpdateShader();
+		ppe->currentShader->SetInt("screenTexture", 0);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, sceneFB->texID); 
+
+		glBindVertexArray(sceneFB->vaoId);
+		glDrawElements(GL_TRIANGLE_STRIP, sceneFB->drawCount, GL_UNSIGNED_SHORT, NULL);
+
+
+		glBindFramebuffer(GL_FRAMEBUFFER, sceneFB->fbo);
+		glViewport(0, 0, sceneFB->width, sceneFB->height);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, scratchFB->texID); // Read from Scratch
+
+		glDrawElements(GL_TRIANGLE_STRIP, sceneFB->drawCount, GL_UNSIGNED_SHORT, NULL);
+
+		ppe->currentShader->Disuse();
 	}
-	return &pp1->texID;;
+
+	glBindVertexArray(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+
+	return &sceneFB->texID;
 }

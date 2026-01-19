@@ -1,11 +1,4 @@
-/*
- FILENAME: VignetteShader.vs
- AUTHOR(S): Gabe (100%)
- @version 460 core
- All content   2024 DigiPen Institute of Technology Singapore. All
- rights reserved.
- */
-
+R"(
 #version 460 core
 
 layout (location = 0) in vec2 aPos;
@@ -25,3 +18,4 @@ void main()
     Extent=iExtent;
     TexCoords = aTexCoords;
 }  
+)"

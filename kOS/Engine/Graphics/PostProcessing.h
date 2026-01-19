@@ -2,15 +2,12 @@
 #include "Graphics/Shader.h"
 struct PostProcessEffect {
 	Shader* currentShader;
-	virtual void UpdateShader();
+	virtual void UpdateShader() {};
 };
 struct Vigniette :public PostProcessEffect {
-	 void UpdateShader() {
-		 //Set intensity
-		 currentShader->SetFloat("Intensity",intensity);
-		 currentShader->SetFloat("Extent", extent);
-	 }
+	 void UpdateShader();
 	 float intensity,extent;
+	 glm::vec2 resolution;
 };
 class PostProcessingProfile {
 	public:
