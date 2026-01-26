@@ -94,7 +94,7 @@ namespace gui {
 			m_performance(peformance),
             m_audioManager(audioM),
             m_navMeshManager(navmesh),
-            m_commandHistory(ecs)
+            m_commandHistory(ecs, sm)
         {
 
 

@@ -11,28 +11,30 @@
 //		- Might be able to involve templates
 
 #include "ECS/ECS.h"
+#include <typeinfo>
 
 class CommandHistory {
 	ecs::ECS& m_ecs;
+	scenes::SceneManager& m_sceneManager;
 
 public:
-	CommandHistory(ecs::ECS& ecs) : m_ecs(ecs) {}
+	CommandHistory(ecs::ECS& ecs, scenes::SceneManager& sceneManager) : m_ecs(ecs), m_sceneManager(sceneManager){}
 
 	void Init();
 	void Update();
+	void Clear();
 
 	struct Command {
 		Command(EntityID _id) : id{ _id } {}
 
 		EntityID id;
-		virtual void Undo(ecs::ECS& ecs) = 0;
-		virtual void Redo(ecs::ECS& ecs) = 0;
+		virtual void Undo(ecs::ECS& ecs, CommandHistory* hist) = 0;
+		virtual void Redo(ecs::ECS& ecs, CommandHistory* hist) = 0;
 	};
 
 	class CommandWrapper {
 	public: 
 		CommandWrapper(std::shared_ptr<Command> obj) : command(std::move(obj)) {}
-
 		std::shared_ptr<Command> Get() const { return command; }
 	private:
 		std::shared_ptr<Command> command;
@@ -41,22 +43,31 @@ public:
 	// Data
 	static std::stack<CommandWrapper> commandQueue;
 	static std::stack<CommandWrapper> redoQueue;
-	
+	std::map<EntityID, EntityID> idRemapping;
+
 	template<typename TCommand, typename... Args>
 	void AddCommand(Args&&... args) {
+		EntityID id = std::get<0>(std::forward_as_tuple(args...));
+		LOGGING_INFO("Command Added: {} for Entity: [{}]", typeid(TCommand).name(), id);
 		static_assert(std::is_base_of_v<Command, TCommand>, "TCommand must derive from Command");
 		auto cmdPtr = std::make_shared<TCommand>(std::forward<Args>(args)...);
 		commandQueue.push(CommandWrapper{ cmdPtr });
 
-		//Clear Redo Stack
-		std::stack<CommandWrapper> empty;
-		redoQueue.swap(empty);
+		if (redoQueue.size()) {
+			//Clear Redo Stack
+			std::stack<CommandWrapper> empty;
+			redoQueue.swap(empty);
+		}
 	}
+
+	void RegisterRemapID(EntityID original, EntityID newID);
+	void DeleteRemapID(EntityID remappedID);
+	EntityID GetCurrentID(EntityID originalID) const;
 
 	struct AddGameObject : Command {
 		AddGameObject(EntityID _id, std::string _scene);
-		void Undo(ecs::ECS& ecs);
-		void Redo(ecs::ECS& ecs);
+		void Undo(ecs::ECS& ecs, CommandHistory* hist);
+		void Redo(ecs::ECS& ecs, CommandHistory* hist);
 		std::string sceneName;
 	};
 
@@ -66,9 +77,9 @@ public:
 	//		- Store Deleted Entity and Parent?
 	//		- Destructor -> Delete Stored Entity for Command
 	struct DeleteGameObject : Command {
-		DeleteGameObject(EntityID _idm, std::string _scene);
-		void Undo(ecs::ECS& ecs);
-		void Redo(ecs::ECS& ecs);
+		DeleteGameObject(EntityID _idm, std::string _scene, ecs::ECS& ecs,  CommandHistory* hist);
+		void Undo(ecs::ECS& ecs, CommandHistory* hist);
+		void Redo(ecs::ECS& ecs, CommandHistory* hist);
 		std::string sceneName;
 	};
 
@@ -77,30 +88,18 @@ public:
 	//		- Redo -> Parent
 	//		- Store ParentID
 	struct SetGameObjectParent : Command {
-		SetGameObjectParent(EntityID _id, EntityID parentId);
-		void Undo(ecs::ECS& ecs);
-		void Redo(ecs::ECS& ecs);
+		SetGameObjectParent(EntityID _id, std::optional<EntityID> parentID);
+		void Undo(ecs::ECS& ecs, CommandHistory* hist);
+		void Redo(ecs::ECS& ecs, CommandHistory* hist);
 	private:
-		EntityID prevParent;
-	};
-
-	//	- Unparenting
-	//		- Undo -> Parent
-	//		- Redo -> Unparent
-	//		- Store ParentID 
-	struct UnparentGameObject : Command {
-		UnparentGameObject(EntityID _id);
-		void Undo(ecs::ECS& ecs);
-		void Redo(ecs::ECS& ecs);
-	private:
-		EntityID prevParent;
+		std::optional<EntityID> prevParent;
 	};
 
 	//	- Set Actve
 	//		- Store Status -> Hide or UnHide -> != currentStatus?
 	struct SetGameObjectActive : Command {
 		SetGameObjectActive(EntityID _id);
-		void Undo(ecs::ECS& ecs);
-		void Redo(ecs::ECS& ecs);
+		void Undo(ecs::ECS& ecs, CommandHistory* hist);
+		void Redo(ecs::ECS& ecs, CommandHistory* hist);
 	};
 };
