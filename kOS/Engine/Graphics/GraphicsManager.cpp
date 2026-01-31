@@ -757,7 +757,7 @@ unsigned int* GraphicsManager::gm_PostProcess() {
 		glViewport(0, 0, scratchFB->width, scratchFB->height);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
-
+		if (ppe->GetShader() == nullptr)continue;;
 		ppe->GetShader()->Use();
 		ppe->UpdateShader();
 		ppe->GetShader()->SetInt("screenTexture", 0);
