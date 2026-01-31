@@ -136,3 +136,19 @@ void CommandHistory::SetGameObjectActive::Redo(ecs::ECS& ecs, CommandHistory* hi
 	}
 	ecs.SetActive(currentID, nc->hide);
 }
+
+template<typename T>
+CommandHistory::SetComponentData<T>::SetComponentData(EntityID _id, int _argCount, T& old, T& current) : Command(_id), argCount(_argCount), oldData(old), curData(current) {}
+
+template<typename T>
+void CommandHistory::SetComponentData<T>::Undo(ecs::ECS& ecs, CommandHistory* hist) {
+	EntityID currentID = hist->GetCurrentID(id);
+	T* comp = ecs.GetComponent<T>(currentID);
+	comp->member();
+}
+
+template<typename T>
+void CommandHistory::SetComponentData<T>::Redo(ecs::ECS& ecs, CommandHistory* hist) {
+	EntityID currentID = hist->GetCurrentID(id);
+	auto* comp = ecs.GetComponent<T>(currentID);
+}

@@ -102,4 +102,16 @@ public:
 		void Undo(ecs::ECS& ecs, CommandHistory* hist);
 		void Redo(ecs::ECS& ecs, CommandHistory* hist);
 	};
+
+	template<typename T>
+	struct SetComponentData : Command {
+		SetComponentData(EntityID _id, int _argCount, T& old, T& current);
+		void Undo(ecs::ECS& ecs, CommandHistory* hist);
+		void Redo(ecs::ECS& ecs, CommandHistory* hist);
+
+	private:
+		int argCount;
+		T& oldData;
+		T& curData;
+	};
 };
