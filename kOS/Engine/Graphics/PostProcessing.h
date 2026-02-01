@@ -2,7 +2,8 @@
 #include "Graphics/GraphicsReferences.h"
 #include "Graphics/Shader.h"
 enum PostProcessType {
-	Vigniette=0
+	PPT_Vigniette=0,
+	PPT_FilmGrain=1
 };
 struct PostProcessEffect {
 	virtual Shader* GetShader()=0;
@@ -10,13 +11,24 @@ struct PostProcessEffect {
 	virtual PostProcessType GetType()=0;
 };
 struct Vigniette :public PostProcessEffect {
+	Vigniette();
+	Vigniette(const Vigniette& other);
 	 void UpdateShader();
 	 float intensity,extent;
 	 static Shader* currentShader;
 	 Shader* GetShader() { return currentShader;; };
-	 PostProcessType GetType() { return PostProcessType::Vigniette;;};
+	 PostProcessType GetType() { return PostProcessType::PPT_Vigniette;;};
 	 glm::vec2 resolution;
 
+};
+struct FilmGrain : public PostProcessEffect {
+	FilmGrain();
+	FilmGrain(const FilmGrain& other);
+	void UpdateShader();
+	float noiseStrength;
+	static Shader* currentShader;
+	Shader* GetShader() { return currentShader;; };
+	PostProcessType GetType() { return PostProcessType::PPT_FilmGrain;; };
 };
 class PostProcessingProfile {
 	public:

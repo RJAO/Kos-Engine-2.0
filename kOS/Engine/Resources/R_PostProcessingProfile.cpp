@@ -29,6 +29,7 @@ void R_PostProcessingProfile::Load()
 		switch (ppe) {
 			//Vigniette
 			case 0:
+			{
 				//Get float and get 
 				Vigniette vig;
 				vig.intensity = e["Intensity"].GetFloat();
@@ -36,8 +37,16 @@ void R_PostProcessingProfile::Load()
 				//Push data in 
 				//vig.currentShader = ;
 				this->profile.postProcessingEffects.push_back(std::make_unique<Vigniette>(vig));
-
 				break;;
+			}
+			case 1:
+			{
+				FilmGrain fg;
+				fg.noiseStrength = e["NoiseStrength"].GetFloat();
+				this->profile.postProcessingEffects.push_back(std::make_unique<FilmGrain>(fg));
+			}
+
+
 		}
 	}
 	//this->md = serialization::ReadJsonFile<MaterialData>(this->GetFilePath().string());
