@@ -107,6 +107,7 @@ namespace gui {
 		RegisterComponent<ecs::ButtonComponent>();
 		RegisterComponent<ecs::SphereRendererComponent>();
 		RegisterComponent<ecs::MaterialComponent>();
+		RegisterComponent<ecs::NavMeshComponent>();
 
 		//Allocate to map
 		EditorComponentTypeRegistry::CreateAllDrawers(componentDrawers);
