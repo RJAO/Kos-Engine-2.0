@@ -288,7 +288,7 @@ inline void PlayerManagerScript::Start() {
 
 	if (pauseMenuManagerObject != utility::GUID{}) {
 		pauseMenuManagerID = ecsPtr->GetEntityIDFromGUID(pauseMenuManagerObject);
-		std::cout << "PlayerManager connected to PauseMenuManager!\n";
+		//std::cout << "PlayerManager connected to PauseMenuManager!\n";
 	}
 	healthUIObjectID = ecsPtr->GetEntityIDFromGUID(healthUIObject);
 	loseScreenCanvasID = ecsPtr->GetEntityIDFromGUID(loseScreenCanvasObject);
@@ -311,7 +311,7 @@ inline void PlayerManagerScript::Start() {
 inline void PlayerManagerScript::Update() {
 
 	if (Input->IsKeyReleased(keys::L)) {
-		std::cout << "L RELEASED\n";
+		//std::cout << "L RELEASED\n";
 		Scenes->ReloadScene();
 
 		if (auto* pauseManager = ecsPtr->GetComponent<PauseMenuScript>(pauseMenuManagerID)) {
@@ -324,7 +324,7 @@ inline void PlayerManagerScript::Update() {
 
 	if (Input->IsKeyTriggered(keys::ESC)) {
 		if (auto* pauseManager = ecsPtr->GetComponent<PauseMenuScript>(pauseMenuManagerID)) {
-			std::cout << "PAUSE PAUSE PAUSE\n";
+			//std::cout << "PAUSE PAUSE PAUSE\n";
 			pauseManager->TogglePause();
 		}
 	}
@@ -346,12 +346,12 @@ inline void PlayerManagerScript::Update() {
 	if (currInteractCooldown > 0.0f)
 	{
 		currInteractCooldown -= ecsPtr->m_GetDeltaTime();
-		std::cout << "Kūrudaun TICKING TIMER "
-			<< currInteractCooldown << "s\n";
+		//std::cout << "Kūrudaun TICKING TIMER "
+			//<< currInteractCooldown << "s\n";
 
 		if (currInteractCooldown < 0.0f) {
 			currInteractCooldown = 0.0f;
-			std::cout << "Kūrudaunfinisshu!!!!\n";
+			//std::cout << "Kūrudaunfinisshu!!!!\n";
 
 		}
 	}
@@ -398,7 +398,7 @@ inline void PlayerManagerScript::Update() {
 	PlayerCombatControls();
 
 	if (Input->IsKeyPressed(keys::SPACE)) {
-		std::cout << "[DEBUG] Space pressed - Grounded: " << GroundCheck() << std::endl;
+		//std::cout << "[DEBUG] Space pressed - Grounded: " << GroundCheck() << std::endl;
 	}
 }
 
