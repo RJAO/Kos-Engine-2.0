@@ -20,7 +20,7 @@ class PlayerManagerScript : public TemplateSC {
 public:
 
 	R_AnimController* playerController = nullptr;
-	AnimatorComponent* anim = nullptr;
+	AnimatorComponent* animComp = nullptr;
 	AnimState currAnimationState;
 
 	// POWERUP PREFS
@@ -131,6 +131,7 @@ public:
 	ecs::EntityID healthUIObjectID;
 	ecs::EntityID loseScreenCanvasID;
 	ecs::EntityID winScreenCanvasID;
+	ecs::EntityID fireDashID;
 
 	utility::GUID bulletPrefab;
 	utility::GUID fireLMBPrefab;
@@ -140,6 +141,8 @@ public:
 	utility::GUID firePrefab;
 	utility::GUID acidPrefab;
 	utility::GUID lightningPrefab;
+
+	utility::GUID fireDashPrefab;
 
 	// BACKEND PLAYER DETAILS
 	float playerRotationX = 0.f, playerRotationY = 0.f;
@@ -208,6 +211,11 @@ public:
 		currentReloadTimer = reloadDuration;
 
 		//Reload anim
+		if (animComp)
+		{
+			if (animComp->m_currentStateID)
+				playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("reloading", animComp, playerController);
+		}
 		// Reload sfx
 
 	}
@@ -220,13 +228,13 @@ public:
 		currentReloadTimer = 0.0f;
 	}
 
-	// Powerup interactino Cooldown
-	float interactCooldown = 30.0f;
-	float currInteractCooldown = 0.0f;
-
 	// SFX
 	utility::GUID gunSfxGUID_1;
 	utility::GUID gunSfxGUID_2;
+
+	//Dash VFX Timer
+	float fireDashVfxTimer = 0.0f;
+	float fireDashVfxDuration = 30.0f;
 
 	// --- FUNCTION DECLARATIONS ONLY ---
 	// Implementations are moved to the bottom of the file
@@ -251,7 +259,7 @@ public:
 	glm::vec3 GetPlayerRightDirection();
 
 	REFLECTABLE(PlayerManagerScript, playerCameraObject, playerGunCameraObject, playerProjectilePointObject, playerGunModelPointObject, playerArmModelObject, playerGroundCheckObject,
-		bulletPrefab, fireLMBPrefab, acidLMBPrefab, lightningLMBPrefab, firePrefab, acidPrefab, lightningPrefab,
+		bulletPrefab, fireLMBPrefab, acidLMBPrefab, lightningLMBPrefab, firePrefab, acidPrefab, lightningPrefab, fireDashPrefab,
 		gunSfxGUID_1, gunSfxGUID_2, pauseMenuManagerObject, healthUIObject, loseScreenCanvasObject, winScreenCanvasObject);
 };
 
@@ -295,17 +303,31 @@ inline void PlayerManagerScript::Start() {
 	winScreenCanvasID = ecsPtr->GetEntityIDFromGUID(winScreenCanvasObject);
 
 	std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
-	if (anim = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]))
+	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]))
 	{
-		playerController = resource->GetResource<R_AnimController>(anim->controllerGUID).get();
+		playerController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
 		if (playerController)
 		{
 			// COMMENTED OUT FOR ANIM
 			/*currAnimationState = *playerController->m_EnterState;
 			anim->m_currentState = &currAnimationState;
 			static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");*/
+			animComp->m_currentStateID = playerController->m_EnterState->id;
+			if (auto* currAnimState = playerController->RetrieveStateByID(animComp->m_currentStateID))
+				currAnimState->Trigger("ForcedEntry", animComp, playerController);
 		}
 	}
+
+	std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+	ecs::EntityID fireDashID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireDashPrefab);
+	ecs::EntityID parentID = entity;
+	ecsPtr->SetParent(parentID, fireDashID, false);
+	if (auto* vfxTf = ecsPtr->GetComponent<TransformComponent>(fireDashID))
+	{
+		vfxTf->LocalTransformation.position = glm::vec3(1.f, 1.f, 0.f);  // offset
+		vfxTf->LocalTransformation.rotation = glm::vec3(0.f, 0.f, 0.f);
+	}
+	ecsPtr->SetActive(fireDashID, false);
 }
 
 inline void PlayerManagerScript::Update() {
@@ -341,19 +363,6 @@ inline void PlayerManagerScript::Update() {
 		LoseScreenScript::isLoseScreenActive)
 	{
 		return; // Skip ALL player input
-	}
-
-	if (currInteractCooldown > 0.0f)
-	{
-		currInteractCooldown -= ecsPtr->m_GetDeltaTime();
-		//std::cout << "Kūrudaun TICKING TIMER "
-			//<< currInteractCooldown << "s\n";
-
-		if (currInteractCooldown < 0.0f) {
-			currInteractCooldown = 0.0f;
-			//std::cout << "Kūrudaunfinisshu!!!!\n";
-
-		}
 	}
 
 	{
@@ -400,6 +409,7 @@ inline void PlayerManagerScript::Update() {
 	if (Input->IsKeyPressed(keys::SPACE)) {
 		//std::cout << "[DEBUG] Space pressed - Grounded: " << GroundCheck() << std::endl;
 	}
+
 }
 
 inline void PlayerManagerScript::FixedUpdate() {
@@ -602,204 +612,219 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	projectilePointTransform->LocalTransformation.position = cameraTransform->LocalTransformation.position + GetPlayerCameraFrontDirection() * 1.5f;
 
 	//Animation Handling
-	if (anim)
+	if (animComp)
 	{
 		// COMMENTED OUT FOR ANIM
-		/*
-		if (anim->m_currentState)
+		if (animComp->m_currentStateID)
 		{
-
-			R_Animation* currAnim = resource->GetResource<R_Animation>(static_cast<AnimState*>(anim->m_currentState)->animationGUID).get();
-			if (anim->m_CurrentTime >= currAnim->GetDuration())
+			R_Animation* currAnim = resource->GetResource<R_Animation>(playerController->RetrieveStateByID(animComp->m_currentStateID)->animationGUID).get();
+			if (animComp->m_CurrentTime >= currAnim->GetDuration())
 			{
-				static_cast<AnimState*>(anim->m_currentState)->SetTrigger("animationFinished");
-				anim->m_CurrentTime = 0.f;
+				playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("animationFinished", animComp, playerController);
 			}
-
 		}
-		*/
+		
 	}
 
-	//// SHOOT
+	// SHOOT
 	//if (Input->IsKeyTriggered(keys::LMB)) {
 	//	playerIsAttacking = true;
 
+	//	if (isReloading) return;
+
+	//	// Cooldown check
+	//	float& cd = GetCurrShootCooldownForCurrentWeapon();
+	//	if (cd > 0.0f) return;
+
+	//	// Ammo check
+	//	int& currBullets = GetCurrBulletsForCurrentWeapon();
+	//	if (currBullets <= 0) {
+	//		if (autoReload) StartReload();
+	//		return;
+	//	}
+
+	//	currBullets -= 1;
+	//	cd = GetShootCooldownForCurrentWeapon();
+
 	//	// COMMENTED OUT FOR ANIM
-	//	/*
-	//	if (anim)
+	//	
+	//	if (animComp)
 	//	{
-	//		if (anim->m_currentState)
+	//		if (animComp->m_currentStateID)
 	//		{
-	//			static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasShot");
+	//			//static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasShot");
+	//			playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasShot", animComp, playerController);
+
 	//		}
 	//	}
-	//	*/
-	//	// ADD ATTACK ANIMATION HERE USING PLAYERISATTACKING BOOLEAN
+		
+		// ADD ATTACK ANIMATION HERE USING PLAYERISATTACKING BOOLEAN
 
-	//	if (playerPowerupHeld == Powerup::NONE) {
-	//		std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(bulletPrefab);
+		//if (playerPowerupHeld == Powerup::NONE) {
+		//	std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(bulletPrefab);
 
-	//		if (bullet) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID bulletID = DuplicatePrefabIntoScene<R_Scene>(currentScene, bulletPrefab);
+		//	if (bullet) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID bulletID = DuplicatePrefabIntoScene<R_Scene>(currentScene, bulletPrefab);
 
-	//			if (auto* bulletTransform = ecsPtr->GetComponent<TransformComponent>(bulletID)) {
-	//				bulletTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//			}
+		//		if (auto* bulletTransform = ecsPtr->GetComponent<TransformComponent>(bulletID)) {
+		//			bulletTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//		}
 
-	//			if (auto* bulletScript = ecsPtr->GetComponent<BulletLogic>(bulletID)) {
-	//				bulletScript->direction = GetPlayerCameraFrontDirection();
-	//			}
+		//		if (auto* bulletScript = ecsPtr->GetComponent<BulletLogic>(bulletID)) {
+		//			bulletScript->direction = GetPlayerCameraFrontDirection();
+		//		}
 
-	//			// GUN SFX
-	//			if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
-	//				std::vector<ecs::AudioFile*> playerHurtSfxPool;
+		//		// GUN SFX
+		//		if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
+		//			std::vector<ecs::AudioFile*> playerHurtSfxPool;
 
-	//				for (auto& af : ac->audioFiles) {
-	//					if (af.isSFX) {
-	//						playerHurtSfxPool.push_back(&af);
-	//					}
-	//				}
+		//			for (auto& af : ac->audioFiles) {
+		//				if (af.isSFX) {
+		//					playerHurtSfxPool.push_back(&af);
+		//				}
+		//			}
 
-	//				if (!playerHurtSfxPool.empty()) {
-	//					int idx = rand() % static_cast<int>(playerHurtSfxPool.size());
-	//					//std::cout << "[BulletLogic] Random SFX index chosen = " << idx << std::endl;
+		//			if (!playerHurtSfxPool.empty()) {
+		//				int idx = rand() % static_cast<int>(playerHurtSfxPool.size());
+		//				//std::cout << "[BulletLogic] Random SFX index chosen = " << idx << std::endl;
 
-	//					playerHurtSfxPool[idx]->requestPlay = true;
-	//				}
-	//			}
-	//		}
-	//	}
-	//	else if (playerPowerupHeld == Powerup::FIRE) {
-	//		std::shared_ptr<R_Scene> fireball = resource->GetResource<R_Scene>(firePrefab);
+		//				playerHurtSfxPool[idx]->requestPlay = true;
+		//			}
+		//		}
+		//	}
+		//}
+		//else if (playerPowerupHeld == Powerup::FIRE) {
+		//	std::shared_ptr<R_Scene> fireball = resource->GetResource<R_Scene>(firePrefab);
 
-	//		if (fireball) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID fireballID = DuplicatePrefabIntoScene<R_Scene>(currentScene, firePrefab);
+		//	if (fireball) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID fireballID = DuplicatePrefabIntoScene<R_Scene>(currentScene, firePrefab);
 
-	//			if (auto* fireballTransform = ecsPtr->GetComponent<TransformComponent>(fireballID)) {
-	//				fireballTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//			}
+		//		if (auto* fireballTransform = ecsPtr->GetComponent<TransformComponent>(fireballID)) {
+		//			fireballTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//		}
 
-	//			if (auto* fireballScript = ecsPtr->GetComponent<FirePowerupManagerScript>(fireballID)) {
-	//				fireballScript->direction = GetPlayerCameraFrontDirection();
-	//			}
+		//		if (auto* fireballScript = ecsPtr->GetComponent<FirePowerupManagerScript>(fireballID)) {
+		//			fireballScript->direction = GetPlayerCameraFrontDirection();
+		//		}
 
-	//			playerPowerupHeld = Powerup::NONE;
-	//		}
-	//	}
-	//	else if (playerPowerupHeld == Powerup::ACID) {
-	//		std::shared_ptr<R_Scene> acidBlast = resource->GetResource<R_Scene>(acidPrefab);
+		//		playerPowerupHeld = Powerup::NONE;
+		//	}
+		//}
+		//else if (playerPowerupHeld == Powerup::ACID) {
+		//	std::shared_ptr<R_Scene> acidBlast = resource->GetResource<R_Scene>(acidPrefab);
 
-	//		if (acidBlast) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID acidBlastID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidPrefab);
+		//	if (acidBlast) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID acidBlastID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidPrefab);
 
-	//			if (auto* acidBlastTransform = ecsPtr->GetComponent<TransformComponent>(acidBlastID)) {
-	//				acidBlastTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//			}
+		//		if (auto* acidBlastTransform = ecsPtr->GetComponent<TransformComponent>(acidBlastID)) {
+		//			acidBlastTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//		}
 
-	//			if (auto* acidBlastScript = ecsPtr->GetComponent<AcidPowerupManagerScript>(acidBlastID)) {
-	//				acidBlastScript->direction = GetPlayerCameraFrontDirection();
-	//			}
+		//		if (auto* acidBlastScript = ecsPtr->GetComponent<AcidPowerupManagerScript>(acidBlastID)) {
+		//			acidBlastScript->direction = GetPlayerCameraFrontDirection();
+		//		}
 
-	//			playerPowerupHeld = Powerup::NONE;
-	//		}
-	//	}
-	//	else if (playerPowerupHeld == Powerup::LIGHTNING) {
-	//		std::shared_ptr<R_Scene> lightningStrike = resource->GetResource<R_Scene>(lightningPrefab);
+		//		playerPowerupHeld = Powerup::NONE;
+		//	}
+		//}
+		//else if (playerPowerupHeld == Powerup::LIGHTNING) {
+		//	///Lightning missing range variable
+		//	/*std::shared_ptr<R_Scene> lightningStrike = resource->GetResource<R_Scene>(lightningPrefab);
 
-	//		if (lightningStrike) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID lightningStrikeID = DuplicatePrefabIntoScene<R_Scene>(currentScene, lightningPrefab);
+		//	if (lightningStrike) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID lightningStrikeID = DuplicatePrefabIntoScene<R_Scene>(currentScene, lightningPrefab);
 
-	//			if (auto* lightningStrikeTransform = ecsPtr->GetComponent<TransformComponent>(lightningStrikeID)) {
-	//				RaycastHit hit;
-	//				hit.entityID = 9999999;
-	//				glm::vec3 dir = GetPlayerCameraFrontDirection();
+		//		if (auto* lightningStrikeTransform = ecsPtr->GetComponent<TransformComponent>(lightningStrikeID)) {
+		//			RaycastHit hit;
+		//			hit.entityID = 9999999;
+		//			glm::vec3 dir = GetPlayerCameraFrontDirection();
 
-	//				float range = ecsPtr->GetComponent<LightningPowerupManagerScript>(ecsPtr->GetComponent<TransformComponent>(lightningStrikeID)->m_childID[0])->range;
-	//				physicsPtr->Raycast(cameraTransform->WorldTransformation.position, dir, range, hit, ecsPtr->GetComponent<RigidbodyComponent>(entity)->actor);
+		//			float range = ecsPtr->GetComponent<LightningPowerupManagerScript>(ecsPtr->GetComponent<TransformComponent>(lightningStrikeID)->m_childID[0])->range;
+		//			physicsPtr->Raycast(cameraTransform->WorldTransformation.position, dir, range, hit, ecsPtr->GetComponent<RigidbodyComponent>(entity)->actor);
 
-	//				if (hit.entityID != 9999999) {
-	//					lightningStrikeTransform->LocalTransformation.position = hit.point;
+		//			if (hit.entityID != 9999999) {
+		//				lightningStrikeTransform->LocalTransformation.position = hit.point;
 
-	//					playerPowerupHeld = Powerup::NONE;
-	//				}
+		//				playerPowerupHeld = Powerup::NONE;
+		//			}
 
-	//			}
-	//		}
-	//	}
-	//	else if (playerPowerupHeld == Powerup::FIREACID) {
-	//		std::shared_ptr<R_Scene> flamethrower = resource->GetResource<R_Scene>(fireAcidPrefab);
+		//		}
+		//	}*/
+		//}
+		//else if (playerPowerupHeld == Powerup::FIREACID) {
+		//	std::shared_ptr<R_Scene> flamethrower = resource->GetResource<R_Scene>(fireAcidPrefab);
 
-	//		if (flamethrower) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID flamethrowerID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireAcidPrefab);
+		//	if (flamethrower) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID flamethrowerID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireAcidPrefab);
 
-	//			if (auto* flamethrowerTransform = ecsPtr->GetComponent<TransformComponent>(flamethrowerID)) {
-	//				//flamethrowerTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//				ecsPtr->SetParent(playerProjectilePointObjectID, flamethrowerID);
-	//				flamethrowerTransform->LocalTransformation.position = glm::vec3(0.f, 0.f, 0.f);
+		//		if (auto* flamethrowerTransform = ecsPtr->GetComponent<TransformComponent>(flamethrowerID)) {
+		//			//flamethrowerTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//			ecsPtr->SetParent(playerProjectilePointObjectID, flamethrowerID);
+		//			flamethrowerTransform->LocalTransformation.position = glm::vec3(0.f, 0.f, 0.f);
 
-	//				// TODO: SOMEHOW MAKE THE FLAMETHROWER ABIDE TO THE PLAYER'S ROTATION
-	//				//flamethrowerTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
-	//			}
-	//		}
+		//			// TODO: SOMEHOW MAKE THE FLAMETHROWER ABIDE TO THE PLAYER'S ROTATION
+		//			//flamethrowerTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
+		//		}
+		//	}
 
-	//		playerPowerupHeld = Powerup::NONE;
-	//	}
-	//	else if (playerPowerupHeld == Powerup::FIRELIGHTNING) {
-	//		std::shared_ptr<R_Scene> groundSpikes = resource->GetResource<R_Scene>(fireLightningPrefab);
+		//	playerPowerupHeld = Powerup::NONE;
+		//}
+		//else if (playerPowerupHeld == Powerup::FIRELIGHTNING) {
+		//	std::shared_ptr<R_Scene> groundSpikes = resource->GetResource<R_Scene>(fireLightningPrefab);
 
-	//		if (groundSpikes) {
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID groundSpikesID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireLightningPrefab);
+		//	if (groundSpikes) {
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID groundSpikesID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireLightningPrefab);
 
-	//			if (auto* groundSpikesTransform = ecsPtr->GetComponent<TransformComponent>(groundSpikesID)) {
-	//				groundSpikesTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(entity)->WorldTransformation.position;
-	//			}
+		//		if (auto* groundSpikesTransform = ecsPtr->GetComponent<TransformComponent>(groundSpikesID)) {
+		//			groundSpikesTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(entity)->WorldTransformation.position;
+		//		}
 
-	//			playerPowerupHeld = Powerup::NONE;
-	//		}
-	//	}
-	//	else if (playerPowerupHeld == Powerup::ACIDLIGHTNING) {
-	//		std::shared_ptr<R_Scene> starfall = resource->GetResource<R_Scene>(acidLightningPrefab);
+		//		playerPowerupHeld = Powerup::NONE;
+		//	}
+		//}
+		//else if (playerPowerupHeld == Powerup::ACIDLIGHTNING) {
+		//	std::shared_ptr<R_Scene> starfall = resource->GetResource<R_Scene>(acidLightningPrefab);
 
-	//		if (starfall) {
-	//			// Update later
-	//			//std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			//ecs::EntityID starfallID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidLightningPrefab);
+		//	if (starfall) {
+		//		// Update later
+		//		//std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		//ecs::EntityID starfallID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidLightningPrefab);
 
-	//			//if (auto* starfallTransform = ecsPtr->GetComponent<TransformComponent>(starfallID)) {
-	//			//	starfallTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//			//}
+		//		//if (auto* starfallTransform = ecsPtr->GetComponent<TransformComponent>(starfallID)) {
+		//		//	starfallTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//		//}
 
-	//			//glm::vec3 dir = GetPlayerCameraFrontDirection();
-	//			//for (int i = 0; i < ecsPtr->GetComponent<TransformComponent>(starfallID)->m_childID.size(); ++i) {
-	//			//	// TODO: RANDOMIZE THE DIRECTION OF THE STARFALL PROJECTILE HERE OR SOMETHING
-	//			//	ecsPtr->GetComponent<LightningAcidPowerupManagerScript>(ecsPtr->GetComponent<TransformComponent>(starfallID)->m_childID[i])->direction = dir;
-	//			//}
+		//		//glm::vec3 dir = GetPlayerCameraFrontDirection();
+		//		//for (int i = 0; i < ecsPtr->GetComponent<TransformComponent>(starfallID)->m_childID.size(); ++i) {
+		//		//	// TODO: RANDOMIZE THE DIRECTION OF THE STARFALL PROJECTILE HERE OR SOMETHING
+		//		//	ecsPtr->GetComponent<LightningAcidPowerupManagerScript>(ecsPtr->GetComponent<TransformComponent>(starfallID)->m_childID[i])->direction = dir;
+		//		//}
 
-	//			//playerPowerupHeld = Powerup::NONE;
+		//		//playerPowerupHeld = Powerup::NONE;
 
-	//			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-	//			ecs::EntityID fireballID = DuplicatePrefabIntoScene<R_Scene>(currentScene, firePrefab);
+		//		std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+		//		ecs::EntityID fireballID = DuplicatePrefabIntoScene<R_Scene>(currentScene, firePrefab);
 
-	//			if (auto* fireballTransform = ecsPtr->GetComponent<TransformComponent>(fireballID)) {
-	//				fireballTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-	//			}
+		//		if (auto* fireballTransform = ecsPtr->GetComponent<TransformComponent>(fireballID)) {
+		//			fireballTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+		//		}
 
-	//			if (auto* fireballScript = ecsPtr->GetComponent<FirePowerupManagerScript>(fireballID)) {
-	//				fireballScript->direction = GetPlayerCameraFrontDirection();
-	//			}
+		//		if (auto* fireballScript = ecsPtr->GetComponent<FirePowerupManagerScript>(fireballID)) {
+		//			fireballScript->direction = GetPlayerCameraFrontDirection();
+		//		}
 
-	//			playerPowerupHeld = Powerup::NONE;
-	//		}
-	//	}
+		//		playerPowerupHeld = Powerup::NONE;
+		//	}
+		//}
 	//}
 
-	//// INTERACT
+	// INTERACT
 	//if (Input->IsKeyTriggered(keys::RMB)) {
 
 	//	bool hasAbsorbed = false;
@@ -836,19 +861,22 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//				else if (powerupComp->powerupType == "ACID") {
-	//					playerPowerupHeld = Powerup::FIREACID;
+	//					///playerPowerupHeld = Powerup::FIREACID;
+	//					playerPowerupHeld = Powerup::FIRE;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//				else if (powerupComp->powerupType == "LIGHTNING") {
-	//					playerPowerupHeld = Powerup::FIRELIGHTNING;
+	//					///playerPowerupHeld = Powerup::FIRELIGHTNING;
+	//					playerPowerupHeld = Powerup::FIRE;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//			}
 	//			else if (playerPowerupHeld == Powerup::ACID) {
 	//				if (powerupComp->powerupType == "FIRE") {
-	//					playerPowerupHeld = Powerup::FIREACID;
+	//					///playerPowerupHeld = Powerup::FIREACID;
+	//					playerPowerupHeld = Powerup::ACID;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
@@ -858,19 +886,22 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//				else if (powerupComp->powerupType == "LIGHTNING") {
-	//					playerPowerupHeld = Powerup::ACIDLIGHTNING;
+	//					///playerPowerupHeld = Powerup::ACIDLIGHTNING;
+	//					playerPowerupHeld = Powerup::ACID;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//			}
 	//			else if (playerPowerupHeld == Powerup::LIGHTNING) {
 	//				if (powerupComp->powerupType == "FIRE") {
-	//					playerPowerupHeld = Powerup::FIRELIGHTNING;
+	//					///playerPowerupHeld = Powerup::FIRELIGHTNING;
+	//					playerPowerupHeld = Powerup::LIGHTNING;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
 	//				else if (powerupComp->powerupType == "ACID") {
-	//					playerPowerupHeld = Powerup::ACIDLIGHTNING;
+	//					///playerPowerupHeld = Powerup::ACIDLIGHTNING;
+	//					playerPowerupHeld = Powerup::LIGHTNING;
 
 	//					// ADD PARTICLE EFFECT HERE
 	//				}
@@ -886,22 +917,24 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	//	}
 
 	//	// COMMENTED OUT FOR ANIM
-	//	/*
-	//	if (anim && hasAbsorbed)
+	//	
+	//	if (animComp && hasAbsorbed)
 	//	{
-	//		if (anim->m_currentState)
+	//		if (animComp->m_currentStateID)
 	//		{
-	//			static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasAbsorbed");
+	//			playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasAbsorbed", animComp, playerController);
+	//			hasAbsorbed = false;
 	//		}
 	//	}
-	//	*/
+	//	
 	//}
 
 	// MANA
-	if (currMana >= 0.f) {
+	if (playerPowerupHeld != Powerup::NONE){
 		currMana -= ecsPtr->m_GetDeltaTime();
 
-		if (currMana <= 0.f) {
+		if (currMana <= 0.0f){
+			currMana = 0.0f;
 			playerPowerupHeld = Powerup::NONE;
 		}
 	}
@@ -909,7 +942,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	// INTERACT
 	if (Input->IsKeyTriggered(keys::E)) {
 
-		if (currInteractCooldown > 0.0f)
+		if (currMana > 0.0f || playerPowerupHeld != Powerup::NONE)
 			return;
 
 		bool hasAbsorbed = false;
@@ -934,9 +967,9 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				}
 				
 				currMana = maxMana;
-				currInteractCooldown = interactCooldown;
+			/*	currInteractCooldown = interactCooldown;
 				std::cout << "Powerup picked up. Cooldown STARTO!!!!::: "
-					<< currInteractCooldown << "s\n";
+					<< currInteractCooldown << "s\n";*/
 
 				// ADD SFX
 			}
@@ -964,6 +997,16 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 		// Consume ammo + apply cooldown
 		currBullets -= 1;
 		cd = GetShootCooldownForCurrentWeapon();
+
+		if (animComp)
+		{
+			if (animComp->m_currentStateID)
+			{
+				//static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasShot");
+				playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasShot", animComp, playerController);
+
+			}
+		}
 
 		if (playerPowerupHeld == Powerup::NONE) {
 			std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(bulletPrefab);
@@ -1000,6 +1043,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			}
 		}
 		else if (playerPowerupHeld == Powerup::FIRE) {
+
 			if (fireCurrMeleeCooldown > 0.0f)
 				return;
 
@@ -1011,13 +1055,41 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 				ecs::EntityID fireLMBID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireLMBPrefab);
 
-				if (auto* fireLMBTransform = ecsPtr->GetComponent<TransformComponent>(fireLMBID)) {
-					fireLMBTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-				}
+				//if (auto* fireLMBTransform = ecsPtr->GetComponent<TransformComponent>(fireLMBID)) {
+				//	fireLMBTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
+				//}
+
+				////if (auto* fireLMBScript = ecsPtr->GetComponent<FireLMB>(fireLMBID)) {
+				////	//fireLMBScript->direction = glm::vec3(0.f);
+				////}
+
+				//if (auto* fireLMBScript = ecsPtr->GetComponent<FireLMB>(fireLMBID)) {
+				//	glm::vec3 dir = GetPlayerCameraFrontDirection();
+				//	dir.y = 0.f;
+				//	if (glm::length(dir) > 0.0001f)
+				//		dir = glm::normalize(dir);
+
+				//	fireLMBScript->direction = dir;
+				//}
+
+				//ecs::EntityID fireLMBID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireLMBPrefab);
+
+				auto* spawnTf = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID);
+				auto* fireTf = ecsPtr->GetComponent<TransformComponent>(fireLMBID);
+				if (!spawnTf || !fireTf) return;
+
+				glm::vec3 dir = GetPlayerCameraFrontDirection();
+				dir.y = 0.f;
+				if (glm::length(dir) > 0.0001f) dir = glm::normalize(dir);
+
+				fireTf->LocalTransformation.position = spawnTf->WorldTransformation.position;
+				float yaw = glm::degrees(std::atan2(dir.x, dir.z));
+				fireTf->LocalTransformation.rotation = glm::vec3(0.f, yaw, 0.f);
 
 				if (auto* fireLMBScript = ecsPtr->GetComponent<FireLMB>(fireLMBID)) {
-					//fireLMBScript->direction = GetPlayerCameraFrontDirection();
+					fireLMBScript->direction = dir; 
 				}
+
 			}
 
 			// ADD SFX
@@ -1036,6 +1108,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				if (auto* acidLMBScript = ecsPtr->GetComponent<AcidLMB>(acidLMBID)) {
 					//fireLMBScript->direction = GetPlayerCameraFrontDirection();
 				}
+
 			}
 
 			// ADD SFX
@@ -1130,6 +1203,10 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 		if (!playerRigidbody) return;
 
 		if (playerPowerupHeld == Powerup::FIRE && currMana >= fireMovementCost && fireCurrMovementCooldown <= 0.f) {
+			
+			//fireDashVfxTimer = fireDashVfxDuration;
+			//ecsPtr->SetActive(fireDashID, true);
+
 			physicsPtr->AddForce(playerRigidbody->actor, GetPlayerFrontDirection() * 50.f, ForceMode::Impulse);
 
 			currMana -= fireMovementCost;
