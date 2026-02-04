@@ -83,7 +83,8 @@ void GraphicsManager::gm_Initialize(float width, float height) {
 
 void GraphicsManager::gm_Update()
 {
-
+	Shader* videoShader{ &shaderManager.engineShaders.find("VideoShader")->second };
+	videoRenderer.Update(*videoShader);
 }
 
 void GraphicsManager::gm_Render()
@@ -128,6 +129,7 @@ void GraphicsManager::gm_Clear()
 	sphereRenderer.Clear();
 	skinnedMeshRenderer.Clear();
 	particleRenderer.Clear();
+	videoRenderer.Clear();
 	//editorCameraActive = false;
 }
 
@@ -144,6 +146,7 @@ void GraphicsManager::gm_InitializeMeshes()
 	spriteRenderer.InitializeSpriteRendererMeshes();
 	debugRenderer.InitializeDebugRendererMeshes();
 	particleRenderer.InitializeParticleRendererMeshes();
+	videoRenderer.InitializeVideoRendererMeshes();
 	//if (navmesh) navmesh->SetRenderNavMesh(nullptr, nullptr, 0, 0, 0.f);
 }
 
@@ -177,6 +180,11 @@ void GraphicsManager::gm_RenderToEditorFrameBuffer()
 	gm_RenderParticles(editorCamera);
 	//gm_RenderDebugObjects(editorCamera);
 	//Particle buffer
+
+	//draw video
+	glDisable(GL_CULL_FACE);
+	gm_RenderVideo(editorCamera);
+	glEnable(GL_CULL_FACE);
 
 	framebufferManager.UIBuffer.BindForDrawing();
 	//gm_RenderUIObjects(editorCamera);
@@ -219,7 +227,12 @@ void GraphicsManager::gm_RenderToGameFrameBuffer()
 		
 		if(!i)gm_RenderCubeMap(cd);
 		gm_RenderDeferredObjects(cd);
-
+		glEnable(GL_DEPTH_TEST);
+		gm_RenderParticles(cd);
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		gm_RenderVideo(cd);
+		glEnable(GL_CULL_FACE);
 	}
 	glEnable(GL_DEPTH_TEST);
 	gm_RenderParticles(gameCameras[0]);
@@ -710,6 +723,11 @@ void GraphicsManager::gm_RenderDebugObjects(const CameraData& camera)
 	glDrawElements(GL_TRIANGLE_STRIP, framebufferManager.frameBuffer.drawCount, GL_UNSIGNED_SHORT, NULL);
 	glDisable(GL_BLEND);
 	defaultDraw->Disuse();
+}
+
+void GraphicsManager::gm_RenderVideo(const CameraData& camera) {
+	Shader* videoShader{ &shaderManager.engineShaders.find("VideoShader")->second };
+	videoRenderer.Render(camera, *videoShader);
 }
 
 void GraphicsManager::gm_RenderUIObjects(const CameraData& camera)
