@@ -42,16 +42,21 @@ void TextRenderer::InitializeTextRendererMeshes()
 
 void TextRenderer::RenderScreenFonts(const CameraData& camera, Shader& shader)
 {
+
+	Shader& fontShader{ shader };
+	fontShader.Use();
+	fontShader.SetMat3("projection", camera.GetUIOrthoMtx()); // Orthographic Projection
+	constexpr float radianConversion = 3.1451f / 180.f;
+	constexpr float loadedFontSize = 48.f;
+
 	if (!screenTextToDraw.empty() && camera.size.y != 0 && camera.size.x != 0) // Need to check for camera size
 	{
 		for (ScreenTextData& textData : screenTextToDraw)
 		{
 			//if (!textData.fontToUse)continue;;
 			// Activate corresponding render state
-			Shader& fontShader{ shader };
-			fontShader.Use();
+
 			glm::vec3 point = textData.position;
-			constexpr float radianConversion = 3.1451f / 180.f;
 			float angle = textData.rotation * radianConversion;
 
 			glm::mat3 rotationMatrix = {
@@ -59,7 +64,6 @@ void TextRenderer::RenderScreenFonts(const CameraData& camera, Shader& shader)
 			sin(angle), cos(angle),  0.0f,
 			0.0f,       0.0f,       1.0 };
 
-			fontShader.SetMat3("projection", camera.GetUIOrthoMtx()); // Orthographic Projection
 			fontShader.SetMat3("rotate", rotationMatrix);
 			fontShader.SetVec3("point", point);
 			fontShader.SetVec4("textColor", textData.color);
@@ -70,7 +74,6 @@ void TextRenderer::RenderScreenFonts(const CameraData& camera, Shader& shader)
 			float originX{ textData.position.x };
 			float originY{ textData.position.y };
 
-			constexpr float loadedFontSize = 48.f;
 			const float textXScalar = textData.scale.x * textData.fontSize / loadedFontSize;
 			const float textYScalar = textData.scale.y * textData.fontSize / loadedFontSize;
 
@@ -172,6 +175,7 @@ void MeshRenderer::Render(const CameraData& camera, Shader& shader)
 {
 	shader.SetBool("isRigged", false);
 	shader.SetVec3("color", glm::vec3{1.f,1.f,1.f});
+
 	for (std::vector<MeshData>& meshData : meshesToDraw) {
 		for (MeshData& mesh : meshData)
 		{
@@ -306,9 +310,6 @@ void LightRenderer::RenderAllLights(const CameraData& camera, Shader& shader)
 	for (size_t i = 0; i < pointLightsToDraw.size(); i++)
 	{
 		PointLightData& pointLight = pointLightsToDraw[i];
-		if (pointLight.shadowCon) {
-			//FIll up with uniform data
-		}
 		pointLight.SetUniform(&shader, i);
 		//pointLight.SetShaderMtrx(&shader, i);
 
@@ -353,6 +354,7 @@ void SkinnedMeshRenderer::Clear()
 }
 void CubeRenderer::Render(const CameraData& camera, Shader& shader, Cube* cubePtr) {
 	shader.SetBool("isRigged", false);
+
 	for (CubeData& cd : cubesToDraw) {
 		shader.SetTrans("model", cd.transformation);
 		shader.SetVec3("color", glm::vec3{ 1.f,1.f,1.f });
@@ -389,10 +391,10 @@ void CubeRenderer::Clear() {
 
 void SphereRenderer::Render(const CameraData& camera, Shader& shader, Sphere* spherePtr) {
 	shader.SetBool("isRigged", false);
+	shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 	for (SphereData& cd : spheresToDraw) {
 		//std::cout << "RENDERING SPHERE\n";
 		shader.SetTrans("model", cd.transformation);
-		shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 		shader.SetInt("entityID", cd.entityID + 1);
 		glActiveTexture(GL_TEXTURE0); // activate proper texture unit before binding
 		unsigned int currentTexture = 0;
@@ -504,6 +506,9 @@ void DebugRenderer::RenderPointLightDebug(const CameraData& camera, Shader& shad
 void DebugRenderer::RenderDebugFrustums(const CameraData& camera, Shader& shader, const std::vector<CameraData>& debugFrustums)
 {
 	shader.Use();
+	shader.SetFloat("uShaderType", 2.1f);
+	shader.SetTrans("model", glm::mat4{ 1.f });
+	shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 	for (const CameraData& cam : debugFrustums)
 	{
 		glm::mat4 proj = cam.GetPerspMtx();   // or OrthoMtx()
@@ -523,10 +528,8 @@ void DebugRenderer::RenderDebugFrustums(const CameraData& camera, Shader& shader
 			w /= w.w;
 			corners[i] = glm::vec3(w);
 		}
-		shader.SetTrans("model", glm::mat4{ 1.f });
-		shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });           
+         
 		shader.SetMat4("vp", camera.GetViewMtx());
-		shader.SetFloat("uShaderType", 2.1f);
 
 		glBindBuffer(GL_ARRAY_BUFFER, debugFrustum.vboId);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * 8, corners.data());
@@ -582,10 +585,9 @@ void DebugRenderer::RenderDebugSpheres(const CameraData& camera, Shader& shader)
 }
 
 void DebugRenderer::RenderDebugCapsules(const CameraData& camera, Shader& shader) {
+	shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 	for (size_t i = 0; i < basicDebugCapsules.size(); i++) {
 		shader.SetTrans("model", basicDebugCapsules[i].worldTransform);
-		shader.SetFloat("uShaderType", 2.1f);
-		shader.SetVec3("color", glm::vec3{ 0.f,1.f,0.f });
 		debugCapsule.DrawMesh();
 	}
 }
@@ -733,11 +735,8 @@ void ParticleRenderer::Render(const CameraData& camera, Shader& shader)
 	shader.SetTrans("view", camera.GetViewMtx());
 	if (!instancedBasicParticles.empty())
 	{
-		GLenum err = glGetError();
-		if (err != GL_NO_ERROR) {
-			//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
-			std::cout << "before OpenGL Error: " << err << std::endl;
-		}
+		//GLenum err = glGetError();
+
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);  
 		for (int i = 0; i < textureIDs.size(); i++)
@@ -765,17 +764,17 @@ void ParticleRenderer::Render(const CameraData& camera, Shader& shader)
 		///std::cout << "Bound VBO ID: " << boundBuffer
 		///	<< " expected: " << basicParticleMesh.vboid << std::endl;
 
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
-		std::cout << "after 1 OpenGL Error: " << err << std::endl;
-		}
+		//err = glGetError();
+		//if (err != GL_NO_ERROR) {
+		//	//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
+		//std::cout << "after 1 OpenGL Error: " << err << std::endl;
+		//}
 		glBufferSubData(GL_ARRAY_BUFFER, 0, instancedBasicParticles.size() * sizeof(BasicParticleInstance), instancedBasicParticles.data());
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
-			std::cout << "after 2 OpenGL Error: " << err << std::endl;
-		}
+		//err = glGetError();
+		//if (err != GL_NO_ERROR) {
+		//	//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
+		//	std::cout << "after 2 OpenGL Error: " << err << std::endl;
+		//}
 
 		glEnable(GL_BLEND);
 		glDepthMask(GL_FALSE);
@@ -785,11 +784,11 @@ void ParticleRenderer::Render(const CameraData& camera, Shader& shader)
 		glDisable(GL_DEPTH_TEST);
 		glDepthMask(GL_TRUE);
 
-		err = glGetError();
-		if (err != GL_NO_ERROR) {
-			//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
-			std::cout << "after 3 OpenGL Error: " << err << std::endl;
-		}
+		//err = glGetError();
+		//if (err != GL_NO_ERROR) {
+		//	//LOGGING_ERROR("First OpenGL Error: 0x%X", err);h
+		//	std::cout << "after 3 OpenGL Error: " << err << std::endl;
+		//}
 
 		glEnable(GL_CULL_FACE);
 	}
