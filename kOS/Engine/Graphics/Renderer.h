@@ -70,13 +70,9 @@ struct SkinnedMeshRenderer : BasicRenderer
 	void Render(const CameraData& camera, Shader& shader);
 	void Render(const CameraData& camera, Shader& shader, layer::LAYERS);
 	void Clear() override;
-	std::array<std::vector<SkinnedMeshData>, layer::MAXLAYER> skinnedMeshesToDraw{};
+	std::array < std::vector<SkinnedMeshData>, layer::MAXLAYER> skinnedMeshesToDraw{};
 	std::unordered_map<unsigned int, SkinnedMeshData*> skinnedMeshLookup{}; //Entity ID, Skinned Mesh Pointer
-
-
-	using LayeredSkinnedRenderItem = std::unordered_map<size_t, std::vector<SkinnedRenderItem>>;
-	std::unordered_map<std::shared_ptr<PBRMaterial>, LayeredSkinnedRenderItem> skinnedRenderBatches;
-	
+	std::unordered_map<std::shared_ptr<PBRMaterial>, std::vector<SkinnedRenderItem>> skinnedRenderBatches;
 };
 
 struct CubeRenderer : BasicRenderer
