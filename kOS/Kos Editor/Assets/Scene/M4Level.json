@@ -23292,5 +23292,253 @@
                 }
             }
         ]
+    },
+    {
+        "entityGUID": "7745a7cc-455c-1925-1115-2013f6e5cbd3",
+        "BoxColliderComponent": {
+            "isTrigger": false,
+            "box": {
+                "center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "size": {
+                    "x": 0.10000000149011612,
+                    "y": 14.800000190734863,
+                    "z": 8.0
+                }
+            }
+        },
+        "NameComponent": {
+            "entityName": "Chimney Wall",
+            "Layer": 8,
+            "entityTag": "Wall",
+            "isPrefab": false,
+            "prefabName": "",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": 7.818024158477783,
+                    "y": 15.875,
+                    "z": -4.022087097167969
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": 7.818024158477783,
+                    "y": 15.875,
+                    "z": -4.022087097167969
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            }
+        }
+    },
+    {
+        "entityGUID": "92bbd719-f17c-69fb-418a-e3044e3666ab",
+        "BoxColliderComponent": {
+            "isTrigger": false,
+            "box": {
+                "center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "size": {
+                    "x": 0.10000000149011612,
+                    "y": 14.800000190734863,
+                    "z": 8.0
+                }
+            }
+        },
+        "NameComponent": {
+            "entityName": "Chimney Wall",
+            "Layer": 8,
+            "entityTag": "Wall",
+            "isPrefab": false,
+            "prefabName": "",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": -7.853525161743164,
+                    "y": 15.875,
+                    "z": -4.022087097167969
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": -7.853525161743164,
+                    "y": 15.875,
+                    "z": -4.022087097167969
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            }
+        }
+    },
+    {
+        "entityGUID": "40d440a9-d5b8-c9d0-430d-d31056dcaf84",
+        "BoxColliderComponent": {
+            "isTrigger": false,
+            "box": {
+                "center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "size": {
+                    "x": 16.100000381469727,
+                    "y": 14.800000190734863,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "NameComponent": {
+            "entityName": "Chimney Wall",
+            "Layer": 8,
+            "entityTag": "Wall",
+            "isPrefab": false,
+            "prefabName": "",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": 0.07081747055053711,
+                    "y": 15.875,
+                    "z": 0.024735569953918457
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": 0.07081747055053711,
+                    "y": 15.875,
+                    "z": 0.024735569953918457
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            }
+        }
+    },
+    {
+        "entityGUID": "33a10efa-44db-d335-b05c-e7b2e7d8f50f",
+        "BoxColliderComponent": {
+            "isTrigger": false,
+            "box": {
+                "center": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "size": {
+                    "x": 16.100000381469727,
+                    "y": 14.800000190734863,
+                    "z": 0.10000000149011612
+                }
+            }
+        },
+        "NameComponent": {
+            "entityName": "Chimney Wall",
+            "Layer": 8,
+            "entityTag": "Wall",
+            "isPrefab": false,
+            "prefabName": "",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": 0.07081747055053711,
+                    "y": 15.875,
+                    "z": -8.059782028198242
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": 0.07081747055053711,
+                    "y": 15.875,
+                    "z": -8.059782028198242
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0000001192092896,
+                    "y": 1.0,
+                    "z": 1.099384069442749
+                }
+            }
+        }
     }
 ]
