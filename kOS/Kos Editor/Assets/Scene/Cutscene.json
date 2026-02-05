@@ -185,7 +185,7 @@
                 "AudioComponent": {
                     "audioFiles": [
                         {
-                            "audioGUID": "11fa865a-77ba-d259-f536-3279382226fa",
+                            "audioGUID": "cf6b889d-b4d8-3fe3-daf7-b9c9fdf838ba",
                             "volume": 1.0,
                             "loop": false,
                             "playOnStart": true,
@@ -203,7 +203,7 @@
                     ]
                 },
                 "AudioScript": {
-                    "GUID": "11fa865a-77ba-d259-f536-3279382226fa",
+                    "GUID": "cf6b889d-b4d8-3fe3-daf7-b9c9fdf838ba",
                     "elapsedTime": 0.0,
                     "speed": 1.0,
                     "radius": 5.0
