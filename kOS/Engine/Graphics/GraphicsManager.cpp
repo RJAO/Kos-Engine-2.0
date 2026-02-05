@@ -177,8 +177,9 @@ void GraphicsManager::gm_RenderToEditorFrameBuffer()
 	glDisable(GL_CULL_FACE);
 	gm_RenderVideo(editorCamera);
 	glEnable(GL_CULL_FACE);
-
+	//Render UI
 	framebufferManager.UIBuffer.BindForDrawing();
+	glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
 	gm_RenderUIObjects(editorCamera);
 
 	Shader* fboCompositeShader{ &shaderManager.engineShaders.find("FBOCompositeShader")->second };
@@ -240,8 +241,9 @@ void GraphicsManager::gm_RenderToGameFrameBuffer()
 		framebufferManager.sceneBuffer.texID = *currTex;
 	}
 	glDisable(GL_DEPTH_TEST);
-	//Render UI
 	framebufferManager.UIBuffer.BindForDrawing();
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
 	gm_RenderUIObjects(gameCameras[currentGameCameraIndex]);
 
 	Shader* fboCompositeShader{ &shaderManager.engineShaders.find("FBOCompositeShader")->second };
@@ -676,11 +678,11 @@ void GraphicsManager::gm_RenderDeferredObjects(const CameraData& camera)
 	}
 	deferredPBRShader->SetIntArray("depthMap", samplerUnits, 16);
 
-	glUniform1i(glGetUniformLocation(deferredPBRShader->ID, "gPosition"), 0);  // Bind to GL_TEXTURE0
-	glUniform1i(glGetUniformLocation(deferredPBRShader->ID, "gNormal"), 1);    // Bind to GL_TEXTURE1
-	glUniform1i(glGetUniformLocation(deferredPBRShader->ID, "gAlbedoSpec"), 2); // Bind to GL_TEXTURE2
-	glUniform1i(glGetUniformLocation(deferredPBRShader->ID, "gReflect"), 3);
-	glUniform1i(glGetUniformLocation(deferredPBRShader->ID, "gMaterial"), 4);
+	deferredPBRShader->SetInt("gPosition", 0);
+	deferredPBRShader->SetInt("gNormal", 1);
+	deferredPBRShader->SetInt("gAlbedoSpec", 2);
+	deferredPBRShader->SetInt("gReflect", 3);
+	deferredPBRShader->SetInt("gMaterial", 4);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindVertexArray(framebufferManager.frameBuffer.vaoId);
@@ -700,11 +702,11 @@ void GraphicsManager::gm_RenderDebugObjects(const CameraData& camera)
 	//glBindTexture(GL_TEXTURE_CUBE_MAP, testIrradiance.RetrieveID());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, framebufferManager.depthBuffer.RetrieveBuffer());
-	glUniform1i(glGetUniformLocation(defaultDraw->ID, "gPosition"), 0);  // Bind to GL_TEXTURE0
-	glUniform1i(glGetUniformLocation(defaultDraw->ID, "gNormal"), 1);    // Bind to GL_TEXTURE1
-	glUniform1i(glGetUniformLocation(defaultDraw->ID, "gAlbedoSpec"), 2); // Bind to GL_TEXTURE2
-	glUniform1i(glGetUniformLocation(defaultDraw->ID, "gReflect"), 3);
-	glUniform1i(glGetUniformLocation(defaultDraw->ID, "gMaterial"), 4);
+	defaultDraw->SetInt("gPosition", 0);
+	defaultDraw->SetInt("gNormal", 1);
+	defaultDraw->SetInt("gAlbedoSpec", 2);
+	defaultDraw->SetInt("gReflect", 3);
+	defaultDraw->SetInt("gMaterial", 4);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindVertexArray(framebufferManager.frameBuffer.vaoId);
