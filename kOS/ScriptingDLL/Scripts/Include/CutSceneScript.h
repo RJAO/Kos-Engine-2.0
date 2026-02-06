@@ -42,6 +42,9 @@ inline void CutSceneScript::Start() {
 			 }
 		 }
 	 }
+	 //Turn off mouse
+	 Input->HideCursor(true);
+
 }
 
 inline void CutSceneScript::Update() {
@@ -64,6 +67,8 @@ inline void CutSceneScript::Update() {
 
 
 	if (start_isClicked) {
+		//Turn mouse back on
+		Input->HideCursor(false);
 		vc->pause = false;
 		EntityID canva = ecsPtr->GetEntityIDFromGUID(button_canva);
 		ecsPtr->SetActive(canva, false);
