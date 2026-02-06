@@ -33,6 +33,10 @@ namespace ecs {
         const auto& entities = m_entities.Data();
 
         for (const EntityID id : entities) {
+
+            if (id == 436) {
+                int hi = 1;
+            }
             AnimatorComponent* animator = m_ecs.GetComponent<AnimatorComponent>(id);
             NameComponent* nameComp = m_ecs.GetComponent<NameComponent>(id);
 
@@ -45,10 +49,15 @@ namespace ecs {
             AnimState* currentState{ nullptr };
             controller = m_resourceManager.GetResource<R_AnimController>(animator->controllerGUID).get();
 
+            std::cout << "Hello" << std::endl;
             if (controller)
             {
+                std::cout << "World" << std::endl;
+                std::cout << animator->m_transitioningStateID << std::endl;
+                std::cout << "Entity ID: " << id << std::endl;
                 if (animator->m_transitioningStateID)
                 {
+                    std::cout << "Changing" << std::endl;
                     animator->m_currentStateID = animator->m_transitioningStateID;
                     animator->m_transitioningStateID = 0;
                     animator->m_CurrentTime = 0.f;

@@ -125,6 +125,7 @@ inline void EnemyManagerScript::Update() {
 
 	// COMMENTED OUT FOR ANIM
 	
+	
 	if (animComp)
 	{
 		if (R_Animation* currAnim = resource->GetResource<R_Animation>(enemyController->RetrieveStateByID(animComp->m_currentStateID)->animationGUID).get())
@@ -185,7 +186,13 @@ inline void EnemyManagerScript::Update() {
 			*/
 			if (animComp->m_currentStateID)
 			{
+				std::cout << "Entity ID: " <<  entity << std::endl;
+				std::cout << "Current State in Attacking" << enemyController->RetrieveStateByID(animComp->m_currentStateID)->name << std::endl;
+				std::cout << "Current State ID" << animComp->m_currentStateID << std::endl;
+				std::cout << "Current Trans ID" << animComp->m_transitioningStateID << std::endl;
 				enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("AttackingPlayer",animComp,enemyController);
+				std::cout << "After State ID" << animComp->m_currentStateID << std::endl;
+				std::cout << "After Trans ID" << animComp->m_transitioningStateID << std::endl;
 			}
 			//std::cout << "Ataccking" << std::endl;
 			//std::cout << enemyController->RetrieveStateByID(animComp->m_currentStateID)->name << std::endl;
@@ -279,6 +286,7 @@ inline void EnemyManagerScript::Update() {
 	else if (glm::distance(enemyTransform->LocalTransformation.position, playerTransform->LocalTransformation.position) <= enemyChaseRange) {
 		// NAVMESH FOLLOW TOWARDS PLAYER
 		navMeshPtr->MoveAgent(agentid, playerTransform->LocalTransformation.position);
+		
 		// ADD ENEMY RUNNING ANIMATION
 		if (animComp)
 		{
@@ -291,8 +299,13 @@ inline void EnemyManagerScript::Update() {
 			}
 			*/
 			if (animComp->m_currentStateID)
+			{
+				std::cout << "Current State in Detecting" << enemyController->RetrieveStateByID(animComp->m_currentStateID)->name << std::endl;
 				enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("PlayerDetected", animComp, enemyController);
-
+				std::cout << "Trigger Move animation" << std::endl;
+			}
+				
+			
 		}
 	}
 
