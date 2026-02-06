@@ -111,7 +111,6 @@
             "prefabName": "",
             "hide": false
         },
-        "NavMeshComponent": {},
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
@@ -175,7 +174,6 @@
             "prefabName": "",
             "hide": false
         },
-        "NavMeshComponent": {},
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
