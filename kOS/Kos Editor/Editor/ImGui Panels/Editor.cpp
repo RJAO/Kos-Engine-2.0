@@ -171,10 +171,6 @@ namespace gui {
 	{
 		NewFrame();
 
-		if (m_input.IsKeyTriggered(keys::F11))
-		{
-
-		}
 
 		m_commandHistory.Update();
 
