@@ -7,14 +7,14 @@ class R_Animation :public Resource
 	class Bone
 	{
 	public:
-		
+		int m_ID;
 		glm::mat4 Interpolate(float time) const;
 
 		const std::string& GetName() const;
 		int GetID() const;
 
 		std::string m_Name;
-		int m_ID;
+
 
 		std::vector<glm::vec3> m_Positions;
 		std::vector<float> m_PosTimes;
@@ -28,9 +28,9 @@ class R_Animation :public Resource
 		int FindIndex(const std::vector<float>& times, float animTime) const;
 		float GetFactor(float start, float end, float time) const;
 
-		glm::mat4 InterpolatePosition(float time) const;
-		glm::mat4 InterpolateRotation(float time) const;
-		glm::mat4 InterpolateScale(float time) const;
+		glm::vec3 InterpolatePosition(float time) const;
+		glm::quat InterpolateRotation(float time) const;
+		glm::vec3 InterpolateScale(float time) const;
 	};
 
 	struct NodeData
