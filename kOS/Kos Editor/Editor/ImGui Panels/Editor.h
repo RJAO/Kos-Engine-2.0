@@ -39,7 +39,6 @@ prior written consent of DigiPen Institute of Technology is prohibited.
 #include "Audio/AudioManager.h"
 #include "Pathfinding/NavMesh.h"
 #include "Editor/CommandHistory.h"
-#include "Resources/R_Texture.h"
 namespace gui {
     
 
@@ -214,6 +213,7 @@ namespace gui {
         void ScriptHotReload();
 
         void DrawNavMeshWindow();
+        bool ImageButton(const std::filesystem::path& directoryString);
 
         /***********PreferenceTab*************/
         bool openPreferencesTab = false;
@@ -223,6 +223,7 @@ namespace gui {
         std::filesystem::path AssetPath{};
         AssetData selectedAsset{};
         /******************************/
+
 
         std::unordered_map<std::string, std::shared_ptr<IEditorActionInvoker>> componentDrawers;
 
