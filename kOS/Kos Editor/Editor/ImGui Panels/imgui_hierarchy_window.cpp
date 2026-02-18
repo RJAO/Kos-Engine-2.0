@@ -319,6 +319,16 @@ namespace gui
 
                 if (opens)
                 {
+                    // 1. Indent the root entities so there is visual space for the scene line
+                    ImGui::Indent();
+
+                    // 2. Setup line drawing properties
+                    ImDrawList* drawList = ImGui::GetWindowDrawList();
+                    ImVec2 verticalLineStart = ImGui::GetCursorScreenPos();
+                    verticalLineStart.x -= ImGui::GetStyle().IndentSpacing * 0.5f;
+                    ImVec2 verticalLineEnd = verticalLineStart;
+                    bool hasRootEntities = false;
+
                     for (auto entity : sceneentity.sceneIDs)
                     {
 
@@ -338,6 +348,19 @@ namespace gui
                         // draw entity with no parents hahaha
                         if (!m_ecs.GetParent(entity).has_value())
                         {
+                            // 3. Draw horizontal ticks pointing to root entities
+                            ImVec2 childPos = ImGui::GetCursorScreenPos();
+                            float halfLineHeight = ImGui::GetTextLineHeight() * 0.5f;
+
+                            drawList->AddLine(
+                                ImVec2(verticalLineStart.x, childPos.y + halfLineHeight),
+                                ImVec2(verticalLineStart.x + ImGui::GetStyle().IndentSpacing * 0.5f, childPos.y + halfLineHeight),
+                                IM_COL32(150, 150, 150, 255)
+                            );
+
+                            verticalLineEnd.y = childPos.y + halfLineHeight;
+                            hasRootEntities = true;
+
                             if (DrawEntityNode(entity) == false)
                             {
                                 // delete is called
@@ -345,6 +368,16 @@ namespace gui
                             }
                         }
                     }
+
+                    // 4. Draw the main vertical line connecting the Scene to its roots
+                    if (hasRootEntities)
+                    {
+                        drawList->AddLine(verticalLineStart, verticalLineEnd, IM_COL32(150, 150, 150, 255));
+                    }
+
+                    // 5. Unindent so the rest of the UI doesn't drift to the right
+                    ImGui::Unindent();
+
                     headerEnd = ImGui::GetCursorPos();
 
                     // Covers the Scene TreeNodes + Collapsing Header
@@ -633,20 +666,46 @@ namespace gui
 
         if (open)
         {
+            // 1. Get the draw list and calculate the start of our vertical line
+            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            ImVec2 verticalLineStart = ImGui::GetCursorScreenPos();
+
+            // Offset X to sit right in the middle of the indentation area
+            verticalLineStart.x -= ImGui::GetStyle().IndentSpacing * 0.5f;
+
+            // Track how far down the vertical line needs to go
+            ImVec2 verticalLineEnd = verticalLineStart;
+
             // recursion
             if (transCom->m_childID.size() > 0)
             {
-                for (auto &ids : transCom->m_childID)
+                for (auto& ids : transCom->m_childID)
                 {
+                    // 2. Calculate horizontal tick position for each child before it draws
+                    ImVec2 childPos = ImGui::GetCursorScreenPos();
+                    float halfLineHeight = ImGui::GetTextLineHeight() * 0.5f;
+
+                    // Draw horizontal line pointing right to the child node
+                    drawList->AddLine(
+                        ImVec2(verticalLineStart.x, childPos.y + halfLineHeight),
+                        ImVec2(verticalLineStart.x + ImGui::GetStyle().IndentSpacing * 0.5f, childPos.y + halfLineHeight),
+                        IM_COL32(150, 150, 150, 255)
+                    );
+
+                    // Update the bottom-most point for the vertical line
+                    verticalLineEnd.y = childPos.y + halfLineHeight;
+
+                    // Draw the actual child
                     if (!DrawEntityNode(ids))
                     {
-
                         ImGui::TreePop();
                         return false;
                     }
                 }
+
+                // 3. Draw the main vertical line connecting all horizontal ticks
+                drawList->AddLine(verticalLineStart, verticalLineEnd, IM_COL32(150, 150, 150, 255));
             }
-            // m_DrawEntityNode(1);
             ImGui::TreePop();
         }
         return true;
