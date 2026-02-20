@@ -77,6 +77,7 @@ void GraphicsManager::gm_Update()
 {
 	Shader* videoShader{ &shaderManager.engineShaders.find("VideoShader")->second };
 	videoRenderer.Update(*videoShader);
+	skinnedMeshRenderer.Update();
 }
 
 void GraphicsManager::gm_Render()
@@ -84,7 +85,7 @@ void GraphicsManager::gm_Render()
 	glViewport(0, 0, static_cast<GLsizei>(windowWidth), static_cast<GLsizei>(windowHeight));
 
 	//Force only first camera to be active for now
-	currentGameCameraIndex = 0;
+
 	//Iterate through game cameras and render each of them,
 	if (currentGameCameraIndex + 1 <= gameCameras.size()) {
 		gm_RenderToGameFrameBuffer();
@@ -93,6 +94,9 @@ void GraphicsManager::gm_Render()
 	}
 	if (editorCameraActive) {
 		gm_RenderToEditorFrameBuffer();
+
+		//Compute fustrum
+		// 
 		/*		std::vector<float> alpha(1920 * 1080);
 				glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
 				glGetTexImage(GL_TEXTURE_2D, 0, GL_ALPHA, GL_FLOAT, alpha.data());
@@ -145,9 +149,9 @@ void GraphicsManager::gm_InitializeMeshes()
 
 void GraphicsManager::gm_RenderToEditorFrameBuffer()
 {
+	editorCamera.ComputeFustrum();
 	gm_FillDataBuffers(editorCamera);
 	//lightRenderer.dcm[0]=lightRenderer.testDCM;
-
 	framebufferManager.sceneBuffer.BindForDrawing();
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, framebufferManager.gBuffer.RetrieveBuffer());
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebufferManager.sceneBuffer.fbo);
@@ -179,7 +183,7 @@ void GraphicsManager::gm_RenderToEditorFrameBuffer()
 	glEnable(GL_CULL_FACE);
 	//Render UI
 	framebufferManager.UIBuffer.BindForDrawing();
-	glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
+	//glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
 	gm_RenderUIObjects(editorCamera);
 
 	Shader* fboCompositeShader{ &shaderManager.engineShaders.find("FBOCompositeShader")->second };
@@ -196,6 +200,7 @@ void GraphicsManager::gm_RenderToGameFrameBuffer()
 	framebufferManager.sceneBuffer.BindForDrawing();
 	//gm_RenderCubeMap(cd);
 	for (CameraData& cd : gameCameras) {
+		cd.ComputeFustrum();
 		//Clear G buffer at the start maybe
 		//Bind and clear g buffer
 		if (!cd.culling) {
@@ -242,8 +247,8 @@ void GraphicsManager::gm_RenderToGameFrameBuffer()
 	}
 	glDisable(GL_DEPTH_TEST);
 	framebufferManager.UIBuffer.BindForDrawing();
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, framebufferManager.gBuffer.gMaterial);
 	gm_RenderUIObjects(gameCameras[currentGameCameraIndex]);
 
 	Shader* fboCompositeShader{ &shaderManager.engineShaders.find("FBOCompositeShader")->second };
@@ -303,6 +308,7 @@ void GraphicsManager::gm_FillGBuffer(const CameraData& camera)
 	debugRenderer.RenderDebugCubes(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugSpheres(camera, *gBufferDebugShader);
 	debugRenderer.RenderDebugCapsules(camera, *gBufferDebugShader);
+	debugRenderer.RenderDebugMeshes(camera, *gBufferDebugShader);
 	debugRenderer.RenderPointLightDebug(camera, *gBufferDebugShader, lightRenderer.pointLightsToDraw);
 	debugRenderer.RenderDebugFrustums(camera, *gBufferDebugShader, gameCameras);
 

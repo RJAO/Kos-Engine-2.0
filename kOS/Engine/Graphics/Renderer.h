@@ -55,6 +55,7 @@ struct MeshRenderer : BasicRenderer
 
 struct SkinnedMeshRenderer : BasicRenderer
 {
+	void Update();
 	void Render(const CameraData& camera, Shader& shader);
 	void Render(const CameraData& camera, Shader& shader, layer::LAYERS);
 	void Clear() override;
@@ -121,8 +122,8 @@ struct LightRenderer : BasicRenderer
 	DepthCubeMap dcm[16];
 	DepthCubeMap testDCM;
 };
-struct DebugRenderer : BasicRenderer {
 
+struct DebugRenderer : BasicRenderer {
 	void InitializeDebugRendererMeshes();
 	void Render(const CameraData& camera, Shader& shader);
 	void RenderPointLightDebug(const CameraData& camera, Shader& shader, std::vector<PointLightData> pointLights);
@@ -130,17 +131,19 @@ struct DebugRenderer : BasicRenderer {
 	void RenderDebugCubes(const CameraData& camera, Shader& shader);
 	void RenderDebugCapsules(const CameraData& camera, Shader& shader);
 	void RenderDebugSpheres(const CameraData& camera, Shader& shader);
+	void RenderDebugMeshes(const CameraData& camera, Shader& shader);
 	void Clear() override;
 
 	std::vector<BasicDebugData> basicDebugCubes{};
 	std::vector<BasicDebugData> basicDebugCapsules{};
 	std::vector<BasicDebugData> basicDebugSpheres{};
-
+	std::vector<DebugMeshData> basicDebugMeshes{};
 private:
 	DebugCircle debugCircle;
 	DebugFrustum debugFrustum;
 	DebugCube debugCube;
 	DebugCapsule debugCapsule;
+	DebugMesh debugMesh;
 };
 
 struct ParticleRenderer : BasicRenderer {

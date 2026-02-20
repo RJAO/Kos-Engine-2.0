@@ -165,7 +165,19 @@ void TextRenderer::Clear()
 {
 	screenTextToDraw.clear();
 }
-
+//Frustim
+bool InFrustum(glm::vec3 center, glm::vec3 extents, utility::Fustrum const& fust) {
+	for (int i = 0; i < 6; i++) {
+		utility::Plane const& plane = fust.planes[i];
+		float dist = glm::dot(plane.normal, center) - plane.distance;
+		float radius = glm::dot(extents, glm::abs(plane.normal));
+		// If completely behind this plane, cull it
+		if (dist + radius < 0) {
+			return false;
+		}
+	}
+	return true;
+}
 void MeshRenderer::Render(const CameraData& camera, Shader& shader)
 {
 	shader.SetBool("isRigged", false);
@@ -173,6 +185,34 @@ void MeshRenderer::Render(const CameraData& camera, Shader& shader)
 	for (std::vector<MeshData>& meshData : meshesToDraw) {
 		for (MeshData& mesh : meshData)
 		{
+			//Do NOT feed any data in if its out of the camera fustrum
+			//Compute model
+			glm::vec3 extents = mesh.meshToUse->boundingBox.extents;
+			glm::vec3 worldCenter = glm::vec3(mesh.transformation * glm::vec4(mesh.meshToUse->boundingBox.center, 1.0));
+			glm::vec3 worldExtents = glm::vec3(
+				abs(mesh.transformation[0].x) * extents.x +
+				abs(mesh.transformation[1].x) * extents.y +
+				abs(mesh.transformation[2].x) * extents.z,
+
+				abs(mesh.transformation[0].y) * extents.x +
+				abs(mesh.transformation[1].y) * extents.y +
+				abs(mesh.transformation[2].y) * extents.z,
+
+				abs(mesh.transformation[0].z) * extents.x +
+				abs(mesh.transformation[1].z) * extents.y +
+				abs(mesh.transformation[2].z) * extents.z
+			);
+
+
+			//use new center and extents to compute fustrun
+			if (!InFrustum(worldCenter, worldExtents, camera.viewFrustum)) {
+	/*			std::cout << "TEST TEST\n";
+				std::cout << worldCenter.x << ' ' << worldCenter.y << ' ' << worldCenter.z<<'\n';
+				std::cout << extents.x << ' ' << extents.y << ' ' << extents.z << '\n';*/
+			
+				continue;;
+			}
+
 			shader.SetTrans("model", mesh.transformation);
 			shader.SetInt("entityID", mesh.entityID + 1);
 			mesh.meshToUse->PBRDraw(shader, mesh.meshMaterial);
@@ -187,6 +227,7 @@ void MeshRenderer::Render(const CameraData& camera, Shader& shader, layer::LAYER
 	shader.SetVec3("color", glm::vec3{ 1.f,1.f,1.f });
 		for (MeshData& mesh : meshesToDraw[layer])
 		{
+			//Use camera culling
 			shader.SetTrans("model", mesh.transformation);
 			shader.SetInt("entityID", mesh.entityID + 1);
 			mesh.meshToUse->PBRDraw(shader, mesh.meshMaterial);
@@ -195,6 +236,20 @@ void MeshRenderer::Render(const CameraData& camera, Shader& shader, layer::LAYER
 
 
 }
+void SkinnedMeshRenderer::Update() {
+	for (std::vector<SkinnedMeshData>& meshData : skinnedMeshesToDraw) {
+		for (SkinnedMeshData& mesh : meshData)
+		{
+			if (mesh.animationToUse) {
+				size_t boneCount = mesh.meshToUse->GetBoneInfo().size();
+				mesh.finalBoneMatrices.resize(boneCount, glm::mat4(1.0f));
+				mesh.animationToUse->Update(mesh.currentDuration, glm::mat4(1.f), glm::mat4(1.f), mesh.meshToUse->GetBoneMap(), mesh.meshToUse->GetBoneInfo(), mesh.finalBoneMatrices);
+			}
+		}
+	}
+}
+
+
 void SkinnedMeshRenderer::Render(const CameraData& camera, Shader& shader)
 {
 	shader.SetInt("texture_diffuse1", 0);
@@ -212,9 +267,7 @@ void SkinnedMeshRenderer::Render(const CameraData& camera, Shader& shader)
 			if (mesh.animationToUse)
 			{
 				shader.SetBool("isRigged", true);
-				size_t boneCount = mesh.meshToUse->GetBoneInfo().size();
-				mesh.animationToUse->Update(mesh.currentDuration, glm::mat4(1.f), glm::mat4(1.f), mesh.meshToUse->GetBoneMap(), mesh.meshToUse->GetBoneInfo(), boneCount);
-				mesh.meshToUse->DrawAnimation(shader, mesh.meshMaterial, mesh.animationToUse->GetBoneFinalMatrices());
+				mesh.meshToUse->DrawAnimation(shader, mesh.meshMaterial, mesh.finalBoneMatrices);
 			}
 			else
 			{
@@ -238,9 +291,7 @@ void SkinnedMeshRenderer::Render(const CameraData& camera, Shader& shader, layer
 		if (mesh.animationToUse)
 		{
 			shader.SetBool("isRigged", true);
-			size_t boneCount = mesh.meshToUse->GetBoneInfo().size();
-			mesh.animationToUse->Update(mesh.currentDuration, glm::mat4(1.f), glm::mat4(1.f), mesh.meshToUse->GetBoneMap(), mesh.meshToUse->GetBoneInfo(), boneCount);
-			mesh.meshToUse->DrawAnimation(shader, mesh.meshMaterial, mesh.animationToUse->GetBoneFinalMatrices());
+			mesh.meshToUse->DrawAnimation(shader, mesh.meshMaterial, mesh.finalBoneMatrices);
 		}
 		else
 		{
@@ -446,6 +497,7 @@ void DebugRenderer::InitializeDebugRendererMeshes() {
 	debugCircle.CreateMesh();
 	debugCube.CreateMesh();
 	debugCapsule.CreateMesh();
+	debugMesh.CreateMesh();
 }
 void DebugRenderer::Render(const CameraData& camera, Shader& shader) {
 
@@ -588,10 +640,24 @@ void DebugRenderer::RenderDebugCapsules(const CameraData& camera, Shader& shader
 	}
 }
 
+void DebugRenderer::RenderDebugMeshes(const CameraData& camera, Shader& shader) {
+	for (size_t i = 0; i < basicDebugMeshes.size(); i++) {
+		const auto& data = basicDebugMeshes[i];
+		debugMesh.vertices = data.vertices;
+		debugMesh.indices = data.indices;
+		debugMesh.CreateMesh();
+		shader.SetTrans("model", data.transform);
+		shader.SetFloat("uShaderType", 2.1f);
+		shader.SetVec3("color", data.color);
+		debugMesh.DrawMesh();
+	}
+}
+
 void DebugRenderer::Clear() {
 	basicDebugCubes.clear();
 	basicDebugSpheres.clear();
 	basicDebugCapsules.clear();
+	basicDebugMeshes.clear();
 }
 
 void ParticleRenderer::InitializeParticleRendererMeshes()
