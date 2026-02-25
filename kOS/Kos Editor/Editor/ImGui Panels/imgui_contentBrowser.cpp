@@ -414,8 +414,6 @@ namespace gui {
 							std::filesystem::path newPath = base / (renameBuffer + oldPath.extension().string());
 
 
-
-							LOGGING_INFO("RENAME WIP");
 							m_assetManager.RenameFile(oldPath.string(), newPath.string());
 
 							rename = false;
