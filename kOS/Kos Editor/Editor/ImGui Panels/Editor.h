@@ -254,6 +254,8 @@ namespace gui {
 
         /***********Delegates****************/
         Delegate<const std::string&> onSaveAll;
+        Delegate<> onDelete;
+        Delegate<> onDuplicate;
         void RegisterCallBack();
         /************************************/
 
