@@ -24,6 +24,9 @@ public:
 	float currentStaggerTimer = 0.f;
 	glm::vec3 pushbackVelocity = glm::vec3(0.f);
 
+	bool isDead = false;
+	float currentDeathTimer = 2.0f;
+
 	float timeBeforeDamageByFlamethrowerAgain = 0.f;
 
 	// Separate variables for ranges cuz if not the ranged will kiss u
@@ -50,6 +53,7 @@ public:
 	void Update() override;
 	void TriggerStagger(float duration);
 	void ApplyPushback(glm::vec3 dir, float force);
+	void Die();
 
 	REFLECTABLE(EnemyManagerScript, enemyHealth, enemyMovementSpeed, enemyType, enemyAttackRange, enemyRangedAttackRange, enemyChaseRange, playerToChase, enemyHurtboxPrefab, enemyBulletPrefab, enemyHurtboxPosition);
 };
@@ -110,6 +114,32 @@ inline void EnemyManagerScript::Update() {
 
 	//Entity deletion fix for animation
 	animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID);
+
+	if (isDead) {
+		// UNCOMMENT THIS WHEN DEATH ANIMATION IS READY AND REMOVE THE TIMER BELOW
+		/*
+		if (animComp) {
+			if (animComp->m_currentStateID) {
+				if (R_Animation* currAnim = resource->GetResource<R_Animation>(enemyController->RetrieveStateByID(animComp->m_currentStateID)->animationGUID).get()) {
+					float animDuration = currAnim->GetDuration();
+					if (animComp->m_CurrentTime >= animDuration) {
+						ecsPtr->DeleteEntity(entity);
+					}
+				}
+			}
+		} else {
+			ecsPtr->DeleteEntity(entity);
+		}
+		return;
+		*/
+
+		// TEMPORARY TIMER DEATH LOGIC
+		currentDeathTimer -= ecsPtr->m_GetDeltaTime();
+		if (currentDeathTimer <= 0.0f) {
+			ecsPtr->DeleteEntity(entity);
+		}
+		return;
+	}
 
 	if (isStaggered) {
 		enemyTransform->LocalTransformation.position += pushbackVelocity * ecsPtr->m_GetDeltaTime();
@@ -347,4 +377,16 @@ inline void EnemyManagerScript::ApplyPushback(glm::vec3 dir, float force) {
 	flatDir.y = 0.f;
 	if (glm::length(flatDir) > 0.001f) flatDir = glm::normalize(flatDir);
 	pushbackVelocity = flatDir * force;
+}
+
+inline void EnemyManagerScript::Die() {
+	if (isDead) return;
+
+	isDead = true;
+
+	if (!isStaggered) {
+		navMeshPtr->RemoveAgent(agentid);
+	}
+
+	// ADD DEATH ANIM HERE
 }

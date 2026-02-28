@@ -79,10 +79,7 @@ inline void BulletLogic::Start() {
 						//}
 
 			if (auto* enemyScript = ecsPtr->GetComponent<EnemyManagerScript>(col.otherEntityID)) {
-				// --- TRIGGER STAGGER AND PUSHBACK ---
 				enemyScript->TriggerStagger(1.f);
-				enemyScript->ApplyPushback(direction, 30.f);
-				// ------------------------------------
 
 				enemyScript->enemyHealth -= bulletDamage;
 
@@ -91,8 +88,7 @@ inline void BulletLogic::Start() {
 						scoreManager->AddScore(scoreValue); // or whatever value you want per kill
 					}
 
-					ecsPtr->DeleteEntity(col.otherEntityID);
-					//navMeshPtr->RemoveAgent(ecsPtr->GetComponent<EnemyManagerScript>(col.otherEntityID)->agentid);
+					enemyScript->Die();
 				}
 			}
 
