@@ -137,5 +137,26 @@ namespace physics {
         TriggerEnterList.erase(id);
         TriggerStayList.erase(id);
         TriggerExitList.erase(id);
+        std::erase_if(m_activeCollisions, [&](const CollisionPair& pair) {
+            unsigned int a = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(pair.collision->userData));
+            unsigned int b = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(pair.other->userData));
+            return a == id || b == id;
+        });
+        std::erase_if(m_cachedCollisionData, [&](const auto& kv) {
+            unsigned int a = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(kv.first.collision->userData));
+            unsigned int b = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(kv.first.other->userData));
+            return a == id || b == id;
+        });
+        std::erase_if(m_activeTriggers, [&](const TriggerPair& pair) {
+            unsigned int a = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(pair.trigger->userData));
+            unsigned int b = static_cast<unsigned int>(reinterpret_cast<uintptr_t>(pair.other->userData));
+            return a == id || b == id;
+        });
+        std::erase_if(m_pendingCollisionEvents, [&](const PendingCollisionEvent& e) {
+            return e.collisionA.thisEntityID == id || e.collisionB.thisEntityID == id;
+        });
+        std::erase_if(m_pendingTriggerEvents, [&](const PendingTriggerEvent& e) {
+            return e.entityA == id || e.entityB == id;
+        });
     }
 }
