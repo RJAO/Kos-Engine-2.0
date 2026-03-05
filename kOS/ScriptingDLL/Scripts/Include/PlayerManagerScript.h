@@ -189,6 +189,29 @@ public:
 	float lightningCurrTimeslowTimer = 0.0f;
 	bool  isTimeslowActive = false;
 
+	float groundAcceleration = 80.f;
+	float airAcceleration = 25.f;
+	float groundFriction = 8.f;
+	float airControl = 0.3f;
+	float maxGroundSpeed = 20.f;
+	float maxAirSpeed = 20.f;
+	float jumpForce = 12.f;
+
+
+	float cameraTiltMaxAngle = 10.f;	// Max roll degrees left/right
+	float cameraTiltSpeed = 8.f;		// How fast it lerps to target
+	float cameraTiltReturnSpeed = 10.f; // How fast it returns to 0
+	float cameraCurrTiltZ = 0.f;		//current Z roll
+
+	float cameraShakeIntensity = 0.f;
+	float cameraShakeDuration = 0.f;
+	float cameraShakeTimer = 0.f;
+	float cameraShakeDelay = 0.f;
+	float cameraShakeElapsed = 0.f;
+	bool  isCameraShaking = false;
+	glm::vec3 cameraShakeOriginalPos = glm::vec3(0.f);
+	glm::vec3 cameraShakeOffset = glm::vec3(0.f); // ✅ ADD THIS
+
 
 	inline int GetMaxBulletsForCurrentWeapon() const {
 		switch (playerPowerupHeld) {
@@ -272,6 +295,10 @@ public:
 	float fireDashVfxTimer = 0.0f;
 	float fireDashVfxDuration = 30.0f;
 
+
+
+
+
 	// --- FUNCTION DECLARATIONS ONLY ---
 	// Implementations are moved to the bottom of the file
 	void Start() override;
@@ -281,6 +308,7 @@ public:
 	void PlayerMovementControls();
 	void PlayerCameraControls();
 	void PlayerCombatControls();
+	void CameraShake(float intensity, float duration);
 
 	bool GroundCheck();
 	//void TakeDamage(int amount); // Commented out in original
@@ -448,6 +476,17 @@ inline void PlayerManagerScript::Update() {
 		PlayerMovementControls(); // Look at me
 	}
 
+	if (Input->IsKeyTriggered(keys::T)) {
+		CameraShake(0.3f, 0.5f);   // flat-ass light shake
+	}
+	if (Input->IsKeyTriggered(keys::Y)) {
+		CameraShake(0.6f, 0.4f);   // mid medium shake
+	}
+	if (Input->IsKeyTriggered(keys::U)) {
+		CameraShake(1.2f, 0.6f);   // nicki minaj ass heavy shake
+	}
+
+
 	// PlayerMovementControls(); I removed dis to disable movement while dashing, if anyone wants there to be more control during a dash need to look here
 	PlayerCameraControls();
 	PlayerCombatControls();
@@ -479,113 +518,244 @@ inline void PlayerManagerScript::FixedUpdate() {
 
 }
 
-inline void PlayerManagerScript::PlayerMovementControls() {
+//inline void PlayerManagerScript::PlayerMovementControls() {
+//	auto* playerRigidbody = ecsPtr->GetComponent<ecs::RigidbodyComponent>(entity);
+//	if (!playerRigidbody) return;
+//
+//	// Calculate current horizontal velocity
+//	glm::vec3 currentVelocity = playerRigidbody->velocity;
+//	glm::vec3 horizontalVelocity = glm::vec3(currentVelocity.x, 0.f, currentVelocity.z);
+//	float currentSpeed = glm::length(horizontalVelocity);
+//
+//	// Determine target speed based on movement state
+//	float targetSpeed = 0.f;
+//	isMoving = (std::abs(Input->GetHorizontal()) > 0.1f || std::abs(Input->GetVertical()) > 0.1f);
+//
+//	// SPRINTING
+//	if (Input->IsKeyPressed(keys::LeftShift) && Input->GetVertical() > 0.f && GroundCheck() && !playerIsCrouching) {
+//		playerIsSprinting = true;
+//		targetSpeed = maxPlayerMovSpeed * playerSprintMultiplier; // 15 m/s
+//	}
+//
+//	// CROUCHING (not sliding)
+//	else if (playerIsCrouching && !playerIsSliding) {
+//		targetSpeed = maxPlayerMovSpeed * playerCrouchMultiplier; // 5 m/s
+//	}
+//
+//	// WALKING
+//	else if (isMoving) {
+//		playerIsWalking = true;
+//		targetSpeed = maxPlayerMovSpeed; // 10 m/s
+//	}
+//
+//	// CROUCH/SLIDE HANDLING
+//	if (Input->IsKeyPressed(keys::LeftControl) && !playerIsSliding && GroundCheck()) {
+//		if (!playerIsCrouching) {
+//			playerIsCrouching = true;
+//
+//			// Check if we should slide
+//			if (currentSpeed >= playerVelocityBeforeSlide) {
+//				playerIsSliding = true;
+//
+//				// Apply slide impulse in current movement direction
+//				glm::vec3 slideDirection = glm::length(horizontalVelocity) > 0.1f ?
+//					glm::normalize(horizontalVelocity) :
+//					GetPlayerFrontDirection();
+//
+//				glm::vec3 slideForce = slideDirection * playerSlideMultiplier;
+//				physicsPtr->AddForce(playerRigidbody->actor, slideForce, ForceMode::Impulse);
+//			}
+//		}
+//	}
+//
+//	else if (Input->IsKeyReleased(keys::LeftControl)) {
+//		playerIsCrouching = false;
+//		playerIsSliding = false;
+//	}
+//
+//	// MOVEMENT (don't apply if sliding - let physics handle it)
+//	if (!playerIsSliding && isMoving) {
+//		glm::vec3 inputDirection = GetPlayerFrontDirection() * Input->GetVertical() +
+//			GetPlayerRightDirection() * Input->GetHorizontal();
+//
+//		if (glm::length2(inputDirection) > glm::epsilon<float>()) {
+//			inputDirection = glm::normalize(inputDirection);
+//
+//			// Calculate desired velocity
+//			glm::vec3 desiredVelocity = inputDirection * targetSpeed;
+//
+//			// Calculate the force needed (proportional to velocity difference)
+//			glm::vec3 velocityError = desiredVelocity - horizontalVelocity;
+//
+//			// Apply acceleration force (this value controls responsiveness)
+//			float groundAcceleration = 25.f; // Units/s² - adjust for feel
+//			glm::vec3 moveForce = velocityError * groundAcceleration;
+//
+//			physicsPtr->AddForce(playerRigidbody->actor, moveForce, ForceMode::Acceleration);
+//		}
+//	}
+//
+//	// STOPPING - apply friction when no input and on ground
+//	else if (!playerIsSliding && GroundCheck() && !isMoving && currentSpeed > 0.1f) {
+//		float stopDeceleration = 20.f; // How fast to stop
+//		glm::vec3 stopForce = -glm::normalize(horizontalVelocity) * stopDeceleration;
+//		physicsPtr->AddForce(playerRigidbody->actor, stopForce, ForceMode::Acceleration);
+//	}
+//
+//	// SLIDING FRICTION - slow down while sliding
+//	if (playerIsSliding) {
+//		float slideFriction = 10.f; // How fast slide decays
+//		if (currentSpeed > maxPlayerMovSpeed * playerCrouchMultiplier) {
+//			glm::vec3 frictionForce = -glm::normalize(horizontalVelocity) * slideFriction;
+//			physicsPtr->AddForce(playerRigidbody->actor, frictionForce, ForceMode::Acceleration);
+//		}
+//		else {
+//			// Stop sliding when we slow down enough
+//			playerIsSliding = false;
+//		}
+//	}
+//
+//	// JUMPING
+//	if (Input->IsKeyTriggered(keys::SPACE) && GroundCheck()) {
+//		glm::vec3 jumpVelocity(0.f, currPlayerJumpForce, 0.f);
+//		physicsPtr->AddForce(playerRigidbody->actor, jumpVelocity, ForceMode::VelocityChange);
+//	}
+//
+//	// Reset flags
+//	playerIsWalking = false;
+//	playerIsSprinting = false;
+//}
+
+inline void PlayerManagerScript::PlayerMovementControls()
+{
 	auto* playerRigidbody = ecsPtr->GetComponent<ecs::RigidbodyComponent>(entity);
 	if (!playerRigidbody) return;
 
-	// Calculate current horizontal velocity
-	glm::vec3 currentVelocity = playerRigidbody->velocity;
-	glm::vec3 horizontalVelocity = glm::vec3(currentVelocity.x, 0.f, currentVelocity.z);
-	float currentSpeed = glm::length(horizontalVelocity);
+	float dt = ecsPtr->m_GetDeltaTime();
 
-	// Determine target speed based on movement state
-	float targetSpeed = 0.f;
-	isMoving = (std::abs(Input->GetHorizontal()) > 0.1f || std::abs(Input->GetVertical()) > 0.1f);
+	glm::vec3 tempVelocity = playerRigidbody->velocity;
 
-	// SPRINTING
-	if (Input->IsKeyPressed(keys::LeftShift) && Input->GetVertical() > 0.f && GroundCheck() && !playerIsCrouching) {
-		playerIsSprinting = true;
-		targetSpeed = maxPlayerMovSpeed * playerSprintMultiplier; // 15 m/s
-	}
+	bool grounded = GroundCheck();
 
-	// CROUCHING (not sliding)
-	else if (playerIsCrouching && !playerIsSliding) {
-		targetSpeed = maxPlayerMovSpeed * playerCrouchMultiplier; // 5 m/s
-	}
+	// ----- INPUT -----
+	float forward = Input->GetVertical();
+	float right = Input->GetHorizontal();
 
-	// WALKING
-	else if (isMoving) {
-		playerIsWalking = true;
-		targetSpeed = maxPlayerMovSpeed; // 10 m/s
-	}
+	glm::vec3 wishDir =
+		GetPlayerFrontDirection() * forward +
+		GetPlayerRightDirection() * right;
 
-	// CROUCH/SLIDE HANDLING
-	if (Input->IsKeyPressed(keys::LeftControl) && !playerIsSliding && GroundCheck()) {
-		if (!playerIsCrouching) {
-			playerIsCrouching = true;
+	if (glm::length2(wishDir) > 0.0001f)
+		wishDir = glm::normalize(wishDir);
 
-			// Check if we should slide
-			if (currentSpeed >= playerVelocityBeforeSlide) {
-				playerIsSliding = true;
+	//grounded = true;
 
-				// Apply slide impulse in current movement direction
-				glm::vec3 slideDirection = glm::length(horizontalVelocity) > 0.1f ?
-					glm::normalize(horizontalVelocity) :
-					GetPlayerFrontDirection();
+	// ==============================
+	// GROUND MOVEMENT
+	// ==============================
+	if (grounded)
+	{
+		// --- Apply Friction ---
+		float speed = glm::length(glm::vec2(tempVelocity.x, tempVelocity.z));
+		if (speed > 0.0f)
+		{
+			float drop = speed * groundFriction * dt;
+			float newSpeed = speed - drop;
+			if (newSpeed < 0.f)
+				newSpeed = 0.f;
 
-				glm::vec3 slideForce = slideDirection * playerSlideMultiplier;
-				physicsPtr->AddForce(playerRigidbody->actor, slideForce, ForceMode::Impulse);
+			if (speed > 0.f)
+			{
+				newSpeed /= speed;
+				tempVelocity.x *= newSpeed;
+				tempVelocity.z *= newSpeed;
+			}
+		}
+
+		// --- Accelerate ---
+		if (glm::length2(wishDir) > 0.0f)
+		{
+			float wishSpeed = maxGroundSpeed;
+
+			float currentSpeed = glm::dot(
+				glm::vec3(tempVelocity.x, 0.f, tempVelocity.z),
+				wishDir
+			);
+
+			float addSpeed = wishSpeed - currentSpeed;
+
+			if (addSpeed > 0.f)
+			{
+				float accelSpeed = groundAcceleration * wishSpeed * dt;
+				if (accelSpeed > addSpeed)
+					accelSpeed = addSpeed;
+
+				tempVelocity += accelSpeed * wishDir;
 			}
 		}
 	}
 
-	else if (Input->IsKeyReleased(keys::LeftControl)) {
-		playerIsCrouching = false;
-		playerIsSliding = false;
-	}
+	// ==============================
+	// AIR MOVEMENT
+	// ==============================
+	else
+	{
+		if (glm::length2(wishDir) > 0.0f)
+		{
+			float wishSpeed = maxAirSpeed;
 
-	// MOVEMENT (don't apply if sliding - let physics handle it)
-	if (!playerIsSliding && isMoving) {
-		glm::vec3 inputDirection = GetPlayerFrontDirection() * Input->GetVertical() +
-			GetPlayerRightDirection() * Input->GetHorizontal();
+			float currentSpeed = glm::dot(
+				glm::vec3(tempVelocity.x, 0.f, tempVelocity.z),
+				wishDir
+			);
 
-		if (glm::length2(inputDirection) > glm::epsilon<float>()) {
-			inputDirection = glm::normalize(inputDirection);
+			float addSpeed = wishSpeed - currentSpeed;
 
-			// Calculate desired velocity
-			glm::vec3 desiredVelocity = inputDirection * targetSpeed;
+			if (addSpeed > 0.f)
+			{
+				float accelSpeed = airAcceleration * wishSpeed * dt;
+				if (accelSpeed > addSpeed)
+					accelSpeed = addSpeed;
 
-			// Calculate the force needed (proportional to velocity difference)
-			glm::vec3 velocityError = desiredVelocity - horizontalVelocity;
-
-			// Apply acceleration force (this value controls responsiveness)
-			float groundAcceleration = 25.f; // Units/s² - adjust for feel
-			glm::vec3 moveForce = velocityError * groundAcceleration;
-
-			physicsPtr->AddForce(playerRigidbody->actor, moveForce, ForceMode::Acceleration);
+				tempVelocity += accelSpeed * wishDir;
+			}
 		}
 	}
 
-	// STOPPING - apply friction when no input and on ground
-	else if (!playerIsSliding && GroundCheck() && !isMoving && currentSpeed > 0.1f) {
-		float stopDeceleration = 20.f; // How fast to stop
-		glm::vec3 stopForce = -glm::normalize(horizontalVelocity) * stopDeceleration;
-		physicsPtr->AddForce(playerRigidbody->actor, stopForce, ForceMode::Acceleration);
+	// ==============================
+	// HORIZONTAL SPEED CLAMP
+	// ==============================
+	glm::vec3 horizontal(tempVelocity.x, 0.f, tempVelocity.z);
+	float horizontalSpeed = glm::length(horizontal);
+
+	float maxSpeed = grounded ? maxGroundSpeed : maxAirSpeed;
+
+	if (horizontalSpeed > maxSpeed)
+	{
+		horizontal = glm::normalize(horizontal) * maxSpeed;
+		tempVelocity.x = horizontal.x;
+		tempVelocity.z = horizontal.z;
 	}
 
-	// SLIDING FRICTION - slow down while sliding
-	if (playerIsSliding) {
-		float slideFriction = 10.f; // How fast slide decays
-		if (currentSpeed > maxPlayerMovSpeed * playerCrouchMultiplier) {
-			glm::vec3 frictionForce = -glm::normalize(horizontalVelocity) * slideFriction;
-			physicsPtr->AddForce(playerRigidbody->actor, frictionForce, ForceMode::Acceleration);
-		}
-		else {
-			// Stop sliding when we slow down enough
-			playerIsSliding = false;
-		}
+	// ==============================
+	// JUMP
+	// ==============================
+	if (Input->IsKeyTriggered(keys::SPACE) && grounded)
+	{
+		tempVelocity.y = jumpForce;
 	}
 
-	// JUMPING
-	if (Input->IsKeyTriggered(keys::SPACE) && GroundCheck()) {
-		glm::vec3 jumpVelocity(0.f, currPlayerJumpForce, 0.f);
-		physicsPtr->AddForce(playerRigidbody->actor, jumpVelocity, ForceMode::VelocityChange);
-	}
+	// Apply final velocity directly
+	glm::vec3 currentVel = playerRigidbody->velocity;
+	glm::vec3 delta = tempVelocity - currentVel;
 
-	// Reset flags
-	playerIsWalking = false;
-	playerIsSprinting = false;
+	physicsPtr->AddForce(
+		playerRigidbody->actor,
+		delta,
+		ForceMode::VelocityChange
+	);
 }
+
 
 inline void PlayerManagerScript::PlayerCameraControls() {
 	auto* playerTransform = ecsPtr->GetComponent<ecs::TransformComponent>(entity);
@@ -603,8 +773,67 @@ inline void PlayerManagerScript::PlayerCameraControls() {
 	playerRotationY += mouseRotationY;
 	playerRotationX = glm::clamp(playerRotationX, -90.f, 90.f);
 
-	playerCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
-	playerGunCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
+	//playerCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
+	//playerGunCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, 0.f);
+
+
+	// CAMERA TILT
+	float horizontalInput = Input->GetHorizontal();
+
+	float targetTiltZ = -horizontalInput * cameraTiltMaxAngle;
+
+	float tiltBlend = (std::abs(horizontalInput) > 0.05f)
+		? cameraTiltSpeed
+		: cameraTiltReturnSpeed;
+
+	cameraCurrTiltZ = glm::mix(cameraCurrTiltZ, targetTiltZ, tiltBlend * ecsPtr->m_GetDeltaTime());
+
+	// CAMERA SHAKE
+	if (isCameraShaking) {
+		cameraShakeElapsed += ecsPtr->m_GetDeltaTime();
+
+		if (cameraShakeElapsed >= cameraShakeDelay) {
+			float t = (cameraShakeElapsed - cameraShakeDelay) / cameraShakeDuration;
+
+			if (t >= 1.f) {
+				playerCameraTransform->LocalTransformation.position = cameraShakeOriginalPos;
+				isCameraShaking = false;
+				cameraShakeElapsed = 0.f;
+				cameraShakeOffset = glm::vec3(0.f);
+			}
+			else {
+				float curveValue = 1.f - t;
+				float currentIntensity = cameraShakeIntensity * curveValue;
+
+				auto randF = [](float range) -> float {
+					return ((float)rand() / (float)RAND_MAX) * 2.f * range - range;
+					};
+
+				glm::vec3 randomOffset = glm::vec3(
+					randF(currentIntensity),
+					randF(currentIntensity),
+					0.f
+				);
+
+				float yaw = glm::radians(playerRotationY);
+				float pitch = glm::radians(playerRotationX);
+
+				glm::mat4 rotMat = glm::rotate(glm::mat4(1.f), yaw, glm::vec3(0, 1, 0))
+					* glm::rotate(glm::mat4(1.f), pitch, glm::vec3(1, 0, 0));
+
+				cameraShakeOffset = glm::vec3(rotMat * glm::vec4(randomOffset, 0.f));
+			}
+		}
+	}
+
+
+	playerCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, cameraCurrTiltZ);
+	playerGunCameraTransform->LocalTransformation.rotation = glm::vec3(playerRotationX, playerRotationY, cameraCurrTiltZ);
+
+
+
+
+
 
 	// PLAYER CROUCHING
 	if (playerIsCrouching) {
@@ -613,6 +842,15 @@ inline void PlayerManagerScript::PlayerCameraControls() {
 	else {
 		ecsPtr->GetComponent<TransformComponent>(playerCameraObjectID)->LocalTransformation.position.y = glm::mix(ecsPtr->GetComponent<TransformComponent>(playerCameraObjectID)->LocalTransformation.position.y, originalPlayerCrouchCameraPosY, playerCrouchTransitionSpeed * ecsPtr->m_GetDeltaTime());
 	}
+
+	//if (cameraShakeTimer > 0.f) {
+	//	playerCameraTransform->LocalTransformation.position += cameraShakeOffset;
+	//}
+
+	if (isCameraShaking && cameraShakeElapsed >= cameraShakeDelay) {
+		playerCameraTransform->LocalTransformation.position = cameraShakeOriginalPos + cameraShakeOffset;
+	}
+
 
 	// PLAYER SPRINTING
 	auto* cameraComp = ecsPtr->GetComponent<CameraComponent>(playerCameraObjectID);
@@ -1488,4 +1726,23 @@ inline glm::vec3 PlayerManagerScript::GetPlayerRightDirection() {
 	glm::vec3 dir(std::sin(glm::radians(-cameraRotationY)), 0.f, std::cos(glm::radians(-cameraRotationY)));
 
 	return dir;
+}
+
+inline void PlayerManagerScript::CameraShake(float intensity, float duration) {
+	// Save curr position
+	auto* cam = ecsPtr->GetComponent<ecs::TransformComponent>(playerCameraObjectID);
+	if (!cam) return;
+
+	// If already shaking, restore first 
+	if (isCameraShaking) {
+		cam->LocalTransformation.position = cameraShakeOriginalPos;
+	}
+
+	cameraShakeOriginalPos = cam->LocalTransformation.position;
+	cameraShakeIntensity = intensity;
+	cameraShakeDuration = duration;
+	cameraShakeDelay = 0.f;   // set to non-zero if you want delay support
+	cameraShakeElapsed = 0.f;
+	cameraShakeOffset = glm::vec3(0.f);
+	isCameraShaking = true;
 }

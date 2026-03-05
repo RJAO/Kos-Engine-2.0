@@ -1,57 +1,39 @@
 [
     {
-        "SceneData": {
-            "skyBoxGUID": [],
-            "NavMeshGuid": "cccccccc-cccc-cccc-cccc-cccccccccccc",
-            "postProcessingProfile": "00000000-0000-0000-0000-000000000000",
-            "ambientIntensity": 1.0
-        }
-    },
-    {
-        "entityGUID": "24c1f849-060e-20c0-28fa-472f7e043d44",
-        "CapsuleColliderComponent": {
-            "isTrigger": false,
-            "capsule": {
+        "entityGUID": "dcbcdb14-c728-a183-0056-4f869c48fcb2",
+        "BoxColliderComponent": {
+            "isTrigger": true,
+            "box": {
                 "center": {
                     "x": 0.0,
-                    "y": 1.5,
+                    "y": 0.0,
                     "z": 0.0
                 },
-                "radius": 0.5,
-                "height": 3.0,
-                "capsuleDirection": 1
+                "size": {
+                    "x": 42.400001525878906,
+                    "y": 13.399999618530273,
+                    "z": 38.900001525878906
+                }
             }
         },
-        "EnemyManagerScript": {
-            "enemyHealth": 5,
-            "enemyMovementSpeed": 5.0,
-            "enemyType": "Melee",
-            "enemyAttackRange": 2.5,
-            "enemyRangedAttackRange": 15.0,
-            "enemyChaseRange": 25.0,
-            "playerToChase": "dc3cc8b0-f51e-12d5-0ab2-8c8d690d90e8",
-            "enemyHurtboxPrefab": "bfbe5968-8f63-b074-ac3f-5597fcc00dd1",
-            "enemyBulletPrefab": "66adf257-5e24-d6e6-4321-1cf241444414",
-            "enemyHurtboxPosition": "dd847e46-a321-38fb-d037-47a47b6b1a0f"
-        },
         "NameComponent": {
-            "entityName": "EnemyPrefab",
+            "entityName": "LockRoomPrefab",
             "Layer": 0,
-            "entityTag": "Enemy",
+            "entityTag": "Default",
             "isPrefab": true,
             "isStatic": false,
-            "prefabName": "EnemyPrefab.prefab",
+            "prefabName": "LockRoomPrefab.prefab",
             "hide": false
         },
         "RigidbodyComponent": {
             "mass": 1.0,
             "drag": 0.0,
             "angularDrag": 0.05000000074505806,
-            "useGravity": true,
-            "isKinematic": true,
+            "useGravity": false,
+            "isKinematic": false,
             "interpolation": 0,
             "collisionDetection": 0,
-            "constraints": 11,
+            "constraints": 0,
             "speed": 0.0,
             "velocity": {
                 "x": 0.0,
@@ -64,12 +46,19 @@
                 "z": 0.0
             }
         },
+        "RoomLockScript": {
+            "enemyCountToKill": 3,
+            "doorPrefabA": "00000000-0000-0000-0000-000000000000",
+            "doorPrefabB": "00000000-0000-0000-0000-000000000000",
+            "doorSpawnPointA": "00000000-0000-0000-0000-000000000000",
+            "doorSpawnPointB": "00000000-0000-0000-0000-000000000000"
+        },
         "TransformComponent": {
             "WorldTransformation": {
                 "position": {
-                    "x": 23.768556594848633,
-                    "y": 3.9802656173706055,
-                    "z": -15.537531852722168
+                    "x": 42.69462585449219,
+                    "y": 6.382465362548828,
+                    "z": -23.37112045288086
                 },
                 "rotation": {
                     "x": 0.0,
@@ -84,9 +73,9 @@
             },
             "LocalTransformation": {
                 "position": {
-                    "x": 23.768556594848633,
-                    "y": 3.9802656173706055,
-                    "z": -15.537531852722168
+                    "x": 42.69462585449219,
+                    "y": 6.382465362548828,
+                    "z": -23.37112045288086
                 },
                 "rotation": {
                     "x": 0.0,
@@ -102,22 +91,22 @@
         },
         "children": [
             {
-                "entityGUID": "a8ed480f-dc06-d48d-cfe7-a5be96e2fcd8",
+                "entityGUID": "388568cc-b9d1-143f-2c77-c58166cdeed6",
                 "NameComponent": {
-                    "entityName": "Enemy Hurtbox Position",
+                    "entityName": "SpawnPoint 1",
                     "Layer": 0,
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "",
+                    "prefabName": "SpawnPoint 1.prefab",
                     "hide": false
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
-                            "x": 23.768556594848633,
-                            "y": 5.4802656173706055,
-                            "z": -15.537531852722168
+                            "x": 53.90362548828125,
+                            "y": 3.1326966285705566,
+                            "z": -23.37112045288086
                         },
                         "rotation": {
                             "x": 0.0,
@@ -132,8 +121,8 @@
                     },
                     "LocalTransformation": {
                         "position": {
-                            "x": 0.0,
-                            "y": 1.5,
+                            "x": 11.208999633789063,
+                            "y": -3.2497687339782715,
                             "z": 0.0
                         },
                         "rotation": {
@@ -150,34 +139,22 @@
                 }
             },
             {
-                "entityGUID": "1043651a-41c8-52db-d7dc-94d18d7d6d25",
-                "AnimatorComponent": {
-                    "controllerGUID": "959228b7-3789-fba1-c60f-18a77dc3fc15",
-                    "m_PlaybackSpeed": 1.0,
-                    "m_CurrentTime": 0.0,
-                    "m_IsPlaying": true,
-                    "m_currentStateID": 0,
-                    "m_transitioningStateID": 0
-                },
+                "entityGUID": "b14e25aa-2dd7-bb14-0d51-e1f11e271202",
                 "NameComponent": {
-                    "entityName": "Enemy Model",
+                    "entityName": "SpawnPoint 2",
                     "Layer": 0,
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "",
+                    "prefabName": "SpawnPoint 2.prefab",
                     "hide": false
-                },
-                "SkinnedMeshRendererComponent": {
-                    "skinnedMeshGUID": "8a830bfc-7794-b76e-2f45-0e765f0a2495",
-                    "materialGUID": "23e7b1cb-3d50-e7e5-20f9-515b8bddebf5"
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
-                            "x": 23.768556594848633,
-                            "y": 3.9802656173706055,
-                            "z": -15.537531852722168
+                            "x": 14.067501068115234,
+                            "y": 4.553180694580078,
+                            "z": -22.673683166503906
                         },
                         "rotation": {
                             "x": 0.0,
@@ -185,26 +162,26 @@
                             "z": 0.0
                         },
                         "scale": {
-                            "x": 0.014999999664723873,
-                            "y": 0.014999999664723873,
-                            "z": 0.014999999664723873
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     },
                     "LocalTransformation": {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": -28.627124786376953,
+                            "y": -1.82928466796875,
+                            "z": 0.6974372863769531
                         },
                         "rotation": {
                             "x": 0.0,
-                            "y": 0.0,
+                            "y": -0.0,
                             "z": 0.0
                         },
                         "scale": {
-                            "x": 0.014999999664723873,
-                            "y": 0.014999999664723873,
-                            "z": 0.014999999664723873
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     }
                 }
