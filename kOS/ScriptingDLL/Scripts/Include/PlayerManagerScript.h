@@ -44,6 +44,11 @@ public:
 	float fireMeleeCooldown = 1.f; // In seconds
 	float fireCurrMeleeCooldown = 0.f;
 
+	// Fire Slash Combo
+	int   fireSlashComboCount = 0;
+	float fireSlashComboWindow = 1.2f;
+	float fireCurrComboTimer = 0.f;
+
 	float fireAbilityCost = 30.f;
 
 	float fireMovementCost = 5.f;
@@ -458,11 +463,13 @@ inline void PlayerManagerScript::Update() {
 	}
 	
 	// LMB Ability Countdowns
-	if (fireCurrMeleeCooldown > 0.0f)
-	{
-		fireCurrMeleeCooldown -= ecsPtr->m_GetDeltaTime();
-		if (fireCurrMeleeCooldown < 0.0f)
-			fireCurrMeleeCooldown = 0.0f;
+	if (fireCurrComboTimer > 0.f) {
+		fireCurrComboTimer -= ecsPtr->m_GetDeltaTime();
+		if (fireCurrComboTimer <= 0.f) {
+			fireCurrComboTimer = 0.f;
+			fireSlashComboCount = 0; // Reset combo if window expired
+			std::cout << "[FireSlash] Combo expired. Reset to 0.\n";
+		}
 	}
 
 	// Dashing cooldown
@@ -1313,7 +1320,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 	// SHOOT
 	// ADD RELOAD HERE
-	if (Input->IsKeyTriggered(keys::LMB)) {
+	if (Input->IsKeyTriggered(keys::LMB) && playerPowerupHeld == Powerup::NONE) {
 
 		// Don't shoot while reloading
 		if (isReloading) return;
@@ -1397,6 +1404,30 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			std::shared_ptr<R_Scene> fireLMB = resource->GetResource<R_Scene>(fireLMBPrefab);
 
 			fireCurrMeleeCooldown = fireMeleeCooldown;
+
+			fireSlashComboCount++;
+			if (fireSlashComboCount > 3)
+				fireSlashComboCount = 1; // Loop to first slash
+
+			// Reset the combo window timer on each hit
+			fireCurrComboTimer = fireSlashComboWindow;
+
+			std::cout << "[FireSlash] Combo Hit: " << fireSlashComboCount << "\n";
+
+			// SEAN DEAR PUT YOUR ANIM HERE FOR FIRE SLASH
+			if (animComp && animComp->m_currentStateID) {
+				if (fireSlashComboCount == 1) {
+					// TODO: FIRE SLASH ANIM 1
+				}
+				else if (fireSlashComboCount == 2) {
+					// TODO: FIRE SLASH ANIM 2
+				}
+				else if (fireSlashComboCount == 3) {
+					// TODO: FIRE SLASH ANIMA 3
+					fireSlashComboCount = 0;
+					fireCurrComboTimer = 0.f;
+				}
+			}
 
 			if (fireLMB) {
 				std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
