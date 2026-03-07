@@ -4,7 +4,7 @@
 #include "ScriptAdapter/TemplateSC.h"
 #include "PlayerManagerScript.h"
 
-class AbilityUIImageScript : public TemplateSC {
+class ElementBaseScript : public TemplateSC {
 public:
     // Reference to the player object
     utility::GUID playerObject;
@@ -58,6 +58,6 @@ private:
     }
 
 public:
-    REFLECTABLE(AbilityUIImageScript, playerObject, playerObjectID,
+    REFLECTABLE(ElementBaseScript, playerObject, playerObjectID,
         noneSprite, fireSprite, lightningSprite, acidSprite);
 };
