@@ -152,6 +152,10 @@ public:
 	utility::GUID acidShieldPrefab;
 	utility::GUID airBlastPrefab;
 
+	utility::GUID absorbingVFXPrefab;
+	utility::GUID absorbingVFXSpawnPoint;
+	ecs::EntityID absorbVFXSpawnObjectID;
+
 	// BACKEND PLAYER DETAILS
 	float playerRotationX = 0.f, playerRotationY = 0.f;
 
@@ -330,7 +334,7 @@ public:
 
 	REFLECTABLE(PlayerManagerScript, playerCameraObject, playerGunCameraObject, playerProjectilePointObject, playerGunModelPointObject, playerArmModelObject, playerGroundCheckObject,
 		bulletPrefab, fireLMBPrefab, acidLMBPrefab, lightningLMBPrefab, firePrefab, acidPrefab, lightningPrefab, fireDashPrefab, lightningDashPrefab, acidShieldPrefab, airBlastPrefab,
-		gunSfxGUID_1,gunReloadSfxGUID, fireSlashSfxGUID, fireDashSfxGUID, lightningDashSfxGUID, lightningGunSfxGUID, pauseMenuManagerObject, healthUIObject, loseScreenCanvasObject, winScreenCanvasObject);
+		gunSfxGUID_1, gunReloadSfxGUID, fireSlashSfxGUID, fireDashSfxGUID, lightningDashSfxGUID, lightningGunSfxGUID, pauseMenuManagerObject, healthUIObject, loseScreenCanvasObject, winScreenCanvasObject, absorbingVFXPrefab, absorbingVFXSpawnPoint);
 };
 
 // --- LATE INCLUDES & IMPLEMENTATION ---
@@ -356,6 +360,7 @@ inline void PlayerManagerScript::Start() {
 	playerGunModelPointObjectID = ecsPtr->GetEntityIDFromGUID(playerGunModelPointObject);
 	playerArmModelObjectID = ecsPtr->GetEntityIDFromGUID(playerArmModelObject);
 	playerGroundCheckObjectID = ecsPtr->GetEntityIDFromGUID(playerGroundCheckObject);
+	absorbVFXSpawnObjectID = ecsPtr->GetEntityIDFromGUID(absorbingVFXSpawnPoint);
 
 	currPlayerHitPoints = maxPlayerHitPoints;
 	currPlayerMovSpeed = maxPlayerMovSpeed;
@@ -1303,6 +1308,20 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			/*	currInteractCooldown = interactCooldown;
 				std::cout << "Powerup picked up. Cooldown STARTO!!!!::: "
 					<< currInteractCooldown << "s\n";*/
+
+				//Raymond spawn ur absorbing here
+				if (absorbingVFXPrefab != utility::GUID{}) {
+					std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+					ecs::EntityID absorbVFXID = DuplicatePrefabIntoScene<R_Scene>(currentScene, absorbingVFXPrefab);
+
+					// Position at the designated spawn point
+					auto* spawnTf = ecsPtr->GetComponent<TransformComponent>(absorbVFXSpawnObjectID);
+					auto* vfxTf = ecsPtr->GetComponent<TransformComponent>(absorbVFXID);
+
+					if (spawnTf && vfxTf) {
+						vfxTf->LocalTransformation.position = spawnTf->WorldTransformation.position;
+					}
+				}
 
 				// ADD SFX
 
