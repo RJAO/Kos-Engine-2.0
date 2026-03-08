@@ -99,7 +99,6 @@ namespace serialization{
 
 	void Serialization::SaveScene(const std::filesystem::path& scene, const std::filesystem::path& targetFilePath)
 	{
-		LOGGING_WARN("Loading Scene: " + scene.string());
 		std::string jsonFilePath = targetFilePath.empty() ? scene.string() : targetFilePath.string();
 		JsonFileValidation(jsonFilePath);
 
