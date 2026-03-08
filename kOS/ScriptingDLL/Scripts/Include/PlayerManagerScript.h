@@ -1600,8 +1600,20 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				//	
 				//}
 
-				if (auto* railgunScript = ecsPtr->GetComponent<LightningPowerupManagerScript>(railgunID)) {
-					railgunScript->direction = GetPlayerCameraFrontDirection();
+				//std::vector<EntityID> childObj = ecsPtr->GetChild(railgunID).value();
+				//if (auto* railgunScript = ecsPtr->GetComponent<LightningPowerupManagerScript>(childObj[1])) {
+				//	railgunScript->direction = GetPlayerCameraFrontDirection();
+				//}
+
+				glm::vec3 dir = glm::normalize(GetPlayerCameraFrontDirection());
+				float yaw = glm::degrees(atan2(dir.x, dir.z)) + 180.f;
+				float pitch = glm::degrees(asin(-dir.y));
+				float roll = 0.f;
+
+				glm::vec3 rotationDegrees = glm::vec3(-pitch, yaw, roll);
+
+				if (auto* railgunTransform = ecsPtr->GetComponent<TransformComponent>(railgunID)) {
+					railgunTransform->LocalTransformation.rotation = rotationDegrees;
 				}
 
 				currMana -= lightningAbilityCost;
@@ -1657,7 +1669,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 			ecs::EntityID acidShieldID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidShieldPrefab);
-			
+
 			ecs::EntityID parentID = entity;
 			ecsPtr->SetParent(parentID, acidShieldID, false);
 
