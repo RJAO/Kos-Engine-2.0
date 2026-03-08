@@ -68,7 +68,7 @@ extern "C"  __declspec(dllexport) void UpdateStatic(StaticVariableManager* svm) 
 
 	RegisterScript<EventColliderScript>(TemplateSC::ecsPtr);
 
-	RegisterScript<HealthBarScript>(TemplateSC::ecsPtr);
+	RegisterScript<EnemyHealthScript>(TemplateSC::ecsPtr);
 	RegisterScript<AbilityUIImageScript>(TemplateSC::ecsPtr);
 	RegisterScript<ScoreManagerScript>(TemplateSC::ecsPtr);
 	RegisterScript<PauseMenuScript>(TemplateSC::ecsPtr);
