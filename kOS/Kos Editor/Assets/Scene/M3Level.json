@@ -10549,7 +10549,9 @@
                     "pauseMenuManagerObject": "155ba76a-ab15-3655-61d0-3eb0d2bccb85",
                     "healthUIObject": "00000000-0000-0000-0000-000000000000",
                     "loseScreenCanvasObject": "23dd4708-96d5-34e7-3d95-b85965156d5d",
-                    "winScreenCanvasObject": "dd420147-13cd-2a52-32b4-107bc917a44d"
+                    "winScreenCanvasObject": "dd420147-13cd-2a52-32b4-107bc917a44d",
+                    "absorbingVFXPrefab": "00000000-0000-0000-0000-000000000000",
+                    "absorbingVFXSpawnPoint": "00000000-0000-0000-0000-000000000000"
                 },
                 "RigidbodyComponent": {
                     "mass": 1.0,
@@ -17552,7 +17554,7 @@
                     }
                 },
                 "EnemyManagerScript": {
-                    "enemyHealth": 5,
+                    "enemyHealth": 60,
                     "enemyMovementSpeed": 3.0,
                     "enemyType": "Tank",
                     "enemyAttackRange": 2.5,
