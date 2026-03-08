@@ -7,15 +7,15 @@ class EnemyManagerScript;
 
 class AcidGas : public TemplateSC {
 public:
-    int     gasDamage = 2;        // Damage per tick
-    float   tickInterval = 1.f;
-    float   lifetime = 4.f;
+    int     gasDamage = 10;        // Damage per tick
+    float   tickInterval = 1.f;  
+    float   lifetime = 2.2f;
     int     scoreValue = 50;
 
     // INTERNAL
     float   currLifetime = 0.f;
     float   currTickTimer = 0.f;
-    bool    isExpired = false;
+
     std::unordered_set<ecs::EntityID> enemiesInCloud;
 
 
@@ -45,41 +45,21 @@ inline void AcidGas::Start() {
     }
 
     physicsPtr->GetEventCallback()->OnTriggerEnter(entity, [this](const physics::Collision& col) {
-        if (isExpired) return;
-
-        if (!ecsPtr->IsValidEntity(entity)) return;
-        if (!ecsPtr->IsValidEntity(col.otherEntityID)) return;
-
         auto* nameComp = ecsPtr->GetComponent<NameComponent>(col.otherEntityID);
         if (!nameComp) return;
-
         if (nameComp->entityTag != "Enemy") return;
-
-        auto* enemyScript = ecsPtr->GetComponent<EnemyManagerScript>(col.otherEntityID);
-        if (!enemyScript) return;
 
         enemiesInCloud.insert(col.otherEntityID);
         std::cout << "[AcidGasCloud] Enemy entered cloud. Count: " << enemiesInCloud.size() << "\n";
         });
 
     physicsPtr->GetEventCallback()->OnTriggerExit(entity, [this](const physics::Collision& col) {
-        if (isExpired) return;
-        if (!ecsPtr->IsValidEntity(entity)) return;
-        if (!ecsPtr->IsValidEntity(col.otherEntityID)) return;
-
-        auto it = enemiesInCloud.find(col.otherEntityID);
-
-        if (it != enemiesInCloud.end()) {
-            enemiesInCloud.erase(it);
-            std::cout << "[AcidGasCloud] Enemy exited cloud. Count: " << enemiesInCloud.size() << "\n";
-        }
+        enemiesInCloud.erase(col.otherEntityID);
+        std::cout << "[AcidGasCloud] Enemy exited cloud. Count: " << enemiesInCloud.size() << "\n";
         });
 }
 
 inline void AcidGas::Update() {
-    if (isExpired) return;
-
-
     float dt = ecsPtr->m_GetDeltaTime();
 
     currTickTimer -= dt;
@@ -90,10 +70,6 @@ inline void AcidGas::Update() {
         std::vector<ecs::EntityID> toRemove;
 
         for (ecs::EntityID enemyID : enemiesInCloud) {
-            if (!ecsPtr->IsValidEntity(enemyID)) {
-                toRemove.push_back(enemyID);
-                continue;
-            }
 
             auto* enemyScript = ecsPtr->GetComponent<EnemyManagerScript>(enemyID);
             if (!enemyScript) {
@@ -101,7 +77,7 @@ inline void AcidGas::Update() {
                 continue;
             }
 
-            enemyScript->enemyHealth -= gasDamage;
+            enemyScript->TakeDamage(gasDamage, "ACID");
             std::cout << "[AcidGasCloud] Tick damage to enemy | HP left: " << enemyScript->enemyHealth << "\n";
 
             if (enemyScript->enemyHealth <= 0) {
@@ -120,8 +96,6 @@ inline void AcidGas::Update() {
 
     currLifetime -= dt;
     if (currLifetime <= 0.f) {
-        isExpired = true;
-        enemiesInCloud.clear();
         ecsPtr->DeleteEntity(entity);
     }
 }
