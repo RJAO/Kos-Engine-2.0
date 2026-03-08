@@ -433,14 +433,12 @@ namespace prefab
             
             //prefab deleted an gameobject and its not applied to instance.
             if (id_isPrefabCount > compare_isPrefabCount) {
-                for (int c = 0; compare_isPrefabCount; c++) {
+                for (int c = 0; c < compare_isPrefabCount; c++) {
                     CompareEntity(result, transID->m_childID[c], transCompare->m_childID[c]);
                 }
                 for (int notPrefab = compare_isPrefabCount; notPrefab < id_isPrefabCount; notPrefab++) {
                     ecs::ComponentSignature entitySig = m_ecs.GetEntitySignature(transID->m_childID[notPrefab]);
                     result.emplace(transID->m_childID[notPrefab], std::make_pair(transCompare->m_childID[notPrefab], entitySig));
-
-                    LOGGING_INFO("?" + m_ecs.GetComponent<NameComponent>(transID->m_childID[notPrefab])->entityName);
                 }
             }
             //instance deletes an object or prefab adds a new object ** Very Problematic
