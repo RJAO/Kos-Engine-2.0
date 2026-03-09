@@ -44,6 +44,11 @@ public:
 	float fireMeleeCooldown = 1.f; // In seconds
 	float fireCurrMeleeCooldown = 0.f;
 
+	// Fire Slash Combo
+	int   fireSlashComboCount = 0;
+	float fireSlashComboWindow = 1.2f;
+	float fireCurrComboTimer = 0.f;
+
 	float fireAbilityCost = 30.f;
 
 	float fireMovementCost = 5.f;
@@ -75,7 +80,7 @@ public:
 	float acidCurrMovementCooldown = 0.f;
 
 	// PLAYER PREFS
-	int maxPlayerHitPoints = 6;
+	int maxPlayerHitPoints = 50;
 	int currPlayerHitPoints;
 	bool isDead = false;
 
@@ -147,6 +152,10 @@ public:
 	utility::GUID acidShieldPrefab;
 	utility::GUID airBlastPrefab;
 
+	utility::GUID absorbingVFXPrefab;
+	utility::GUID absorbingVFXSpawnPoint;
+	ecs::EntityID absorbVFXSpawnObjectID;
+
 	// BACKEND PLAYER DETAILS
 	float playerRotationX = 0.f, playerRotationY = 0.f;
 
@@ -193,10 +202,13 @@ public:
 	float airAcceleration = 25.f;
 	float groundFriction = 8.f;
 	float airControl = 0.3f;
-	float maxGroundSpeed = 20.f;
-	float maxAirSpeed = 20.f;
-	float jumpForce = 12.f;
-
+	float maxGroundSpeed = 18.f;
+	float maxAirSpeed = 16.f;
+	float jumpForce = 10.f;
+	float timeSinceGrounded = 0.f;
+	float coyoteTime = 0.2f;
+	float jumpGraceTime = 0.f;
+	float jumpGraceDuration = 0.05f;
 
 	float cameraTiltMaxAngle = 3.f;	// Max roll degrees left/right
 	float cameraTiltSpeed = 8.f;		// How fast it lerps to target
@@ -325,7 +337,7 @@ public:
 
 	REFLECTABLE(PlayerManagerScript, playerCameraObject, playerGunCameraObject, playerProjectilePointObject, playerGunModelPointObject, playerArmModelObject, playerGroundCheckObject,
 		bulletPrefab, fireLMBPrefab, acidLMBPrefab, lightningLMBPrefab, firePrefab, acidPrefab, lightningPrefab, fireDashPrefab, lightningDashPrefab, acidShieldPrefab, airBlastPrefab,
-		gunSfxGUID_1,gunReloadSfxGUID, fireSlashSfxGUID, fireDashSfxGUID, lightningDashSfxGUID, lightningGunSfxGUID, pauseMenuManagerObject, healthUIObject, loseScreenCanvasObject, winScreenCanvasObject);
+		gunSfxGUID_1, gunReloadSfxGUID, fireSlashSfxGUID, fireDashSfxGUID, lightningDashSfxGUID, lightningGunSfxGUID, pauseMenuManagerObject, healthUIObject, loseScreenCanvasObject, winScreenCanvasObject, absorbingVFXPrefab, absorbingVFXSpawnPoint);
 };
 
 // --- LATE INCLUDES & IMPLEMENTATION ---
@@ -351,6 +363,7 @@ inline void PlayerManagerScript::Start() {
 	playerGunModelPointObjectID = ecsPtr->GetEntityIDFromGUID(playerGunModelPointObject);
 	playerArmModelObjectID = ecsPtr->GetEntityIDFromGUID(playerArmModelObject);
 	playerGroundCheckObjectID = ecsPtr->GetEntityIDFromGUID(playerGroundCheckObject);
+	absorbVFXSpawnObjectID = ecsPtr->GetEntityIDFromGUID(absorbingVFXSpawnPoint);
 
 	currPlayerHitPoints = maxPlayerHitPoints;
 	currPlayerMovSpeed = maxPlayerMovSpeed;
@@ -458,11 +471,13 @@ inline void PlayerManagerScript::Update() {
 	}
 	
 	// LMB Ability Countdowns
-	if (fireCurrMeleeCooldown > 0.0f)
-	{
-		fireCurrMeleeCooldown -= ecsPtr->m_GetDeltaTime();
-		if (fireCurrMeleeCooldown < 0.0f)
-			fireCurrMeleeCooldown = 0.0f;
+	if (fireCurrComboTimer > 0.f) {
+		fireCurrComboTimer -= ecsPtr->m_GetDeltaTime();
+		if (fireCurrComboTimer <= 0.f) {
+			fireCurrComboTimer = 0.f;
+			fireSlashComboCount = 0; // Reset combo if window expired
+			std::cout << "[FireSlash] Combo expired. Reset to 0.\n";
+		}
 	}
 
 	// Dashing cooldown
@@ -478,13 +493,13 @@ inline void PlayerManagerScript::Update() {
 	}
 
 	if (Input->IsKeyTriggered(keys::T)) {
-		CameraShake(0.3f, 0.5f);   // flat-ass light shake
+		CameraShake(0.3f, 1.0f);   // flat-ass light shake
 	}
 	if (Input->IsKeyTriggered(keys::Y)) {
-		CameraShake(0.6f, 0.4f);   // mid medium shake
+		CameraShake(4.0f, 1.0f);   // mid medium shake
 	}
 	if (Input->IsKeyTriggered(keys::U)) {
-		CameraShake(1.2f, 0.6f);   // nicki minaj ass heavy shake
+		CameraShake(10.0f, 6.0f);   // nicki minaj ass heavy shake
 	}
 
 
@@ -634,17 +649,51 @@ inline void PlayerManagerScript::PlayerMovementControls()
 
 	isMoving = (std::abs(forward) > 0.1f || std::abs(right) > 0.1f);
 
-
 	auto* playerRigidbody = ecsPtr->GetComponent<ecs::RigidbodyComponent>(entity);
+
 	if (!playerRigidbody) return;
 
 	float dt = ecsPtr->m_GetDeltaTime();
 
 	glm::vec3 tempVelocity = playerRigidbody->velocity;
 
-	bool grounded = GroundCheck();
+	auto* playerTransform = ecsPtr->GetComponent<ecs::TransformComponent>(entity);
 
-	// ----- INPUT -----
+	jumpGraceTime -= dt;
+
+	// ==============================
+	// RAYCAST GROUND CHECK
+	// ==============================
+	bool grounded = false;
+
+	if (jumpGraceTime <= 0.f)  // Only check if grace period passed
+	{
+		// Get player position from Rigidbody
+		glm::vec3 playerPos = playerTransform->WorldTransformation.position;
+
+		RaycastHit hitInfo;
+		float rayDistance = 1.8f;
+		grounded = physicsPtr->Raycast(
+			playerPos,
+			glm::vec3(0.f, -1.f, 0.f),
+			rayDistance,
+			hitInfo,
+			playerRigidbody->actor
+		);
+	}
+
+	if (grounded)
+	{
+		timeSinceGrounded = 0.f; // reset timer
+	}
+	else
+	{
+		timeSinceGrounded += dt; // accumulate time in air
+	}
+
+	// ==============================
+	// INPUT HANDLER
+	// ==============================
 
 	glm::vec3 wishDir =
 		GetPlayerFrontDirection() * forward +
@@ -653,31 +702,22 @@ inline void PlayerManagerScript::PlayerMovementControls()
 	if (glm::length2(wishDir) > 0.0001f)
 		wishDir = glm::normalize(wishDir);
 
-	//grounded = true;
+	// ==============================
+	// JUMP
+	// ==============================
+	if (Input->IsKeyTriggered(keys::SPACE) && timeSinceGrounded <= coyoteTime)
+	{
+		tempVelocity.y = jumpForce;
+		timeSinceGrounded = coyoteTime + 1.f; // prevent double jump using coyote
+		jumpGraceTime = jumpGraceDuration;
+		grounded = false;
+	}
 
 	// ==============================
 	// GROUND MOVEMENT
 	// ==============================
 	if (grounded)
 	{
-		// old friction code
-		//float speed = glm::length(glm::vec2(tempVelocity.x, tempVelocity.z));
-		//if (speed > 0.0f)
-		//{
-		//	float drop = speed * groundFriction * dt;
-		//	float newSpeed = speed - drop;
-		//	if (newSpeed < 0.f)
-		//		newSpeed = 0.f;
-
-		//	if (speed > 0.f)
-		//	{
-		//		newSpeed /= speed;
-		//		tempVelocity.x *= newSpeed;
-		//		tempVelocity.z *= newSpeed;
-		//	}
-		//}
-		// 
-
 		// --- Apply Friction ---//
 		float speed = glm::length(glm::vec2(tempVelocity.x, tempVelocity.z));
 		bool hasInput = glm::length2(wishDir) > 0.0001f;
@@ -762,14 +802,6 @@ inline void PlayerManagerScript::PlayerMovementControls()
 		tempVelocity.z = horizontal.z;
 	}
 
-	// ==============================
-	// JUMP
-	// ==============================
-	if (Input->IsKeyTriggered(keys::SPACE) && grounded)
-	{
-		tempVelocity.y = jumpForce;
-	}
-
 	// Apply final velocity directly
 	glm::vec3 currentVel = playerRigidbody->velocity;
 	glm::vec3 delta = tempVelocity - currentVel;
@@ -780,7 +812,6 @@ inline void PlayerManagerScript::PlayerMovementControls()
 		ForceMode::VelocityChange
 	);
 }
-
 
 inline void PlayerManagerScript::PlayerCameraControls() {
 	auto* playerTransform = ecsPtr->GetComponent<ecs::TransformComponent>(entity);
@@ -808,7 +839,7 @@ inline void PlayerManagerScript::PlayerCameraControls() {
 	float smoothSpeed = (std::abs(horizontalInput) > 0.05f) ? 10.f : 14.f;
 	cameraTiltSmoothedInput = glm::mix(cameraTiltSmoothedInput, horizontalInput, glm::clamp(smoothSpeed * ecsPtr->m_GetDeltaTime(), 0.f, 1.f));
 
-	float targetTiltZ = -horizontalInput * cameraTiltMaxAngle;
+	float targetTiltZ = horizontalInput * cameraTiltMaxAngle;
 
 	float tiltBlend = (std::abs(horizontalInput) > 0.05f) ? cameraTiltSpeed : cameraTiltReturnSpeed;
 
@@ -1297,6 +1328,20 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				std::cout << "Powerup picked up. Cooldown STARTO!!!!::: "
 					<< currInteractCooldown << "s\n";*/
 
+				//Raymond spawn ur absorbing here
+				if (absorbingVFXPrefab != utility::GUID{}) {
+					std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+					ecs::EntityID absorbVFXID = DuplicatePrefabIntoScene<R_Scene>(currentScene, absorbingVFXPrefab);
+
+					// Position at the designated spawn point
+					auto* spawnTf = ecsPtr->GetComponent<TransformComponent>(absorbVFXSpawnObjectID);
+					auto* vfxTf = ecsPtr->GetComponent<TransformComponent>(absorbVFXID);
+
+					if (spawnTf && vfxTf) {
+						vfxTf->LocalTransformation.position = spawnTf->WorldTransformation.position;
+					}
+				}
+
 				// ADD SFX
 
 				if (animComp && hasAbsorbed)
@@ -1312,91 +1357,91 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	}
 
 	// SHOOT
-	// ADD RELOAD HERE
-	if (Input->IsKeyTriggered(keys::LMB)) {
 
-		// Don't shoot while reloading
+	if (Input->IsKeyTriggered(keys::LMB) && playerPowerupHeld == Powerup::NONE) {
 		if (isReloading) return;
 
-		// Cooldown check
 		float& cd = GetCurrShootCooldownForCurrentWeapon();
 		if (cd > 0.0f) return;
 
-		// Ammo check
 		int& currBullets = GetCurrBulletsForCurrentWeapon();
 		if (currBullets <= 0) {
 			if (autoReload) StartReload();
 			return;
 		}
 
-		// Consume ammo + apply cooldown
 		currBullets -= 1;
 		cd = GetShootCooldownForCurrentWeapon();
 
-		if (animComp)
-		{
-			if (animComp->m_currentStateID)
-			{
-				//static_cast<AnimState*>(anim->m_currentState)->SetTrigger("hasShot");
-				playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasShot", animComp, playerController);
+		if (animComp && animComp->m_currentStateID)
+			playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasShot", animComp, playerController);
 
-			}
-		}
+		std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(bulletPrefab);
+		if (bullet) {
+			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+			ecs::EntityID bulletID = DuplicatePrefabIntoScene<R_Scene>(currentScene, bulletPrefab);
 
-		if (playerPowerupHeld == Powerup::NONE) {
-			std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(bulletPrefab);
+			if (auto* bulletTransform = ecsPtr->GetComponent<TransformComponent>(bulletID))
+				bulletTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
 
-			if (bullet) {
-				std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
-				ecs::EntityID bulletID = DuplicatePrefabIntoScene<R_Scene>(currentScene, bulletPrefab);
+			if (auto* bulletScript = ecsPtr->GetComponent<BulletLogic>(bulletID))
+				bulletScript->direction = GetPlayerCameraFrontDirection();
 
-				if (auto* bulletTransform = ecsPtr->GetComponent<TransformComponent>(bulletID)) {
-					bulletTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(playerProjectilePointObjectID)->WorldTransformation.position;
-				}
-
-				if (auto* bulletScript = ecsPtr->GetComponent<BulletLogic>(bulletID)) {
-					bulletScript->direction = GetPlayerCameraFrontDirection();
-				}
-
-				// GUN SFX
-				//if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
-				//	std::vector<ecs::AudioFile*> playerHurtSfxPool;
-
-				//	for (auto& af : ac->audioFiles) {
-				//		if (af.isSFX) {
-				//			playerHurtSfxPool.push_back(&af);
-				//		}
-				//	}
-
-				//	if (!playerHurtSfxPool.empty()) {
-				//		int idx = rand() % static_cast<int>(playerHurtSfxPool.size());
-				//		//std::cout << "[BulletLogic] Random SFX index chosen = " << idx << std::endl;
-
-				//		playerHurtSfxPool[idx]->requestPlay = true;
-				//	}
-				//}
-				if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
-
-					for (auto& af : ac->audioFiles) {
-						if (af.audioGUID == gunSfxGUID_1 && af.isSFX) {
-							af.requestPlay = true;
-							break;
-						}
+			if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
+				for (auto& af : ac->audioFiles) {
+					if (af.audioGUID == gunSfxGUID_1 && af.isSFX) {
+						af.requestPlay = true;
+						break;
 					}
 				}
-
-
-
 			}
 		}
-		else if (playerPowerupHeld == Powerup::FIRE) {
+	}
 
-			if (fireCurrMeleeCooldown > 0.0f)
-				return;
+	// ADD RELOAD HERE
+	if (Input->IsKeyTriggered(keys::LMB) && playerPowerupHeld != Powerup::NONE) {
+
+		float& cd = GetCurrShootCooldownForCurrentWeapon();
+		if (cd > 0.0f) return;
+
+		int& currBullets = GetCurrBulletsForCurrentWeapon();
+		if (currBullets <= 0) return; // No auto reload for powerups
+
+		currBullets -= 1;
+		cd = GetShootCooldownForCurrentWeapon();
+
+		 if (playerPowerupHeld == Powerup::FIRE) {
+
+			/*if (fireCurrMeleeCooldown > 0.0f)
+				return;*/
 
 			std::shared_ptr<R_Scene> fireLMB = resource->GetResource<R_Scene>(fireLMBPrefab);
 
-			fireCurrMeleeCooldown = fireMeleeCooldown;
+			//fireCurrMeleeCooldown = fireMeleeCooldown;
+
+			fireSlashComboCount++;
+			if (fireSlashComboCount > 3)
+				fireSlashComboCount = 1; // Loop to first slash
+
+			// Reset the combo window timer on each hit
+			fireCurrComboTimer = fireSlashComboWindow;
+
+			std::cout << "[FireSlash] Combo Hit: " << fireSlashComboCount << "\n";
+
+			// SEAN DEAR PUT YOUR ANIM HERE FOR FIRE SLASH
+			if (animComp && animComp->m_currentStateID) {
+				if (fireSlashComboCount == 1) {
+					// TODO: FIRE SLASH ANIM 1
+				}
+				else if (fireSlashComboCount == 2) {
+					// TODO: FIRE SLASH ANIM 2
+				}
+				else if (fireSlashComboCount == 3) {
+					// TODO: FIRE SLASH ANIMA 3
+					fireSlashComboCount = 0;
+					fireCurrComboTimer = 0.f;
+				}
+			}
 
 			if (fireLMB) {
 				std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
@@ -1500,7 +1545,6 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				}
 			}
 
-			ecsPtr->SetTimeScale(0.5f);
 
 
 		}
@@ -1575,8 +1619,20 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				//	
 				//}
 
-				if (auto* railgunScript = ecsPtr->GetComponent<LightningPowerupManagerScript>(railgunID)) {
-					railgunScript->direction = GetPlayerCameraFrontDirection();
+				//std::vector<EntityID> childObj = ecsPtr->GetChild(railgunID).value();
+				//if (auto* railgunScript = ecsPtr->GetComponent<LightningPowerupManagerScript>(childObj[1])) {
+				//	railgunScript->direction = GetPlayerCameraFrontDirection();
+				//}
+
+				glm::vec3 dir = glm::normalize(GetPlayerCameraFrontDirection());
+				float yaw = glm::degrees(atan2(dir.x, dir.z)) + 180.f;
+				float pitch = glm::degrees(asin(-dir.y));
+				float roll = 0.f;
+
+				glm::vec3 rotationDegrees = glm::vec3(-pitch, yaw, roll);
+
+				if (auto* railgunTransform = ecsPtr->GetComponent<TransformComponent>(railgunID)) {
+					railgunTransform->LocalTransformation.rotation = rotationDegrees;
 				}
 
 				currMana -= lightningAbilityCost;
@@ -1633,7 +1689,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 			ecs::EntityID acidShieldID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidShieldPrefab);
 
-			ecsPtr->SetParent(entity, acidShieldID, false);
+			ecs::EntityID parentID = entity;
+			ecsPtr->SetParent(parentID, acidShieldID, false);
 
 			if (auto* shieldTf = ecsPtr->GetComponent<TransformComponent>(acidShieldID)) {
 				shieldTf->LocalTransformation.position = glm::vec3(0.f, 0.f, 0.f);
