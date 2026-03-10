@@ -16726,7 +16726,7 @@
                     "WorldTransformation": {
                         "position": {
                             "x": 8.0,
-                            "y": -22.0,
+                            "y": -21.863115310668945,
                             "z": -188.0
                         },
                         "rotation": {
@@ -16743,7 +16743,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 8.0,
-                            "y": -22.0,
+                            "y": -21.863115310668945,
                             "z": -188.0
                         },
                         "rotation": {
@@ -20184,7 +20184,7 @@
                     "WorldTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": -22.0,
+                            "y": -21.863115310668945,
                             "z": -188.0
                         },
                         "rotation": {
@@ -20201,7 +20201,7 @@
                     "LocalTransformation": {
                         "position": {
                             "x": 0.0,
-                            "y": -22.0,
+                            "y": -21.863115310668945,
                             "z": -188.0
                         },
                         "rotation": {
@@ -46590,6 +46590,1370 @@
                         }
                     }
                 }
+            },
+            {
+                "entityGUID": "2ee69265-daeb-0827-efbc-f706fa24f9e8",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -44.0,
+                            "y": -16.677722930908203,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.42880249023438,
+                            "y": -89.98021697998047,
+                            "z": 179.42857360839844
+                        },
+                        "scale": {
+                            "x": 0.010000000707805157,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000000707805157
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -44.0,
+                            "y": -16.677722930908203,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.42881774902344,
+                            "y": -89.98021697998047,
+                            "z": 179.42857360839844
+                        },
+                        "scale": {
+                            "x": 0.010000000707805157,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000000707805157
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "739551a1-a8c4-151e-5439-67c26ff83017",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -16.0,
+                            "z": -75.9954833984375
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -16.0,
+                            "z": -75.9954833984375
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "a1b2250b-f17d-6d78-ea2a-644aa8fa5f58",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 8.0,
+                            "y": -13.887651443481445,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256471633911,
+                            "y": 89.9720230102539,
+                            "z": 0.39478546380996704
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 8.0,
+                            "y": -13.887651443481445,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256173610687,
+                            "y": 89.9720230102539,
+                            "z": 0.39478543400764465
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "8d50347b-1be2-c22a-b807-6d80a096c4cd",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -52.0,
+                            "y": -12.068345069885254,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -52.0,
+                            "y": -12.068345069885254,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "6e906331-7df9-862f-88cc-b20b62f0dafe",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -44.0,
+                            "y": -16.677722930908203,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -44.0,
+                            "y": -16.677722930908203,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "81780035-6b00-fe95-79c5-ae40f9e2ba38",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -16.0,
+                            "z": -35.9954833984375
+                        },
+                        "rotation": {
+                            "x": -0.00010408247180748731,
+                            "y": -89.98021697998047,
+                            "z": 0.00010408247180748731
+                        },
+                        "scale": {
+                            "x": 0.009999992325901985,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999992325901985
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -16.0,
+                            "z": -35.9954833984375
+                        },
+                        "rotation": {
+                            "x": -0.00010407295485492796,
+                            "y": -89.98021697998047,
+                            "z": 0.00010407295485492796
+                        },
+                        "scale": {
+                            "x": 0.009999992325901985,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999992325901985
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "548b0fb5-b7c2-50fc-64d6-3dace72541b1",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -8.0,
+                            "z": -75.9954833984375
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -8.0,
+                            "z": -75.9954833984375
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "d3ac1bcc-dc76-bab1-4eb1-ef2f1dfda975",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -8.0,
+                            "z": -35.9954833984375
+                        },
+                        "rotation": {
+                            "x": -0.00010408247180748731,
+                            "y": -89.98021697998047,
+                            "z": 0.00010408247180748731
+                        },
+                        "scale": {
+                            "x": 0.009999992325901985,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999992325901985
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -60.0,
+                            "y": -8.0,
+                            "z": -35.9954833984375
+                        },
+                        "rotation": {
+                            "x": -0.00010407295485492796,
+                            "y": -89.98021697998047,
+                            "z": 0.00010407295485492796
+                        },
+                        "scale": {
+                            "x": 0.009999992325901985,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999992325901985
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "e651bd89-6221-56cf-8085-91b73fcee9c1",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -68.0,
+                            "y": -12.068345069885254,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -68.0,
+                            "y": -12.068345069885254,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "9d75599f-8a19-5dd7-bbe8-7359fca26567",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -68.0,
+                            "y": -12.068345069885254,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.76597595214844,
+                            "y": -89.95576477050781,
+                            "z": 179.76571655273438
+                        },
+                        "scale": {
+                            "x": 0.010000081732869148,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000081732869148
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -68.0,
+                            "y": -12.068345069885254,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.7660369873047,
+                            "y": -89.95154571533203,
+                            "z": 179.76577758789063
+                        },
+                        "scale": {
+                            "x": 0.010000081732869148,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000081732869148
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "8545c278-7d9f-fb50-229f-efdab18931dc",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -76.0,
+                            "y": -16.677722930908203,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -76.0,
+                            "y": -16.677722930908203,
+                            "z": -76.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.009999996051192284,
+                            "y": 0.009999999776482582,
+                            "z": 0.009999996051192284
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "937d329b-02a7-cd3b-5963-1ea711b0d359",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -76.0,
+                            "y": -16.677722930908203,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.42880249023438,
+                            "y": -89.98021697998047,
+                            "z": 179.42857360839844
+                        },
+                        "scale": {
+                            "x": 0.010000000707805157,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000000707805157
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -76.0,
+                            "y": -16.677722930908203,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.42881774902344,
+                            "y": -89.98021697998047,
+                            "z": 179.42857360839844
+                        },
+                        "scale": {
+                            "x": 0.010000000707805157,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000000707805157
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "9c4a23ba-2d2a-723e-8996-6bf7fe079c47",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -52.0,
+                            "y": -12.068345069885254,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.7660369873047,
+                            "y": -89.95154571533203,
+                            "z": 179.76577758789063
+                        },
+                        "scale": {
+                            "x": 0.010000158101320267,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000158101320267
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -52.0,
+                            "y": -12.068345069885254,
+                            "z": -36.0
+                        },
+                        "rotation": {
+                            "x": -179.7659912109375,
+                            "y": -89.95576477050781,
+                            "z": 179.76573181152344
+                        },
+                        "scale": {
+                            "x": 0.010000158101320267,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000158101320267
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "c5c06280-37c8-d8f9-b84b-78ebde671771",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": -13.887651443481445,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3946603536605835,
+                            "y": 89.9720230102539,
+                            "z": 0.3949201703071594
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": -13.887651443481445,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.39438119530677795,
+                            "y": 89.9720230102539,
+                            "z": 0.3946410119533539
+                        },
+                        "scale": {
+                            "x": 0.010000313632190228,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000313632190228
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "aa9ebd0c-3d0a-eac9-2093-a2e94b9e55d9",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -16.0,
+                            "y": -14.531228065490723,
+                            "z": -187.9868927001953
+                        },
+                        "rotation": {
+                            "x": 0.3945256471633911,
+                            "y": 89.9720230102539,
+                            "z": 0.39478546380996704
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -16.0,
+                            "y": -14.531228065490723,
+                            "z": -187.9868927001953
+                        },
+                        "rotation": {
+                            "x": 0.3945256173610687,
+                            "y": 89.9720230102539,
+                            "z": 0.39478543400764465
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "6ed4302d-bbea-f896-958f-5e321567ca0c",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": -5.887650966644287,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.39448705315589905,
+                            "y": 89.9720230102539,
+                            "z": 0.3947468101978302
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": -5.887650966644287,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3944583833217621,
+                            "y": 89.9720230102539,
+                            "z": 0.3947181701660156
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "304273fc-04fa-4376-b1d9-d3dce530eef9",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 8.0,
+                            "y": -5.887650966644287,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.39448705315589905,
+                            "y": 89.9720230102539,
+                            "z": 0.3947468101978302
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 8.0,
+                            "y": -5.887650966644287,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3944583833217621,
+                            "y": 89.9720230102539,
+                            "z": 0.3947181701660156
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "75051e6b-a2dc-5262-0252-b4785785b4ae",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -8.0,
+                            "y": -18.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3946603536605835,
+                            "y": 89.9720230102539,
+                            "z": 0.3949201703071594
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -8.0,
+                            "y": -18.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.39438119530677795,
+                            "y": 89.9720230102539,
+                            "z": 0.3946410119533539
+                        },
+                        "scale": {
+                            "x": 0.010000313632190228,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000313632190228
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "24d5c1ba-839f-2fdc-a03d-29ec57ac3344",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 24.0,
+                            "y": -14.531228065490723,
+                            "z": -187.9868927001953
+                        },
+                        "rotation": {
+                            "x": 0.3944484293460846,
+                            "y": 89.9720230102539,
+                            "z": 0.39470821619033813
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 24.0,
+                            "y": -14.531228065490723,
+                            "z": -187.9868927001953
+                        },
+                        "rotation": {
+                            "x": 0.39445847272872925,
+                            "y": 89.9720230102539,
+                            "z": 0.3947182595729828
+                        },
+                        "scale": {
+                            "x": 0.010000314563512802,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000314563512802
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "d4709289-39b4-1c8a-e69a-c51fe08aaf9e",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 16.0,
+                            "y": -18.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256173610687,
+                            "y": 89.9720230102539,
+                            "z": 0.39478543400764465
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 16.0,
+                            "y": -18.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256471633911,
+                            "y": 89.9720230102539,
+                            "z": 0.39478546380996704
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "1c799aea-013f-189f-bc20-9c33f9bdda6c",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -8.0,
+                            "y": -10.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256471633911,
+                            "y": 89.9720230102539,
+                            "z": 0.39478546380996704
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -8.0,
+                            "y": -10.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3945256173610687,
+                            "y": 89.9720230102539,
+                            "z": 0.39478543400764465
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "10c08dec-0ea9-aa4e-2f44-7f870e765f99",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "cd40d1fa-0633-3b4f-b79b-87a82307c448"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": false
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "8595bc59-39f8-1118-138b-fc6a0b3582d0"
+                },
+                "NameComponent": {
+                    "entityName": "M5_Modular_Ground_8M_Plane_Green",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "M5_Modular_Ground_8M_Plane_Green.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 16.0,
+                            "y": -10.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.3946603536605835,
+                            "y": 89.9720230102539,
+                            "z": 0.3949201703071594
+                        },
+                        "scale": {
+                            "x": 0.010000315494835377,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000315494835377
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 16.0,
+                            "y": -10.049728393554688,
+                            "z": -188.0
+                        },
+                        "rotation": {
+                            "x": 0.39438119530677795,
+                            "y": 89.9720230102539,
+                            "z": 0.3946410119533539
+                        },
+                        "scale": {
+                            "x": 0.010000313632190228,
+                            "y": 0.009999999776482582,
+                            "z": 0.010000313632190228
+                        }
+                    }
+                }
             }
         ]
     },
@@ -46782,5 +48146,1979 @@
                 }
             }
         ]
+    },
+    {
+        "entityGUID": "b234c17a-cbe8-1c72-0738-e6fd7a3eebf3",
+        "LightComponent": {
+            "lightType": 1,
+            "color": {
+                "x": 2.0,
+                "y": 2.0,
+                "z": 4.0
+            },
+            "diffuseStrength": {
+                "x": 36.099998474121094,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "specularStrength": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "linear": 0.09000000357627869,
+            "quadratic": 0.03200000151991844,
+            "direction": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "cutOff": 5.5,
+            "outerCutOff": 10.5,
+            "intesnity": 41.400001525878906,
+            "shadowCast": false,
+            "bakedLighting": false,
+            "depthMapGUID": "00000000-0000-0000-0000-000000000000"
+        },
+        "MaterialComponent": {
+            "materialGUID": [
+                {
+                    "materialGUID": "645a692f-2804-6805-33c3-969ec31e8389"
+                }
+            ]
+        },
+        "MeshFilterComponent": {
+            "meshGUID": "448ff5ff-3732-73c6-9a7d-622633b24227"
+        },
+        "NameComponent": {
+            "entityName": "Point Light Prop",
+            "Layer": 0,
+            "entityTag": "Default",
+            "isPrefab": true,
+            "isStatic": false,
+            "prefabName": "Point Light Prop.prefab",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": -21.8282470703125,
+                    "y": 4.80119514465332,
+                    "z": -0.47182750701904297
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 89.98021697998047,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.009999999776482582,
+                    "y": 0.009999999776482582,
+                    "z": 0.009999999776482582
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": -21.8282470703125,
+                    "y": 4.80119514465332,
+                    "z": -0.47182750701904297
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 89.9999771118164,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 0.009999999776482582,
+                    "y": 0.009999999776482582,
+                    "z": 0.009999999776482582
+                }
+            }
+        }
+    },
+    {
+        "entityGUID": "d85d1432-a185-393e-fb4b-4b1c39443c27",
+        "NameComponent": {
+            "entityName": "Lightning Powerup",
+            "Layer": 0,
+            "entityTag": "Powerup",
+            "isPrefab": true,
+            "isStatic": false,
+            "prefabName": "Lightning Powerup.prefab",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": -10.0,
+                    "y": 1.9028034210205078,
+                    "z": -5.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": -10.0,
+                    "y": 1.9028034210205078,
+                    "z": -5.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "children": [
+            {
+                "entityGUID": "e5ed0562-fcce-6f0a-950d-7fd65255a1fb",
+                "BoxColliderComponent": {
+                    "isTrigger": false,
+                    "box": {
+                        "center": {
+                            "x": -70.15682220458984,
+                            "y": 105.373046875,
+                            "z": -9.03880500793457
+                        },
+                        "size": {
+                            "x": 36.10176467895508,
+                            "y": 217.58926391601563,
+                            "z": 75.29580688476563
+                        }
+                    }
+                },
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "d1dc99cf-dde1-ca8b-eeda-2c33d81b557d"
+                        }
+                    ]
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "d99f9522-9e6b-105a-4ef2-7e2b63bcc074"
+                },
+                "NameComponent": {
+                    "entityName": "Lightning Prop",
+                    "Layer": 0,
+                    "entityTag": "Powerup",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Lightning Powerup.prefab",
+                    "hide": false
+                },
+                "PowerupManagerScript": {
+                    "powerupType": "lightning"
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -9.740063667297363,
+                            "y": 1.9028034210205078,
+                            "z": -5.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999995827674866,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999995827674866
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.2599363327026367,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": 89.98021697998047,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999995827674866,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999995827674866
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "3aaf5909-86fa-b7a3-317a-6e394587b551",
+                "NameComponent": {
+                    "entityName": "Lightning Prop Particles",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Lightning Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 5.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 3.0,
+                    "end_Lifetime": 7.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 1.0,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": false,
+                        "mode": 0,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": false,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 1.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 1,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 1.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.0,
+                        "circle_Arc": 0.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.5
+                    },
+                    "colorModule": {
+                        "enabled": true,
+                        "start_Color": {
+                            "x": 0.75,
+                            "y": 0.75,
+                            "z": 1.0,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": true,
+                        "start_Size": 0.10000000149011612,
+                        "end_Size": 0.05000000074505806
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": true,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.05000000074505806,
+                    "no_Of_Particles": 10
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -10.143006324768066,
+                            "y": 5.727758407592773,
+                            "z": -4.228351593017578
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -0.1430063247680664,
+                            "y": 3.8249549865722656,
+                            "z": 0.7716483473777771
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "entityGUID": "c8f30fe0-8cbd-15e1-dd31-c84a6d74ddf2",
+        "NameComponent": {
+            "entityName": "Fire Powerup",
+            "Layer": 0,
+            "entityTag": "Powerup",
+            "isPrefab": true,
+            "isStatic": false,
+            "prefabName": "Fire Powerup.prefab",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": -10.0,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": -10.0,
+                    "y": 1.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "children": [
+            {
+                "entityGUID": "a8941b8f-0c8e-7700-87c2-eb73b05c1982",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "2e16031c-9593-31cb-ec41-58220ebbb736"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": true
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "824d152d-be2f-bbb9-9482-090d580683ff"
+                },
+                "NameComponent": {
+                    "entityName": "Fire Prop",
+                    "Layer": 0,
+                    "entityTag": "Powerup",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Fire Powerup.prefab",
+                    "hide": false
+                },
+                "PowerupManagerScript": {
+                    "powerupType": "fire"
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -10.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999999552965164,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999999552965164
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999999552965164,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999999552965164
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "8135da4b-1888-0eb4-8472-d886d9a9cbfc",
+                "NameComponent": {
+                    "entityName": "Fire Prop Particles",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Fire Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 2.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 2.0,
+                    "end_Lifetime": 3.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 0.5,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 1,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": -0.5,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": true,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.6000000238418579,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 3,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.10000000149011612,
+                        "circle_Arc": 360.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.20000000298023224
+                    },
+                    "colorModule": {
+                        "enabled": false,
+                        "start_Color": {
+                            "x": 1.0,
+                            "y": 0.0,
+                            "z": 0.0,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 0.800000011920929,
+                            "y": 0.10000000149011612,
+                            "z": 0.10000000149011612,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": false,
+                        "start_Size": 0.25,
+                        "end_Size": 0.05000000074505806
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.004999999888241291,
+                    "no_Of_Particles": 40
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -10.0,
+                            "y": 3.03702449798584,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 2.03702449798584,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "8db26a17-7f79-d441-5789-3401c43857cc",
+                "NameComponent": {
+                    "entityName": "Fire Prop Particles",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Fire Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 2.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 2.0,
+                    "end_Lifetime": 3.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 0.5,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 1,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": -0.5,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": true,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.6000000238418579,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 3,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.10000000149011612,
+                        "circle_Arc": 360.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.20000000298023224
+                    },
+                    "colorModule": {
+                        "enabled": false,
+                        "start_Color": {
+                            "x": 1.0,
+                            "y": 0.5,
+                            "z": 0.0,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": false,
+                        "start_Size": 0.25,
+                        "end_Size": 0.05000000074505806
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.004999999888241291,
+                    "no_Of_Particles": 20
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -10.0,
+                            "y": 3.0399999618530273,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 2.0399999618530273,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "entityGUID": "cbaf747c-110f-fc0b-f4be-de5a302aa337",
+        "NameComponent": {
+            "entityName": "Acid Powerup",
+            "Layer": 0,
+            "entityTag": "Powerup",
+            "isPrefab": true,
+            "isStatic": false,
+            "prefabName": "Acid Powerup.prefab",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": -14.0,
+                    "y": 1.0,
+                    "z": 3.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": -14.0,
+                    "y": 1.0,
+                    "z": 3.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        },
+        "children": [
+            {
+                "entityGUID": "3d8db285-257e-6b46-ed2c-f890dfc89fe6",
+                "MaterialComponent": {
+                    "materialGUID": [
+                        {
+                            "materialGUID": "c47bcb8a-af57-706b-4154-69f26de1bc97"
+                        }
+                    ]
+                },
+                "MeshColliderComponent": {
+                    "isTrigger": false,
+                    "convex": true
+                },
+                "MeshFilterComponent": {
+                    "meshGUID": "660b9bb0-6212-77a4-c1f4-dc40ea8cce28"
+                },
+                "NameComponent": {
+                    "entityName": "Acid Prop",
+                    "Layer": 0,
+                    "entityTag": "Powerup",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Acid Powerup.prefab",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -14.0,
+                            "y": 1.0,
+                            "z": 3.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999999552965164,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999999552965164
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 0.019999999552965164,
+                            "y": 0.019999999552965164,
+                            "z": 0.019999999552965164
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "9a8e8975-279f-9a03-e72c-c3ca95f65d3a",
+                "NameComponent": {
+                    "entityName": "Acid Prop Particles 1",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Acid Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 1.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 1.0,
+                    "end_Lifetime": 1.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 2.0,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 0,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": false,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 1,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.0,
+                        "circle_Arc": 0.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.10000000149011612
+                    },
+                    "colorModule": {
+                        "enabled": true,
+                        "start_Color": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.5,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 1.0,
+                            "y": 0.25,
+                            "z": 0.25,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": true,
+                        "start_Size": 0.15000000596046448,
+                        "end_Size": 0.07500000298023224
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.10000000149011612,
+                    "no_Of_Particles": 50
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -13.435941696166992,
+                            "y": 2.2514419555664063,
+                            "z": 2.5722286701202393
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.564058780670166,
+                            "y": 1.2514419555664063,
+                            "z": -0.4277713894844055
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "b258323a-02e4-9cf9-bd28-6c3606e72ddb",
+                "NameComponent": {
+                    "entityName": "Acid Prop Particles 2",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Acid Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 1.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 1.0,
+                    "end_Lifetime": 1.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 2.0,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 0,
+                        "velocity_Modifier": {
+                            "x": 0.10000000149011612,
+                            "y": 1.0,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": false,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 1,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.0,
+                        "circle_Arc": 0.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.10000000149011612
+                    },
+                    "colorModule": {
+                        "enabled": true,
+                        "start_Color": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.5,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 1.0,
+                            "y": 0.25,
+                            "z": 0.25,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": true,
+                        "start_Size": 0.15000000596046448,
+                        "end_Size": 0.07500000298023224
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.10000000149011612,
+                    "no_Of_Particles": 50
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -12.927213668823242,
+                            "y": 1.35738205909729,
+                            "z": 4.102527141571045
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 1.072786808013916,
+                            "y": 0.3573821187019348,
+                            "z": 1.1025270223617554
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "98c78280-995a-cca5-bf68-b3fcb21aa310",
+                "NameComponent": {
+                    "entityName": "Acid Prop Particles 3",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Acid Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 1.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 1.0,
+                    "end_Lifetime": 1.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 2.0,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 0,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": -0.20000000298023224
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": false,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 1,
+                        "emission_Direction": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.0,
+                        "circle_Arc": 0.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.10000000149011612
+                    },
+                    "colorModule": {
+                        "enabled": true,
+                        "start_Color": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.5,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 1.0,
+                            "y": 0.25,
+                            "z": 0.25,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": true,
+                        "start_Size": 0.15000000596046448,
+                        "end_Size": 0.07500000298023224
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.10000000149011612,
+                    "no_Of_Particles": 50
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -13.207135200500488,
+                            "y": 1.411026120185852,
+                            "z": 2.1203055381774902
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.7928645610809326,
+                            "y": 0.41102612018585205,
+                            "z": -0.8796944618225098
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "81f1e2a6-62d5-4e6c-05b4-af64747f4c22",
+                "NameComponent": {
+                    "entityName": "Acid Prop Particles 4",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": true,
+                    "isStatic": false,
+                    "prefabName": "Acid Powerup.prefab",
+                    "hide": false
+                },
+                "ParticleComponent": {
+                    "particleType": 0,
+                    "duration": 1.0,
+                    "looping": true,
+                    "play_On_Awake": true,
+                    "start_Lifetime": 1.0,
+                    "end_Lifetime": 1.0,
+                    "lifetime_Random_Enable": true,
+                    "textureGUID": "00000000-0000-0000-0000-000000000000",
+                    "start_Velocity": 2.0,
+                    "playback_State": 0,
+                    "particleFade": 1,
+                    "velocityModule": {
+                        "enabled": true,
+                        "mode": 0,
+                        "velocity_Modifier": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        }
+                    },
+                    "forceModule": {
+                        "enabled": false,
+                        "force": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "shapeModule": {
+                        "type": 1,
+                        "emission_Direction": {
+                            "x": -1.600000023841858,
+                            "y": 1.0,
+                            "z": 0.699999988079071
+                        },
+                        "box_Size": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "sphere_Radius": 0.0,
+                        "emit_From_Shell": false,
+                        "cone_Angle": 0.0,
+                        "cone_Direction": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "cone_Radius": 0.0,
+                        "circle_Radius": 0.0,
+                        "circle_Arc": 0.0,
+                        "emit_From_Edge": false,
+                        "edge_Length": 0.0,
+                        "random_Direction_Amount": 0.10000000149011612
+                    },
+                    "colorModule": {
+                        "enabled": true,
+                        "start_Color": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.5,
+                            "w": 1.0
+                        },
+                        "end_Color": {
+                            "x": 1.0,
+                            "y": 0.25,
+                            "z": 0.25,
+                            "w": 0.0
+                        }
+                    },
+                    "sizeModule": {
+                        "enabled": true,
+                        "start_Size": 0.15000000596046448,
+                        "end_Size": 0.07500000298023224
+                    },
+                    "rotationModule": {
+                        "enabled": false,
+                        "start_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "end_Rotation": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation_Modifier": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "gravityModule": {
+                        "enabled": false,
+                        "gravity": {
+                            "x": 0.0,
+                            "y": -9.800000190734863,
+                            "z": 0.0
+                        }
+                    },
+                    "trailingModule": {
+                        "enabled": false,
+                        "startPoint": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "endPoint": {
+                            "x": 20.0,
+                            "y": 20.0,
+                            "z": 20.0
+                        },
+                        "rotateEndPoint": false,
+                        "rotationSpeed": 2.0,
+                        "rotationRadius": 5.0,
+                        "rotationCenter": {
+                            "x": 20.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotationAxis": {
+                            "x": 0.0,
+                            "y": 1.0,
+                            "z": 0.0
+                        },
+                        "spiralRadius": 5.0,
+                        "spiralFrequency": 3.0,
+                        "spiralIntensityCurve": 0.5,
+                        "pathSpeed": 2.0,
+                        "arrivalThreshold": 0.5
+                    },
+                    "noiseModule": {
+                        "enabled": false,
+                        "strength": 1.0,
+                        "strengthMultiplier": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        },
+                        "frequency": 0.5,
+                        "scrollSpeed": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "damping": true,
+                        "octaves": 1,
+                        "octaveMultiplier": 0.5,
+                        "octaveScale": 2.0,
+                        "quality": 1,
+                        "remapEnabled": false,
+                        "remapCurveStart": 1.0,
+                        "remapCurveEnd": 1.0,
+                        "positionOffset": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        }
+                    },
+                    "emissionInterval": 0.10000000149011612,
+                    "no_Of_Particles": 50
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": -14.96286392211914,
+                            "y": 1.4029481410980225,
+                            "z": 2.9510629177093506
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": -0.9628639221191406,
+                            "y": 0.40294820070266724,
+                            "z": -0.04893715679645538
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "entityGUID": "403bf2df-d035-b277-34b2-39be3fed8ec4",
+        "NameComponent": {
+            "entityName": "LightHolder",
+            "Layer": 0,
+            "entityTag": "Default",
+            "isPrefab": false,
+            "isStatic": false,
+            "prefabName": "",
+            "hide": false
+        },
+        "TransformComponent": {
+            "WorldTransformation": {
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": -0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            },
+            "LocalTransformation": {
+                "position": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "rotation": {
+                    "x": 0.0,
+                    "y": 0.0,
+                    "z": 0.0
+                },
+                "scale": {
+                    "x": 1.0,
+                    "y": 1.0,
+                    "z": 1.0
+                }
+            }
+        }
     }
 ]
