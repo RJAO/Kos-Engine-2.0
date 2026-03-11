@@ -16,6 +16,7 @@ public:
 
 	int agentid;
 	int enemyHealth;
+	int maxEnemyHealth = 0;
 	int lightningStack = 0;
 	float enemyMovementSpeed;
 
@@ -85,6 +86,7 @@ public:
 #include "TankAOEScript.h"
 
 inline void EnemyManagerScript::Start() {
+	maxEnemyHealth = enemyHealth;
 	playerToChaseID = ecsPtr->GetEntityIDFromGUID(playerToChase);
 	//enemyHurtboxPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtboxPosition);
 
@@ -332,10 +334,11 @@ inline void EnemyManagerScript::Update() {
 
 					//CHECK IF ANIMATION OF THE ENEMY IS AFTER THE ENEMY CLAWED OR SOME SHIT(e.g: ANIMATION TIMER IS AT 2s MARK
 					//Simulating 2 secconds, you might wanna change this
-					if (animComp->m_CurrentTime >= animDuration * 0.5f && enemyController->RetrieveStateByID(animComp->m_currentStateID)->name == "Attacking")
+					if (animComp->m_CurrentTime >= animDuration * 0.5f)
 					{
+						std::string stateName = enemyController->RetrieveStateByID(animComp->m_currentStateID)->name;
 						// SWITCH SPAWN BEHAVIOR BASED ON STRING
-						if (enemyType == "Ranged")
+						if (enemyType == "Ranged" && stateName == "Attacking")
 						{
 							// Ranged: Spawn Bullet
 							std::shared_ptr<R_Scene> bullet = resource->GetResource<R_Scene>(enemyBulletPrefab);
@@ -354,7 +357,7 @@ inline void EnemyManagerScript::Update() {
 								}
 							}
 						}
-						else if (enemyType == "Tank") {
+						else if (enemyType == "Tank" && stateName == "Attacking") {
 							std::shared_ptr<R_Scene> tankAOE = resource->GetResource<R_Scene>(tankAoePrefab);
 							if (tankAOE) {
 								std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
@@ -374,7 +377,7 @@ inline void EnemyManagerScript::Update() {
 								}
 							}
 						}
-						else
+						else if (stateName == "Crouching")
 						{
 							// Melee lunge logic
 							isLunging = true;
