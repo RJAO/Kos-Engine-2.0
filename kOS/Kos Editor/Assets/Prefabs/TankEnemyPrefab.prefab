@@ -162,7 +162,7 @@
             {
                 "entityGUID": "d91513a6-802a-bc7b-e1a0-fe55a1f4d42a",
                 "AnimatorComponent": {
-                    "controllerGUID": "959228b7-3789-fba1-c60f-18a77dc3fc15",
+                    "controllerGUID": "a8151059-f46f-1edd-8b81-a36f705c15fb",
                     "m_PlaybackSpeed": 1.0,
                     "m_CurrentTime": 0.0,
                     "m_IsPlaying": true,
