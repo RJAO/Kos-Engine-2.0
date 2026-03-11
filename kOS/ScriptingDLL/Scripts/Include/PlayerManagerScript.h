@@ -1638,7 +1638,6 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 		//Acid Blast
 		else if (playerPowerupHeld == Powerup::ACID) {
 
-			if (currMana < acidAbilityCost) return;
 
 			std::shared_ptr<R_Scene> airBlast = resource->GetResource<R_Scene>(airBlastPrefab);
 
@@ -1783,7 +1782,6 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 		
 		//Acid SHield
 		else if (playerPowerupHeld == Powerup::ACID && acidCurrShieldCooldown <= 0.f) {
-			if (currMana < acidShieldCost) return;
 
 			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 			ecs::EntityID acidShieldID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidShieldPrefab);
