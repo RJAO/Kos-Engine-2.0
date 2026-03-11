@@ -405,6 +405,10 @@ inline void PlayerManagerScript::Start() {
 
 inline void PlayerManagerScript::Update() {
 
+	//Prevent animComp from reading nothing
+	std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
+	animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]);
+
 	if (Input->IsKeyTriggered(keys::L)) {
 		//std::cout << "L RELEASED\n";
 		Scenes->ReloadScene();
@@ -1466,14 +1470,17 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			if (animComp && animComp->m_currentStateID) {
 				if (fireSlashComboCount == 1) {
 					// TODO: FIRE SLASH ANIM 1
+						playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("FirstSlash", animComp, playerController);
 				}
 				else if (fireSlashComboCount == 2) {
 					// TODO: FIRE SLASH ANIM 2
+						playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("SecondSlash", animComp, playerController);
 				}
 				else if (fireSlashComboCount == 3) {
 					// TODO: FIRE SLASH ANIMA 3
 					fireSlashComboCount = 0;
 					fireCurrComboTimer = 0.f;
+						playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("ThirdSlash", animComp, playerController);
 				}
 			}
 

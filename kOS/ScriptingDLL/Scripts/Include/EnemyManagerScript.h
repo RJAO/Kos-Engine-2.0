@@ -106,16 +106,11 @@ inline void EnemyManagerScript::Start() {
 		}
 	}
 
-	//enemyModelID = ecsPtr->GetEntityIDFromGUID(enemyModel);
 	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID))
 	{
 		enemyController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
 		if (enemyController)
 		{
-			// COMMENTED OUT FOR ANIM
-			/*currAnimationState = *enemyController->m_EnterState;
-			anim->m_currentState = &currAnimationState;
-			static_cast<AnimState*>(anim->m_currentState)->SetTrigger("ForcedEntry");*/
 			animComp->m_currentStateID = enemyController->m_EnterState->id;
 			if (auto* currAnimState = enemyController->RetrieveStateByID(animComp->m_currentStateID))
 				currAnimState->Trigger("ForcedEntry", animComp, enemyController);
@@ -133,14 +128,7 @@ inline void EnemyManagerScript::Update() {
 		return;
 	}
 
-	//Copy state from controller
-	if (enemyController)
-	{
-		//if (anim->m_currentState != &currAnimationState) {
-		//	currAnimationState = *static_cast<AnimState*>(anim->m_currentState);
-		//	anim->m_currentState = &currAnimationState;
-		//}
-	}
+	
 
 	//Entity deletion fix for animation
 	animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID);
@@ -297,14 +285,6 @@ inline void EnemyManagerScript::Update() {
 			enemyIsAttacking = true;
 			if (animComp)
 			{
-				// COMMENTED OUT FOR ANIM
-				/*
-				if (anim->m_currentState)
-				{
-					//This will transition into attacking state
-					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("AttackingPlayer");
-				}
-				*/
 				if (animComp->m_currentStateID)
 				{
 					enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("AttackingPlayer", animComp, enemyController);
@@ -431,9 +411,9 @@ inline void EnemyManagerScript::Update() {
 								}
 							}
 
-							// --- JUMP ANIM TRIGGER ---
+							// --- LUNGE ANIM TRIGGER ---
 							if (animComp && animComp->m_currentStateID) {
-								enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("Jump", animComp, enemyController);
+								enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("Lunge", animComp, enemyController);
 							}
 						}
 
@@ -451,20 +431,10 @@ inline void EnemyManagerScript::Update() {
 			// ADD ENEMY RUNNING ANIMATION
 			if (animComp)
 			{
-				// COMMENTED OUT FOR ANIM
-				/*
-				if (anim->m_currentState)
-				{
-					//This will transition into chasing state
-					static_cast<AnimState*>(anim->m_currentState)->SetTrigger("PlayerDetected");
-				}
-				*/
 				if (animComp->m_currentStateID)
 				{
 					enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("PlayerDetected", animComp, enemyController);
 				}
-
-
 			}
 		}
 	}
@@ -485,6 +455,13 @@ inline void EnemyManagerScript::TriggerStagger(float duration) {
 	currentStaggerTimer = duration;
 
 	// ADD STAGGER ANIM HERE
+	if (animComp)
+	{
+		if (animComp->m_currentStateID)
+		{
+			enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("Staggered", animComp, enemyController);
+		}
+	}
 
 	enemyIsAttacking = false;
 	attackHurtboxIsSpawn = false;
@@ -530,6 +507,13 @@ inline void EnemyManagerScript::Die() {
 	if (isDead) return;
 
 	// ADD DEATH ANIM HERE
+	if (animComp)
+	{
+		if (animComp->m_currentStateID)
+		{
+			enemyController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("Dead", animComp, enemyController);
+		}
+	}
 
 	isDead = true;
 
