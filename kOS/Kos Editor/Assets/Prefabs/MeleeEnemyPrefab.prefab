@@ -17,7 +17,7 @@
                     "y": 2.0999999046325684,
                     "z": 0.0
                 },
-                "radius": 0.6000000238418579,
+                "radius": 1.2000000476837158,
                 "height": 4.800000190734863,
                 "capsuleDirection": 1
             }
@@ -42,7 +42,9 @@
             "lungeForwardSpeed": 12.0,
             "lungeUpwardSpeed": 5.0,
             "lungeGravity": 15.0,
-            "attackCooldown": 2.0
+            "attackCooldown": 2.0,
+            "enemyHurtVFXPrefab": "06c198bd-19c0-0432-e746-c72bbca505e7",
+            "enemyHurtVFXPosition": "da448f82-04d5-6e25-1df0-21906029affd"
         },
         "NameComponent": {
             "entityName": "EnemyPrefab",
@@ -78,7 +80,7 @@
             "WorldTransformation": {
                 "position": {
                     "x": 23.768556594848633,
-                    "y": 3.9802656173706055,
+                    "y": 4.835694789886475,
                     "z": -14.537531852722168
                 },
                 "rotation": {
@@ -95,12 +97,12 @@
             "LocalTransformation": {
                 "position": {
                     "x": 23.768556594848633,
-                    "y": 3.9802656173706055,
+                    "y": 4.835694789886475,
                     "z": -14.537531852722168
                 },
                 "rotation": {
                     "x": 0.0,
-                    "y": -0.0,
+                    "y": 0.0,
                     "z": 0.0
                 },
                 "scale": {
@@ -126,7 +128,7 @@
                     "WorldTransformation": {
                         "position": {
                             "x": 23.768556594848633,
-                            "y": 5.4802656173706055,
+                            "y": 6.335694789886475,
                             "z": -14.537531852722168
                         },
                         "rotation": {
@@ -179,14 +181,14 @@
                     "hide": false
                 },
                 "SkinnedMeshRendererComponent": {
-                    "skinnedMeshGUID": "5c628160-06f2-ca8d-46b2-57bdf211fe36",
+                    "skinnedMeshGUID": "8a830bfc-7794-b76e-2f45-0e765f0a2495",
                     "materialGUID": "23e7b1cb-3d50-e7e5-20f9-515b8bddebf5"
                 },
                 "TransformComponent": {
                     "WorldTransformation": {
                         "position": {
                             "x": 23.768556594848633,
-                            "y": 3.9802656173706055,
+                            "y": 4.835694789886475,
                             "z": -14.537531852722168
                         },
                         "rotation": {
@@ -215,6 +217,54 @@
                             "x": 0.019999999552965164,
                             "y": 0.019999999552965164,
                             "z": 0.019999999552965164
+                        }
+                    }
+                }
+            },
+            {
+                "entityGUID": "da448f82-04d5-6e25-1df0-21906029affd",
+                "NameComponent": {
+                    "entityName": "Enemy Hurt VFX Position",
+                    "Layer": 0,
+                    "entityTag": "Default",
+                    "isPrefab": false,
+                    "isStatic": false,
+                    "prefabName": "",
+                    "hide": false
+                },
+                "TransformComponent": {
+                    "WorldTransformation": {
+                        "position": {
+                            "x": 23.768556594848633,
+                            "y": 7.855818748474121,
+                            "z": -14.537531852722168
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    "LocalTransformation": {
+                        "position": {
+                            "x": 0.0,
+                            "y": 3.0201239585876465,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "x": 0.0,
+                            "y": -0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     }
                 }

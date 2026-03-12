@@ -70,6 +70,10 @@ public:
 
 	bool attackHurtboxIsSpawn = false;
 
+	utility::GUID enemyHurtVFXPrefab;
+	utility::GUID enemyHurtVFXPosition;
+	ecs::EntityID enemyHurtVFXPositionID;
+
 	// Declarations Only
 	void Start() override;
 	void Update() override;
@@ -78,7 +82,7 @@ public:
 	void TakeDamage(int damage, const std::string& element);
 	void Die();
 
-	REFLECTABLE(EnemyManagerScript, enemyHealth, enemyMovementSpeed, enemyType, enemyAttackRange, enemyRangedAttackRange, enemyChaseRange, playerToChase, enemyHurtboxPrefab, enemyBulletPrefab, enemyHurtboxPosition, shieldHealth, shieldElement, shieldVisualObject, tankAoePrefab, isLunging, lungeDuration, lungeForwardSpeed, lungeUpwardSpeed, lungeGravity, attackCooldown);
+	REFLECTABLE(EnemyManagerScript, enemyHealth, enemyMovementSpeed, enemyType, enemyAttackRange, enemyRangedAttackRange, enemyChaseRange, playerToChase, enemyHurtboxPrefab, enemyBulletPrefab, enemyHurtboxPosition, shieldHealth, shieldElement, shieldVisualObject, tankAoePrefab, isLunging, lungeDuration, lungeForwardSpeed, lungeUpwardSpeed, lungeGravity, attackCooldown, enemyHurtVFXPrefab, enemyHurtVFXPosition);
 };
 
 // --- IMPLEMENTATION ---
@@ -108,6 +112,9 @@ inline void EnemyManagerScript::Start() {
 		}
 	}
 
+	enemyHurtVFXPositionID = ecsPtr->GetEntityIDFromGUID(enemyHurtVFXPosition);
+
+	//enemyModelID = ecsPtr->GetEntityIDFromGUID(enemyModel);
 	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(enemyModelID))
 	{
 		enemyController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
@@ -142,7 +149,8 @@ inline void EnemyManagerScript::Update() {
 			if (animComp->m_currentStateID) {
 				if (R_Animation* currAnim = resource->GetResource<R_Animation>(enemyController->RetrieveStateByID(animComp->m_currentStateID)->animationGUID).get()) {
 					float animDuration = currAnim->GetDuration();
-					if (animComp->m_CurrentTime >= animDuration) {
+					if (animComp->m_CurrentTime >= anim
+) {
 						ecsPtr->DeleteEntity(entity);
 					}
 				}
@@ -498,6 +506,15 @@ inline void EnemyManagerScript::TakeDamage(int damage, const std::string& elemen
 		}
 	}
 	else {
+		std::shared_ptr<R_Scene> enemyHurtVFX = resource->GetResource<R_Scene>(enemyHurtVFXPrefab);
+		if (enemyHurtVFX) {
+			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
+			ecs::EntityID enemyHurtVFXID = DuplicatePrefabIntoScene<R_Scene>(currentScene, enemyHurtVFXPrefab);
+
+			if (auto* enemyHurtVFXTransform = ecsPtr->GetComponent<TransformComponent>(enemyHurtVFXID))
+				enemyHurtVFXTransform->LocalTransformation.position = ecsPtr->GetComponent<TransformComponent>(enemyHurtVFXPositionID)->WorldTransformation.position;
+		}
+
 		// Normal health damage (Shield is gone or never existed)
 		enemyHealth -= damage;
 

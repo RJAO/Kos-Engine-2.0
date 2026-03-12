@@ -94,7 +94,7 @@ public:
 	float playerCameraSpeedX = 0.65f;
 	float playerCameraSpeedY = 0.65f;
 
-	float interactPowerupRange = 10.f;
+	float interactPowerupRange = 100.f;
 
 	float playerSprintMultiplier = 1.5f;
 	float playerCrouchMultiplier = 0.5f;
@@ -246,6 +246,8 @@ public:
 	ecs::EntityID acidModelObjectID = 0;
 	ecs::EntityID lightningModelObjectID = 0;
 	ecs::EntityID fireSwordModelID = 0;
+
+	ecs::EntityID currentModelID = 0;
 
 
 	inline int GetMaxBulletsForCurrentWeapon() const {
@@ -434,6 +436,8 @@ inline void PlayerManagerScript::Start() {
 	if (lightningModelObjectID != 0) ecsPtr->SetActive(lightningModelObjectID, false);
 	if (acidModelObjectID != 0) ecsPtr->SetActive(acidModelObjectID, false);
 
+	currentModelID = pistolModelID;
+
 
 	currPlayerHitPoints = maxPlayerHitPoints;
 	currPlayerMovSpeed = maxPlayerMovSpeed;
@@ -451,8 +455,8 @@ inline void PlayerManagerScript::Start() {
 	loseScreenCanvasID = ecsPtr->GetEntityIDFromGUID(loseScreenCanvasObject);
 	winScreenCanvasID = ecsPtr->GetEntityIDFromGUID(winScreenCanvasObject);
 
-	std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
-	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]))
+	//std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
+	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(pistolModelID))
 	{
 		playerController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
 		if (playerController)
@@ -468,9 +472,12 @@ inline void PlayerManagerScript::Start() {
 
 inline void PlayerManagerScript::Update() {
 
-	//Prevent animComp from reading nothing
-	std::vector<EntityID> armChild = ecsPtr->GetChild(playerArmModelObjectID).value();
-	animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(armChild[0]);
+	
+
+	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(currentModelID))
+	{
+		playerController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
+	};
 
 	if (Input->IsKeyTriggered(keys::L)) {
 		//std::cout << "L RELEASED\n";
@@ -2048,24 +2055,27 @@ inline void  PlayerManagerScript::SwapWeaponModel(Powerup newPowerup) {
 		ecsPtr->SetActive(fireSwordModelID, true);
 		ecsPtr->SetActive(lightningModelObjectID, false);
 		ecsPtr->SetActive(acidModelObjectID, false);
+		currentModelID = fireSwordModelID;
 	}
 	else if (newPowerup == Powerup::ACID) {
 		ecsPtr->SetActive(pistolModelID, false);
 		ecsPtr->SetActive(fireSwordModelID, false);
 		ecsPtr->SetActive(lightningModelObjectID, false);
 		ecsPtr->SetActive(acidModelObjectID, true);
-
+		currentModelID = acidModelObjectID;
 	}
 	else if (newPowerup == Powerup::LIGHTNING) {
 		ecsPtr->SetActive(pistolModelID, false);
 		ecsPtr->SetActive(fireSwordModelID, false);
 		ecsPtr->SetActive(lightningModelObjectID, true);
 		ecsPtr->SetActive(acidModelObjectID, false);
+		currentModelID = lightningModelObjectID;
 	}
 	else {
 		ecsPtr->SetActive(pistolModelID, true);
 		ecsPtr->SetActive(fireSwordModelID, false);
 		ecsPtr->SetActive(lightningModelObjectID, false);
 		ecsPtr->SetActive(acidModelObjectID, false);
+		currentModelID = pistolModelID;
 	}
 }
