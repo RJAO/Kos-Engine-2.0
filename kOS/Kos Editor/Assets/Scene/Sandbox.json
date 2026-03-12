@@ -1381,9 +1381,9 @@
                         "TransformComponent": {
                             "WorldTransformation": {
                                 "position": {
-                                    "x": 3.7172701358795166,
-                                    "y": 99.3357162475586,
-                                    "z": -1.0625941753387451
+                                    "x": 7.969753265380859,
+                                    "y": 99.99671936035156,
+                                    "z": 0.002354095224291086
                                 },
                                 "rotation": {
                                     "x": 0.0,
@@ -1398,9 +1398,9 @@
                             },
                             "LocalTransformation": {
                                 "position": {
-                                    "x": 1.063877820968628,
-                                    "y": -0.6642837524414063,
-                                    "z": 3.7169036865234375
+                                    "x": 0.0003977788146585226,
+                                    "y": -0.0032806396484375,
+                                    "z": 7.969755172729492
                                 },
                                 "rotation": {
                                     "x": 0.0,
@@ -6745,7 +6745,7 @@
                     "y": 2.0999999046325684,
                     "z": 0.0
                 },
-                "radius": 0.6000000238418579,
+                "radius": 1.2000000476837158,
                 "height": 4.800000190734863,
                 "capsuleDirection": 1
             }
@@ -6842,14 +6842,14 @@
         },
         "children": [
             {
-                "entityGUID": "cf31dd31-56dc-d875-a091-cba24b8dc4ea",
+                "entityGUID": "854088ae-ace1-bb6f-6e45-d5f6e1f4ee14",
                 "NameComponent": {
                     "entityName": "Enemy Hurtbox Position",
                     "Layer": 0,
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "MeleeEnemyPrefab.prefab",
+                    "prefabName": "EnemyPrefab.prefab",
                     "hide": false
                 },
                 "TransformComponent": {
@@ -6890,7 +6890,7 @@
                 }
             },
             {
-                "entityGUID": "92787a19-dbcb-1ec8-11c9-13b736515089",
+                "entityGUID": "ea911035-671b-861f-b05b-6fcc442cbe47",
                 "AnimatorComponent": {
                     "controllerGUID": "959228b7-3789-fba1-c60f-18a77dc3fc15",
                     "m_PlaybackSpeed": 1.0,
@@ -6905,7 +6905,7 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "MeleeEnemyPrefab.prefab",
+                    "prefabName": "EnemyPrefab.prefab",
                     "hide": false
                 },
                 "SkinnedMeshRendererComponent": {
@@ -6950,14 +6950,14 @@
                 }
             },
             {
-                "entityGUID": "b1557f22-d5db-5e69-9e6d-64a4552d43d3",
+                "entityGUID": "aeeead1d-8e33-6938-d729-5cf2484ad054",
                 "NameComponent": {
                     "entityName": "Enemy Hurt VFX Position",
                     "Layer": 0,
                     "entityTag": "Default",
-                    "isPrefab": true,
+                    "isPrefab": false,
                     "isStatic": false,
-                    "prefabName": "MeleeEnemyPrefab.prefab",
+                    "prefabName": "",
                     "hide": false
                 },
                 "TransformComponent": {
@@ -7009,7 +7009,7 @@
                     "y": 2.299999952316284,
                     "z": 0.0
                 },
-                "radius": 1.0,
+                "radius": 1.600000023841858,
                 "height": 5.0,
                 "capsuleDirection": 1
             }
@@ -7106,14 +7106,14 @@
         },
         "children": [
             {
-                "entityGUID": "ab47cb04-1aa9-d03a-6560-f9cea9e6ccca",
+                "entityGUID": "5ed923ef-22f6-b738-3495-4125c4443533",
                 "NameComponent": {
                     "entityName": "Enemy Hurtbox Position",
                     "Layer": 0,
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "TankEnemyPrefab.prefab",
+                    "prefabName": "EnemyPrefab.prefab",
                     "hide": false
                 },
                 "TransformComponent": {
@@ -7154,7 +7154,7 @@
                 }
             },
             {
-                "entityGUID": "6f3c1043-9f89-b0e4-632d-ba2d1557147d",
+                "entityGUID": "f04bddd2-57ab-d0bb-43e3-94dcec176b32",
                 "AnimatorComponent": {
                     "controllerGUID": "959228b7-3789-fba1-c60f-18a77dc3fc15",
                     "m_PlaybackSpeed": 1.0,
@@ -7169,7 +7169,7 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "TankEnemyPrefab.prefab",
+                    "prefabName": "EnemyPrefab.prefab",
                     "hide": false
                 },
                 "SkinnedMeshRendererComponent": {
@@ -7214,7 +7214,7 @@
                 }
             },
             {
-                "entityGUID": "2747ec4e-09cf-507d-f2a8-b33acf2fefd8",
+                "entityGUID": "6efab6cc-72e2-4797-8427-0d552798cee9",
                 "MaterialComponent": {
                     "materialGUID": [
                         {
@@ -7231,7 +7231,7 @@
                     "entityTag": "Default",
                     "isPrefab": true,
                     "isStatic": false,
-                    "prefabName": "TankEnemyPrefab.prefab",
+                    "prefabName": "TankFireShieldPrefab.prefab",
                     "hide": false
                 },
                 "TransformComponent": {
@@ -7272,14 +7272,14 @@
                 }
             },
             {
-                "entityGUID": "ae7096aa-14d1-6cef-0633-666f400f50bb",
+                "entityGUID": "656c8820-1abf-3961-5468-e422ed096743",
                 "NameComponent": {
                     "entityName": "Enemy Hurt VFX Position",
                     "Layer": 0,
                     "entityTag": "Default",
-                    "isPrefab": true,
+                    "isPrefab": false,
                     "isStatic": false,
-                    "prefabName": "TankEnemyPrefab.prefab",
+                    "prefabName": "",
                     "hide": false
                 },
                 "TransformComponent": {
