@@ -248,6 +248,7 @@ public:
 	ecs::EntityID fireSwordModelID = 0;
 
 	ecs::EntityID currentModelID = 0;
+	Powerup pendingPowerup = Powerup::NONE;
 
 
 	inline int GetMaxBulletsForCurrentWeapon() const {
