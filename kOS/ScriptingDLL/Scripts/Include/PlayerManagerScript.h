@@ -356,6 +356,10 @@ public:
 	float absorbVFXTimer = 0.f;
 	float absorbVFXDuration = 1.0f;
 
+	// Take Damage
+	float currentTakeDamageTimer = 0.f;
+	float TakeDamageTimer = 0.2f;
+
 
 	// --- FUNCTION DECLARATIONS ONLY --
 	// Implementations are moved to the bottom of the file
@@ -373,6 +377,8 @@ public:
 	//void TakeDamage(int amount); // Commented out in original
 	//void Die(); // Commented out in original
 	void UpdateHealthUI();
+
+	void TakeDamage(int damage);
 
 	// HELPER FUNCTIONS
 	glm::vec3 GetPlayerCameraFrontDirection();
@@ -489,6 +495,12 @@ inline void PlayerManagerScript::Start() {
 	};
 
 	muzzleFlashID = ecsPtr->GetEntityIDFromGUID(muzzleFlashGUID);
+
+	auto& profile = graphics->postProcessProfile;
+	Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+	vig->color = glm::vec3(0.f, 0.f, 0.f);
+	vig->extent = 0.03f;
+	vig->intensity = 7.3f;
 }
 
 inline void PlayerManagerScript::Update() {
@@ -702,9 +714,26 @@ inline void PlayerManagerScript::Update() {
 				ecsPtr->DeleteEntity(activeAbsorbVFXID);
 				activeAbsorbVFXID = 0;
 			}
+
+			auto& profile = graphics->postProcessProfile;
+			Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+			vig->color = glm::vec3(0.f, 0.f, 0.f);
+			vig->extent = 0.03f;
+			vig->intensity = 7.3f;
 		}
 	}
 
+	if (currentTakeDamageTimer > 0.f) {
+		currentTakeDamageTimer -= ecsPtr->m_GetDeltaTime();
+
+		if (currentTakeDamageTimer <= 0.f) {
+			auto& profile = graphics->postProcessProfile;
+			Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+			vig->color = glm::vec3(0.f, 0.f, 0.f);
+			vig->extent = 0.03f;
+			vig->intensity = 7.3f;
+		}
+	}
 }
 
 inline void PlayerManagerScript::FixedUpdate() {
@@ -1597,6 +1626,12 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 								}
 							}
 						}
+
+						auto& profile = graphics->postProcessProfile;
+						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+						vig->color = glm::vec3(0.6f, 0.15f, 0.15f);
+						vig->extent = 0.025f;
+						vig->intensity = 0.05f;
 					}
 					else if (powerupComp->powerupType == "ACID") {
 						playerPowerupHeld = Powerup::ACID;//DELETE THIS WHEN ANIM FINISH
@@ -1610,6 +1645,12 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 								}
 							}
 						}
+
+						auto& profile = graphics->postProcessProfile;
+						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+						vig->color = glm::vec3(0.15f, 0.6f, 0.15f);
+						vig->extent = 0.025f;
+						vig->intensity = 0.05f;
 					}
 
 					else if (powerupComp->powerupType == "LIGHTNING")
@@ -1626,6 +1667,12 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 								}
 							}
 						}
+
+						auto& profile = graphics->postProcessProfile;
+						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+						vig->color = glm::vec3(0.15f, 0.15f, 0.6f);
+						vig->extent = 0.025f;
+						vig->intensity = 0.05f;
 					}
 
 
@@ -2272,4 +2319,18 @@ inline void  PlayerManagerScript::SwapWeaponModel(Powerup newPowerup) {
 		ecsPtr->SetActive(acidModelObjectID, false);
 		currentModelID = pistolModelID;
 	}
+}
+
+inline void PlayerManagerScript::TakeDamage(int damage) {
+	currPlayerHitPoints -= damage;
+
+	CameraShake(0.15f,0.3f);
+
+	currentTakeDamageTimer = TakeDamageTimer;
+
+	auto& profile = graphics->postProcessProfile;
+	Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+	vig->color = glm::vec3(0.6f, 0.15f, 0.15f);
+	vig->extent = 0.125f;
+	vig->intensity = 0.45f;
 }
