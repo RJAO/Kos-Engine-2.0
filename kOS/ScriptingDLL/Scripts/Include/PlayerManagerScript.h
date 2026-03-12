@@ -1137,20 +1137,29 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			// Absorb anim finish then trigger swap out anim
 			if (animComp->m_CurrentTime >= animDuration && stateName == "Absorbing")
 			{
-				std::cout << "[WeaponSwap] Absorb anim done → triggering Swap Out\n";
+				std::cout << "[WeaponSwap] Absorb anim done > triggering Swap Out\n";
 
 				playerController->RetrieveStateByID(animComp->m_currentStateID)
 					->Trigger("swapOut", animComp, playerController);
 			}
 
-			// Swap out anim finish then trigger swap of model
+			// Swap out anim finish then trigger swap of model then swap in
 			if (animComp->m_CurrentTime >= animDuration && stateName == "Swap Out")
 			{
-				std::cout << "[WeaponSwap] Swap Out anim done → applying weapon: " << (int)pendingPowerup << "\n";
+				std::cout << "[WeaponSwap] Swap Out anim done > applying weapon: " << (int)pendingPowerup << "\n";
 
 				playerPowerupHeld = pendingPowerup;
 				SwapWeaponModel(pendingPowerup);
 				pendingPowerup = Powerup::NONE; 
+
+				playerController->RetrieveStateByID(animComp->m_currentStateID)
+					->Trigger("swapIn", animComp, playerController);
+			}
+
+			// Swap in finish then idle
+			if (animComp->m_CurrentTime >= animDuration && stateName == "Swap In")
+			{
+				std::cout << "[WeaponSwap] Swap In done > going Idle\n";
 
 				playerController->RetrieveStateByID(animComp->m_currentStateID)
 					->Trigger("swapDone", animComp, playerController);
