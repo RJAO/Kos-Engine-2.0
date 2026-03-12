@@ -1629,8 +1629,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 					hasAbsorbed = true;
 
 					if (powerupComp->powerupType == "FIRE") {
-						playerPowerupHeld = Powerup::FIRE; //DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::FIRE); //DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::FIRE; //DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::FIRE); //DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::FIRE;
 
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
@@ -1653,8 +1653,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						chro->blueOffset = 0.f;
 					}
 					else if (powerupComp->powerupType == "ACID") {
-						playerPowerupHeld = Powerup::ACID;//DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::ACID);//DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::ACID;//DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::ACID);//DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::ACID;
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
 							for (auto& af : ac->audioFiles) {
@@ -1678,8 +1678,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 					else if (powerupComp->powerupType == "LIGHTNING")
 					{
-						playerPowerupHeld = Powerup::LIGHTNING;//DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::LIGHTNING);//DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::LIGHTNING;//DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::LIGHTNING);//DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::LIGHTNING;
 
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
@@ -2361,7 +2361,8 @@ inline void  PlayerManagerScript::SwapWeaponModel(Powerup newPowerup) {
 		playerController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
 		if (playerController)
 		{
-			animComp->m_currentStateID = playerController->m_EnterState->id;
+			//animComp->m_currentStateID = playerController->m_EnterState->id;
+			playerController->SetState("Swap In", animComp);
 		}
 	};
 }
