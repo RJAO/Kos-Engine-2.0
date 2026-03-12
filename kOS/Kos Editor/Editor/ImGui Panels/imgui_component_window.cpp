@@ -401,11 +401,67 @@ void gui::ImGuiHandler::DrawFieldComponent(ecs::Component* component, const std:
 
                     ImGui::Text("Audio GUID:");
                     ImGui::SameLine();
-                    ImGui::TextDisabled(af.audioGUID.GetToString().c_str());
+
+                    std::string guidDisplay = af.audioGUID.Empty()
+                        ? "[ Drop WAV here ]"
+                        : af.audioGUID.GetToString();
+
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.5f, 0.3f, 1.f)); 
+                    ImGui::Button(guidDisplay.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 0));
+                    ImGui::PopStyleColor(2);
+
+                    if (ImGui::BeginDragDropTarget()) {
+                        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("file")) {
+
+                            std::filesystem::path droppedPath(
+                                static_cast<const char*>(payload->Data)
+                            );
+
+                            if (droppedPath.extension() == ".wav" || droppedPath.extension() == ".WAV") {
+                                utility::GUID resolvedGUID = m_assetManager.GetGUIDfromFilePath(droppedPath);
+                                if (!resolvedGUID.Empty()) {
+                                    af.audioGUID = resolvedGUID;
+
+                                    if (af.name.empty()) {
+                                        af.name = droppedPath.stem().string();
+                                    }
+                                }
+                            }
+                        }
+                        ImGui::EndDragDropTarget();
+                    }
+
+
 
                     ImGui::Text("Bank GUID:");
                     ImGui::SameLine();
-                    ImGui::TextDisabled(af.audioBankGUID.GetToString().c_str());
+
+                    std::string bankDisplay = af.audioBankGUID.Empty()
+                        ? "[ Drop Bank here ]"
+                        : af.audioBankGUID.GetToString();
+
+                    ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.f));
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.3f, 0.3f, 0.5f, 1.f)); // blue tint on hover
+                    ImGui::Button(bankDisplay.c_str(), ImVec2(ImGui::GetContentRegionAvail().x, 0));
+                    ImGui::PopStyleColor(2);
+
+                    if (ImGui::BeginDragDropTarget()) {
+                        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("file")) {
+
+                            std::filesystem::path droppedPath(
+                                static_cast<const char*>(payload->Data)
+                            );
+
+                            utility::GUID resolvedGUID = m_assetManager.GetGUIDfromFilePath(droppedPath);
+                            if (!resolvedGUID.Empty()) {
+                                af.audioBankGUID = resolvedGUID;
+                            }
+                        }
+                        ImGui::EndDragDropTarget();
+                    }
+
+
 
                     ImGui::InputText("Studio Event Path", &af.studioEventPath);
 
