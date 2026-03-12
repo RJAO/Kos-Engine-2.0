@@ -35,6 +35,7 @@ public:
 
     utility::GUID selectSfxGUID;
     utility::GUID resumeSfxGUID;
+    utility::GUID hoverSfxGUID;
 
     bool useKeyboardShortcuts = true;
     bool wasPressed = false;
@@ -60,10 +61,31 @@ public:
             if (btn->useSpriteSwap) {
                 if (btn->isPressed && !btn->pressedSprite.Empty())
                     spr->spriteGUID = btn->pressedSprite;
-                else if (btn->isHovered && !btn->hoveredSprite.Empty())
+                else if (btn->isHovered && !btn->hoveredSprite.Empty()) {
+
+                    if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
+                        for (auto& af : ac->audioFiles) {
+                            if (af.audioGUID == hoverSfxGUID && af.isSFX) {
+                                af.requestPlay = true;
+                                break;
+                            }
+                        }
+                    }
                     spr->spriteGUID = btn->hoveredSprite;
+
+                }
                 else if (!btn->normalSprite.Empty())
                     spr->spriteGUID = btn->normalSprite;
+
+                if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
+                    for (auto& af : ac->audioFiles) {
+                        if (af.audioGUID == hoverSfxGUID && af.isSFX) {
+                            af.requestPlay = true;
+                            break;
+                        }
+                    }
+                }
+                spr->spriteGUID = btn->hoveredSprite;
             }
         }
 
@@ -182,5 +204,6 @@ public:
         useKeyboardShortcuts,
         wasPressed,
         resumeSfxGUID,
-        selectSfxGUID);
+        selectSfxGUID,
+        hoverSfxGUID);
 };
