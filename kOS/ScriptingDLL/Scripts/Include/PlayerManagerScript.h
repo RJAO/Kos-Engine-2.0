@@ -216,8 +216,8 @@ public:
 	float airAcceleration = 25.f;
 	float groundFriction = 8.f;
 	float airControl = 0.3f;
-	float maxGroundSpeed = 18.f;
-	float maxAirSpeed = 16.f;
+	float maxGroundSpeed = 20.f;
+	float maxAirSpeed = 27.f;
 	float jumpForce = 10.f;
 	float timeSinceGrounded = 0.f;
 	float coyoteTime = 0.2f;
@@ -365,6 +365,8 @@ public:
 	// Take Damage
 	float currentTakeDamageTimer = 0.f;
 	float TakeDamageTimer = 0.2f;
+
+	// Absorb post process
 
 
 	// --- FUNCTION DECLARATIONS ONLY --
@@ -723,6 +725,13 @@ inline void PlayerManagerScript::Update() {
 	// Absorb VFX auto delete timer
 	if (absorbVFXTimer > 0.f) {
 		absorbVFXTimer -= ecsPtr->m_GetDeltaTime();
+
+		//auto& profile = graphics->postProcessProfile;
+		//Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+		//vig->color = glm::vec3(0.15f, 0.6f, 0.15f);
+		//vig->extent = 0.330f;
+		//vig->intensity = 15.f;
+
 		if (absorbVFXTimer <= 0.f) {
 			absorbVFXTimer = 0.f;
 			if (activeAbsorbVFXID != 0) {
@@ -730,11 +739,11 @@ inline void PlayerManagerScript::Update() {
 				activeAbsorbVFXID = 0;
 			}
 
-			auto& profile = graphics->postProcessProfile;
-			Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
-			vig->color = glm::vec3(0.f, 0.f, 0.f);
-			vig->extent = 0.03f;
-			vig->intensity = 7.3f;
+			//auto& profile = graphics->postProcessProfile;
+			//Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+			//vig->color = glm::vec3(0.f, 0.f, 0.f);
+			//vig->extent = 0.03f;
+			//vig->intensity = 7.3f;
 		}
 	}
 
@@ -1019,9 +1028,7 @@ inline void PlayerManagerScript::PlayerMovementControls()
 
 	if (horizontalSpeed > maxSpeed)
 	{
-		float bleedRate = grounded ? 8.f : 3.f; // 
-		float targetSpeed = glm::max(horizontalSpeed - bleedRate * dt, maxSpeed);
-		horizontal = glm::normalize(horizontal) * targetSpeed;
+		horizontal = glm::normalize(horizontal) * maxSpeed;
 		tempVelocity.x = horizontal.x;
 		tempVelocity.z = horizontal.z;
 	}
@@ -1240,7 +1247,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				std::cout << "[WeaponSwap] Absorb anim done > triggering Swap Out\n";
 
 				playerController->RetrieveStateByID(animComp->m_currentStateID)
-					->Trigger("swapOut", animComp, playerController);
+					->Trigger("animationFinished", animComp, playerController);
 			}
 
 			// Swap out anim finish then trigger swap of model then swap in
@@ -1250,10 +1257,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 				playerPowerupHeld = pendingPowerup;
 				SwapWeaponModel(pendingPowerup);
-				pendingPowerup = Powerup::NONE; 
-
-				playerController->RetrieveStateByID(animComp->m_currentStateID)
-					->Trigger("swapIn", animComp, playerController);
+				pendingPowerup = Powerup::NONE;
 			}
 
 			// Swap in finish then idle
@@ -1294,7 +1298,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				}
 
 				playerController->RetrieveStateByID(animComp->m_currentStateID)
-					->Trigger("swapDone", animComp, playerController);
+					->Trigger("animationFinished", animComp, playerController);
 			}
 		}
 	}
@@ -1615,6 +1619,10 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			pendingPowerup = Powerup::NONE;
 
 			auto& profile = graphics->postProcessProfile;
+			Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
+			vig->color = glm::vec3(0.f, 0.f, 0.f);
+			vig->extent = 0.03f;
+			vig->intensity = 7.3f;
 			ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 			chro->redOffset = 0.f;
 			chro->greenOffset = 0.f;
@@ -1638,8 +1646,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 					hasAbsorbed = true;
 
 					if (powerupComp->powerupType == "FIRE") {
-						playerPowerupHeld = Powerup::FIRE; //DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::FIRE); //DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::FIRE; //DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::FIRE); //DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::FIRE;
 
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
@@ -1654,16 +1662,16 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
 						vig->color = glm::vec3(0.6f, 0.15f, 0.15f);
-						vig->extent = 0.025f;
-						vig->intensity = 0.05f;
+						vig->extent = 0.330f;
+						vig->intensity = 15.f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
 						chro->blueOffset = 0.f;
 					}
 					else if (powerupComp->powerupType == "ACID") {
-						playerPowerupHeld = Powerup::ACID;//DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::ACID);//DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::ACID;//DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::ACID);//DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::ACID;
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
 							for (auto& af : ac->audioFiles) {
@@ -1677,8 +1685,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
 						vig->color = glm::vec3(0.15f, 0.6f, 0.15f);
-						vig->extent = 0.025f;
-						vig->intensity = 0.05f;
+						vig->extent = 0.330f;
+						vig->intensity = 15.f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
@@ -1687,8 +1695,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 					else if (powerupComp->powerupType == "LIGHTNING")
 					{
-						playerPowerupHeld = Powerup::LIGHTNING;//DELETE THIS WHEN ANIM FINISH
-						SwapWeaponModel(Powerup::LIGHTNING);//DELETE THIS WHEN ANIM FINISH
+						//playerPowerupHeld = Powerup::LIGHTNING;//DELETE THIS WHEN ANIM FINISH
+						//SwapWeaponModel(Powerup::LIGHTNING);//DELETE THIS WHEN ANIM FINISH
 						pendingPowerup = Powerup::LIGHTNING;
 
 						if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
@@ -1703,8 +1711,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
 						vig->color = glm::vec3(0.15f, 0.15f, 0.6f);
-						vig->extent = 0.025f;
-						vig->intensity = 0.05f;
+						vig->extent = 0.330f;
+						vig->intensity = 15.f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
@@ -1765,7 +1773,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 					{
 						if (animComp->m_currentStateID)
 						{
-							playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasAbsorbed", animComp, playerController);
+							//playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("hasAbsorbed", animComp, playerController);
+							playerController->SetState("Absorbing",animComp);
 							hasAbsorbed = false;
 						}
 					}
@@ -2029,9 +2038,6 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				}
 
 				currMana -= fireAbilityCost;
-
-
-				///ADD FIRE RIGHT CLICK ANIMATION HERE
 			}
 
 			// ADD SFX
@@ -2140,10 +2146,14 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				currMana -= lightningAbilityCost;
 
 				///ADD LIGHTNING RIGHT CLOCK ANIMATION HERE
+				
 			}
 
 			// ADD SFX
 		}
+
+		if (animComp && animComp->m_currentStateID)
+			playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("RightClick", animComp, playerController);
 	}
 
 	// MOVEMENT
@@ -2184,6 +2194,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 				}
 			}
 			// ADD SFX
+
+			
 		}
 		
 		//Acid SHield
@@ -2208,6 +2220,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			//acidCurrMovementCooldown = acidMovementCooldown;
 
 			// ADD SFX
+
 		}
 
 		//Time slow
@@ -2230,6 +2243,9 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			lightningAbilityTimer = lightningAbilityDelay;
 			currMana -= lightningTimeslowCost;
 		}
+
+		if (animComp && animComp->m_currentStateID)
+			playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("FKey", animComp, playerController);
 
 	}
 }
@@ -2355,6 +2371,17 @@ inline void  PlayerManagerScript::SwapWeaponModel(Powerup newPowerup) {
 		ecsPtr->SetActive(acidModelObjectID, false);
 		currentModelID = pistolModelID;
 	}
+
+	//Switch animation resources
+	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(currentModelID))
+	{
+		playerController = resource->GetResource<R_AnimController>(animComp->controllerGUID).get();
+		if (playerController)
+		{
+			//animComp->m_currentStateID = playerController->m_EnterState->id;
+			playerController->SetState("Swap In", animComp);
+		}
+	};
 }
 
 inline void PlayerManagerScript::TakeDamage(int damage) {
