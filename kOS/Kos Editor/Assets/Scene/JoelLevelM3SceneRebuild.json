@@ -3,7 +3,7 @@
         "SceneData": {
             "skyBoxGUID": [],
             "NavMeshGuid": "ac306523-8c08-8088-be88-701fd8c02b7a",
-            "postProcessingProfile": "b773310d-91c5-cbfb-ceda-2538c8cb7b4f",
+            "postProcessingProfile": "c3a79a26-21f4-7f96-81b0-a3d406909579",
             "ambientIntensity": 1.0
         }
     },
@@ -2402,7 +2402,7 @@
                         "ManaUIScript": {
                             "playerObject": "dc3cc8b0-f51e-12d5-0ab2-8c8d690d90e8",
                             "playerObjectID": 0,
-                            "manabarSprite": "ff2b6e16-229a-77a5-3c18-652b7f03e7fd",
+                            "manabarSprite": "1776dd9e-9311-f406-80a6-a74993197923",
                             "originalScale": {
                                 "x": 1.0,
                                 "y": 1.0,
@@ -2559,7 +2559,7 @@
                             "acidActiveSprite": "74fd412b-8eef-1613-4f0e-d48e4cda4bc2",
                             "acidInactiveSprite": "495c0496-1423-a35e-00e3-7cf49947da72",
                             "lightningActiveSprite": "8b8791dd-f49e-a551-953b-f2fdd7b570af",
-                            "lightningInactiveSprite": "8b8791dd-f49e-a551-953b-f2fdd7b570af"
+                            "lightningInactiveSprite": "45801c20-431f-c025-6143-1c7b5e158ee1"
                         },
                         "NameComponent": {
                             "entityName": "Ability 1",
@@ -3861,10 +3861,10 @@
                                 "z": 0.6000000238418579,
                                 "w": 1.0
                             },
-                            "normalSprite": "00000000-0000-0000-0000-000000000000",
-                            "hoveredSprite": "00000000-0000-0000-0000-000000000000",
-                            "pressedSprite": "00000000-0000-0000-0000-000000000000",
-                            "useSpriteSwap": false,
+                            "normalSprite": "00594efd-b6f0-489e-7c7f-c985999f4823",
+                            "hoveredSprite": "82443082-3958-8f50-e253-518ce37e5475",
+                            "pressedSprite": "82443082-3958-8f50-e253-518ce37e5475",
+                            "useSpriteSwap": true,
                             "isHovered": false,
                             "isPressed": false
                         },
@@ -4018,7 +4018,7 @@
                             "normalSprite": "7ad55f44-7c75-51aa-c145-4b7af063d811",
                             "hoveredSprite": "6c9dbce3-b332-3724-52a7-2f5c8b52c537",
                             "pressedSprite": "6c9dbce3-b332-3724-52a7-2f5c8b52c537",
-                            "useSpriteSwap": false,
+                            "useSpriteSwap": true,
                             "isHovered": false,
                             "isPressed": false
                         },
@@ -4169,10 +4169,10 @@
                                 "z": 0.6000000238418579,
                                 "w": 1.0
                             },
-                            "normalSprite": "00000000-0000-0000-0000-000000000000",
-                            "hoveredSprite": "00000000-0000-0000-0000-000000000000",
-                            "pressedSprite": "00000000-0000-0000-0000-000000000000",
-                            "useSpriteSwap": false,
+                            "normalSprite": "c4e6323c-49f8-6914-17c8-48e7e8ea4374",
+                            "hoveredSprite": "1fb5b976-d929-9089-a67a-69087b279506",
+                            "pressedSprite": "1fb5b976-d929-9089-a67a-69087b279506",
+                            "useSpriteSwap": true,
                             "isHovered": false,
                             "isPressed": false
                         },
@@ -4323,10 +4323,10 @@
                                 "z": 0.6000000238418579,
                                 "w": 1.0
                             },
-                            "normalSprite": "00000000-0000-0000-0000-000000000000",
-                            "hoveredSprite": "00000000-0000-0000-0000-000000000000",
-                            "pressedSprite": "00000000-0000-0000-0000-000000000000",
-                            "useSpriteSwap": false,
+                            "normalSprite": "3efb3936-4a9f-1129-c2a6-db5bb3dd92c1",
+                            "hoveredSprite": "aeb1250e-3446-0b22-8b3f-8ad4bb5bfd14",
+                            "pressedSprite": "aeb1250e-3446-0b22-8b3f-8ad4bb5bfd14",
+                            "useSpriteSwap": true,
                             "isHovered": false,
                             "isPressed": false
                         },
@@ -4893,9 +4893,9 @@
                                 "z": 0.6000000238418579,
                                 "w": 1.0
                             },
-                            "normalSprite": "00000000-0000-0000-0000-000000000000",
-                            "hoveredSprite": "00000000-0000-0000-0000-000000000000",
-                            "pressedSprite": "00000000-0000-0000-0000-000000000000",
+                            "normalSprite": "f08012fe-fdce-8122-e84a-04c32e8a3828",
+                            "hoveredSprite": "f57e7ed9-1a92-86fe-5417-55124bb6dcb8",
+                            "pressedSprite": "34327e36-c568-8671-0888-ffb987bc05bb",
                             "useSpriteSwap": false,
                             "isHovered": false,
                             "isPressed": false
@@ -4910,7 +4910,7 @@
                             "hide": false
                         },
                         "SpriteComponent": {
-                            "spriteGUID": "a6918fdc-bfcb-feab-5f96-86e8d9485e45",
+                            "spriteGUID": "f08012fe-fdce-8122-e84a-04c32e8a3828",
                             "color": {
                                 "x": 1.0,
                                 "y": 1.0,
