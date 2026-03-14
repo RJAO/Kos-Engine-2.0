@@ -407,10 +407,9 @@ void LightRenderer::RenderAllLights(const CameraData& camera, Shader& shader)
 		//}
 		
 		PointLightData& pointLight = pointLightsToDraw[i];
-		if (pointLight.shadowCon) {
-			//FIll up with uniform data
-		}
 		pointLight.SetUniform(&shader, j++);
+		actualPointLightsToDraw.push_back(&pointLightsToDraw[i]);
+		actualDcm.push_back(&dcm[i]);
 		//pointLight.SetShaderMtrx(&shader, i);
 		//break;;
 	}
@@ -573,6 +572,8 @@ void LightRenderer::Clear()
 	pointLightsToDraw.clear();
 	spotLightsToDraw.clear();
 	directionLightsToDraw.clear();
+	actualPointLightsToDraw.clear();
+	actualDcm.clear();
 }
 
 void DebugRenderer::InitializeDebugRendererMeshes() {
