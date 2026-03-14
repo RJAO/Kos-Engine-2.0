@@ -1812,14 +1812,9 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	// ADD RELOAD HERE
 	if (Input->IsKeyTriggered(keys::LMB) && playerPowerupHeld != Powerup::NONE) {
 
-		float& cd = GetCurrShootCooldownForCurrentWeapon();
-		if (cd > 0.0f) return;
-		cd = GetShootCooldownForCurrentWeapon(); // cooldown only, no ammo
-
-		//int& currBullets = GetCurrBulletsForCurrentWeapon();
-		//if (currBullets <= 0) return; // No auto reload for powerups
-
-		//currBullets -= 1;
+		//float& cd = GetCurrShootCooldownForCurrentWeapon();
+		//if (cd > 0.0f) return;
+		//cd = GetShootCooldownForCurrentWeapon(); // cooldown only, no ammo
 
 		 if (playerPowerupHeld == Powerup::FIRE) {
 
@@ -1853,6 +1848,10 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						playerController->RetrieveStateByID(animComp->m_currentStateID)->Trigger("ThirdSlash", animComp, playerController);
 				}
 			}
+
+			float& cd = GetCurrShootCooldownForCurrentWeapon();
+			if (cd > 0.0f) return;
+			cd = GetShootCooldownForCurrentWeapon(); // cooldown only, no ammo
 
 			if (fireLMB) {
 				ScoreManagerScript::AddAbilityUsed();
