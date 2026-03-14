@@ -4,6 +4,7 @@
 #include "LoseScreenScript.h"
 #include "WinScreenScript.h"
 #include "LevelCompleteScript.h"
+#include "ScoreManagerScript.h"
 
 // --- FORWARD DECLARATIONS ---
 // Tell the compiler these classes exist first, preventing circular dependency crashes
@@ -212,13 +213,13 @@ public:
 	float lightningAbilityDelay = 0.5f; // FOR ANIM
 	float lightningAbilityTimer = 0.f;   //TRACKER FOR ANIM
 
-	float groundAcceleration = 15.f;
-	float airAcceleration = 25.f;
+	float groundAcceleration = 10.f;
+	float airAcceleration = 10.f;
 	float groundFriction = 8.f;
-	float airControl = 0.3f;
-	float maxGroundSpeed = 20.f;
-	float maxAirSpeed = 27.f;
-	float jumpForce = 10.f;
+	float airControl = 0.2f;
+	float maxGroundSpeed = 15.f;
+	float maxAirSpeed = 16.f;
+	float jumpForce = 15.f;
 	float timeSinceGrounded = 0.f;
 	float coyoteTime = 0.2f;
 	float jumpGraceTime = 0.f;
@@ -324,8 +325,15 @@ public:
 
 		isReloading = false;
 		currentReloadTimer = 0.0f;
-	}
 
+		if (animComp && playerController) {
+			auto* state = playerController->RetrieveStateByID(animComp->m_currentStateID);
+			if (state && (state->name == "Reload" || state->name == "Reloading")) {
+				playerController->SetState("Idle", animComp);
+				animComp->m_CurrentTime = 0.0f;
+			}
+		}
+	}
 	// Normal SFX
 	utility::GUID gunSfxGUID_1;
 	utility::GUID gunReloadSfxGUID;
@@ -426,6 +434,11 @@ public:
 #include "LightningAcidPowerupManagerScript.h"
 
 inline void PlayerManagerScript::Start() {
+	ecsPtr->SetTimeScale(1.0f);
+	ecsPtr->SetState(RUNNING);
+
+	ScoreManagerScript::Initialize();
+
 	playerCameraObjectID = ecsPtr->GetEntityIDFromGUID(playerCameraObject);
 	playerGunCameraObjectID = ecsPtr->GetEntityIDFromGUID(playerGunCameraObject);
 	playerProjectilePointObjectID = ecsPtr->GetEntityIDFromGUID(playerProjectilePointObject);
@@ -516,11 +529,13 @@ inline void PlayerManagerScript::Start() {
 	chro->blueOffset = 0.f;
 	Blur* blur = reinterpret_cast<Blur*>(profile->GetEffect(PPT_Blur));
 	blur->radius = 0.01f;
+
+	if (LevelCompleteScript::instance) LevelCompleteScript::instance->HideLevelComplete();
 }
 
 inline void PlayerManagerScript::Update() {
 
-	
+	ScoreManagerScript::UpdateTimer(ecsPtr->m_GetDeltaTime());
 
 	if (animComp = ecsPtr->GetComponent<ecs::AnimatorComponent>(currentModelID))
 	{
@@ -1244,7 +1259,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			}
 
 			// Swap out anim finish then trigger swap of model then swap in
-			if (animComp->m_CurrentTime >= animDuration && stateName == "Swap Out")
+			if (/*animComp->m_CurrentTime >= animDuration && */stateName == "Swap Out")
 			{
 				std::cout << "[WeaponSwap] Swap Out anim done > applying weapon: " << (int)pendingPowerup << "\n";
 
@@ -1594,10 +1609,11 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	// INTERACT
 	if (Input->IsKeyTriggered(keys::E)) {
 
+
 		if (currMana <= 0.0f && playerPowerupHeld == Powerup::NONE) {
 			bool hasAbsorbed = false;
 
-
+			
 			RaycastHit hit;
 			hit.entityID = 9999999;
 			physicsPtr->Raycast(cameraTransform->WorldTransformation.position, GetPlayerCameraFrontDirection(), interactPowerupRange, hit, ecsPtr->GetComponent<RigidbodyComponent>(entity)->actor);
@@ -1605,6 +1621,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			if (hit.entityID != 9999999 && ecsPtr->GetComponent<NameComponent>(hit.entityID)->entityTag == "Powerup") {
 				if (auto* powerupComp = ecsPtr->GetComponent<PowerupManagerScript>(hit.entityID)) {
 					hasAbsorbed = true;
+					ScoreManagerScript::AddElementAbsorbed();
 
 					if (powerupComp->powerupType == "FIRE") {
 						//playerPowerupHeld = Powerup::FIRE; //DELETE THIS WHEN ANIM FINISH
@@ -1623,8 +1640,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
 						vig->color = glm::vec3(0.6f, 0.15f, 0.15f);
-						vig->extent = 0.330f;
-						vig->intensity = 15.f;
+						vig->extent = 0.130f;
+						vig->intensity = 12.5f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
@@ -1645,9 +1662,9 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
-						vig->color = glm::vec3(0.15f, 0.6f, 0.15f);
-						vig->extent = 0.330f;
-						vig->intensity = 15.f;
+						vig->color = glm::vec3(0.15f, 0.45f, 0.15f);
+						vig->extent = 0.09f;
+						vig->intensity = 13.5f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
@@ -1672,8 +1689,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 						auto& profile = graphics->postProcessProfile;
 						Vigniette* vig = reinterpret_cast<Vigniette*>(profile->GetEffect(PPT_Vigniette));
 						vig->color = glm::vec3(0.15f, 0.15f, 0.6f);
-						vig->extent = 0.330f;
-						vig->intensity = 15.f;
+						vig->extent = 0.130f;
+						vig->intensity = 12.5f;
 						ChromaticAberration* chro = reinterpret_cast<ChromaticAberration*>(profile->GetEffect(PPT_ChromaticAbberation));
 						chro->redOffset = 0.015f;
 						chro->greenOffset = -0.015f;
@@ -1838,6 +1855,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			}
 
 			if (fireLMB) {
+				ScoreManagerScript::AddAbilityUsed();
 				std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 				ecs::EntityID fireLMBID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireLMBPrefab);
 
@@ -1901,6 +1919,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			// ADD SFX
 		}
 		else if (playerPowerupHeld == Powerup::ACID) {
+			ScoreManagerScript::AddAbilityUsed();
 			std::shared_ptr<R_Scene> acidLMB = resource->GetResource<R_Scene>(acidLMBPrefab);
 
 			if (acidLMB) {
@@ -1944,6 +1963,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 }
 
 		else if (playerPowerupHeld == Powerup::LIGHTNING) {
+			ScoreManagerScript::AddAbilityUsed();
 			std::shared_ptr<R_Scene> lightningLMB = resource->GetResource<R_Scene>(lightningLMBPrefab);
 
 			if (lightningLMB) {
@@ -1984,6 +2004,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	// ABILITY
 	if (Input->IsKeyTriggered(keys::RMB)) {
 		if (playerPowerupHeld == Powerup::FIRE ) {
+			ScoreManagerScript::AddAbilityUsed();
 			std::shared_ptr<R_Scene> fireball = resource->GetResource<R_Scene>(firePrefab);
 
 			if (fireball) {
@@ -2006,7 +2027,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 		//Acid Blast
 		else if (playerPowerupHeld == Powerup::ACID) {
-
+			ScoreManagerScript::AddAbilityUsed();
 
 			std::shared_ptr<R_Scene> airBlast = resource->GetResource<R_Scene>(airBlastPrefab);
 
@@ -2066,6 +2087,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 			// ADD SFX
 		}
 		else if (playerPowerupHeld == Powerup::LIGHTNING ) {
+			ScoreManagerScript::AddAbilityUsed();
 			std::shared_ptr<R_Scene> railgun = resource->GetResource<R_Scene>(lightningPrefab);
 
 			if (railgun) {
@@ -2118,11 +2140,12 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 	}
 
 	// MOVEMENT
-	if (Input->IsKeyTriggered(keys::F)) {
+	if (Input->IsKeyTriggered(keys::LeftShift)) {
 		auto* playerRigidbody = ecsPtr->GetComponent<ecs::RigidbodyComponent>(entity);
 		if (!playerRigidbody) return;
 
 		if (playerPowerupHeld == Powerup::FIRE && fireCurrMovementCooldown <= 0.f) {
+			ScoreManagerScript::AddAbilityUsed();
 		
 			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 			ecs::EntityID fireDashID = DuplicatePrefabIntoScene<R_Scene>(currentScene, fireDashPrefab);
@@ -2161,6 +2184,7 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 		
 		//Acid SHield
 		else if (playerPowerupHeld == Powerup::ACID && acidCurrShieldCooldown <= 0.f) {
+			ScoreManagerScript::AddAbilityUsed();
 
 			std::string currentScene = ecsPtr->GetSceneByEntityID(entity);
 			ecs::EntityID acidShieldID = DuplicatePrefabIntoScene<R_Scene>(currentScene, acidShieldPrefab);
@@ -2189,6 +2213,8 @@ inline void PlayerManagerScript::PlayerCombatControls() {
 
 			if (lightningCurrTimeslowCooldown > 0.f) return;
 			if (isTimeslowActive)                    return;
+
+			ScoreManagerScript::AddAbilityUsed();
 
 			//SFX first
 			if (auto* ac = ecsPtr->GetComponent<ecs::AudioComponent>(entity)) {
@@ -2369,6 +2395,8 @@ inline void  PlayerManagerScript::SwapWeaponModel(Powerup newPowerup) {
 }
 
 inline void PlayerManagerScript::TakeDamage(int damage) {
+
+	ScoreManagerScript::AddDamageTaken(damage);
 	currPlayerHitPoints -= damage;
 
 	CameraShake(0.15f,0.3f);
